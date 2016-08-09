@@ -1,4 +1,4 @@
-xcl-module-xleprogress
-======================
+xcl-module-xworkflow
+====================
 
-Workflow module for XooNIps
+An extended XOOPS Cube Legacy Workflow module for XooNIps.

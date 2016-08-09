@@ -1,0 +1,92 @@
+<div class="<{$xoops_dirname}>">
+<{include file="db:`$xoops_dirname`_inc_menu.html"}>
+
+<{if $isMyTask}>
+<h1><{"`$constpref`_LANG_MYTASK_LIST"|constant}></h1>
+<{else}>
+<h1><{"`$constpref`_LANG_ITEM_LIST"|constant}></h1>
+<{/if}>
+
+<{if count($objects) > 0}>
+<{if $pageNavi->getTotalPages() > 1}>
+  <div class="pagenavi"><{xoops_pagenavi pagenavi=$pageNavi}></div>
+<{/if}>
+  <table class="table table-striped" summary="">
+    <thead class="head">
+      <tr>
+        <th>
+          <{"`$constpref`_LANG_ITEM_ID"|constant}>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_ITEM_ID"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_ITEM_ID"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
+        </th>
+        <th>
+          <{"`$constpref`_LANG_TITLE"|constant}>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_TITLE"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_TITLE"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
+        </th>
+        <th>
+          <{"`$constpref`_LANG_DIRNAME"|constant}>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_DIRNAME"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_DIRNAME"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
+        </th>
+        <th>
+          <{"`$constpref`_LANG_DATANAME"|constant}>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_DATANAME"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_DATANAME"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
+        </th>
+        <th>
+          <{"`$constpref`_LANG_TARGET_ID"|constant}>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_TARGET_ID"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_TARGET_ID"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
+        </th>
+        <th>
+          <{"`$constpref`_LANG_CREATED_BY"|constant}>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_UID"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_UID"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
+        </th>
+        <th>
+          <{"`$constpref`_LANG_STEP"|constant}>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_STEP"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_STEP"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
+        </th>
+        <th>
+          <{"`$constpref`_LANG_STATUS"|constant}>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_STATUS"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_STATUS"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
+        </th>
+        <th>
+          <{"`$constpref`_LANG_POSTTIME"|constant}>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_POSTTIME"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
+          <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_POSTTIME"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <{foreach item=obj from=$objects}>
+        <tr class="<{cycle values='odd,even'}>">
+          <td><a href="<{xoops_cooluri dirname=$xoops_dirname dataname=history query='item_id='|cat:$obj->getShow('item_id') action=edit}>"><{$obj->getShow('item_id')}></a></td>
+          <td><a href="<{$obj->get('url')}>"><{$obj->getShow('title')}></a></td>
+          <td><{$obj->getShow('dirname')}></td>
+<{assign var=dirname value=$obj->get('dirname')}>
+<{assign var=dataname value=$obj->get('dataname')}>
+<{if isset($clients.$dirname.$dataname) }>
+          <td><{$clients.$dirname.$dataname.label|xoops_escape}></td>
+<{else}>
+          <td><{$obj->getShow('dataname')}></td>
+<{/if}>
+          <td><{$obj->getShow('target_id')}></td>
+          <td><{$obj->getShow('uid')|xoops_user:"user_name"}></td>
+          <td><{$obj->getShow('step')}></td>
+          <td><a href="<{xoops_cooluri dirname=$xoops_dirname dataname=history query='item_id='|cat:$obj->getShow('item_id') action=edit}>"><{$obj->getShowStatus()}></a></td>
+          <td><{$obj->get('posttime')|xoops_formattimestamp:m}></td>
+        </tr>
+      <{/foreach}>
+    </tbody>
+  </table>
+<{if $pageNavi->getTotalPages() > 1}>
+  <div class="pagenavi"><{xoops_pagenavi pagenavi=$pageNavi}></div>
+<{/if}>
+<{else}>
+  <div class="alert alert-info"><{"`$constpref`_MESSAGE_NO_TASK"|constant}></div>
+<{/if}>
+</div>

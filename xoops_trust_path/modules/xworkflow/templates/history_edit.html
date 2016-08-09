@@ -1,0 +1,85 @@
+<div class="<{$xoops_dirname}>">
+<{include file="db:`$xoops_dirname`_inc_menu.html"}>
+
+<{if $actionForm->hasError()}>
+  <ul class="alert alert-error">
+    <{foreach item=message from=$actionForm->getErrorMessages()}>
+      <li><{$message|xoops_escape}></li>
+    <{/foreach}>
+  </ul>
+<{/if}>
+
+<h1><{"`$constpref`_LANG_APPROVE_ITEM"|constant}></h1>
+
+<dl class="dl-horizontal">
+    <dt><{"`$constpref`_LANG_TITLE"|constant}></dt>
+    <dd><a href="<{$object->mItem->get('url')|xoops_escape}>"><{$object->mItem->getShow('title')}></a></dd>
+    <dt><{"`$constpref`_LANG_DIRNAME"|constant}></dt>
+    <dd><{$object->mItem->getShow('dirname')}></dd>
+    <dt><{"`$constpref`_LANG_DATANAME"|constant}></dt>
+    <dd><{$object->mItem->getShow('dataname')}></dd>
+    <dt><{"`$constpref`_LANG_TARGET_ID"|constant}></dt>
+    <dd><{$object->mItem->getShow('target_id')}></dd>
+    <dt><{"`$constpref`_LANG_UID"|constant}></dt>
+    <dd><{$object->mItem->getShow('uid')|xoops_user:"user_name"}></dd>
+    <dt><{"`$constpref`_LANG_STEP"|constant}></dt>
+    <dd><{$object->mItem->getShow('step')}></dd>
+    <dt><{"`$constpref`_LANG_STATUS"|constant}></dt>
+    <dd><{$object->mItem->getShowStatus()}></dd>
+    <dt><{"`$constpref`_LANG_POSTTIME"|constant}></dt>
+    <dd><{$object->mItem->get('posttime')|xoops_formattimestamp:m}></dd>
+    <{if $object->mItem->get('deletetime')>0}>
+    <dt><{"`$constpref`_LANG_DELETETIME"|constant}></dt>
+    <dd><{$object->mItem->get('deletetime')|xoops_formattimestamp:m}></dd>
+    <{/if}>
+</dl>
+
+<form class="form-horizontal" action="<{xoops_cooluri dirname=$xoops_dirname dataname=history data_id=$object->getShow('progress_id') action=edit}>" method="post">
+  <div class="control-group">
+    <label><{"`$constpref`_LANG_RESULT"|constant}></label>
+    <div class="controls">
+      <label><input type="radio" name="result" value="9" /><{"`$constpref`_LANG_RESULT_APPROVE"|constant}></label>
+      <label><input type="radio" name="result" value="1" /><{"`$constpref`_LANG_RESULT_REJECT"|constant}></label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label><{"`$constpref`_LANG_COMMENT"|constant}></label>
+    <div class="controls">
+      <{xoops_textarea type=text name=comment value=$actionForm->get('comment')}>
+    </div>
+  </div>
+  <div class="form-actions">
+    <{xoops_token form=$actionForm}>
+    <{xoops_input type=hidden name=item_id value=$actionForm->get('item_id')}>
+    <{xoops_input type=hidden name=progress_id value=$actionForm->get('progress_id')}>
+    <button type="submit" class="btn btn-primary" value="<{$smarty.const._SUBMIT}>"><{$smarty.const._SUBMIT}></button>
+    <button type="submit" class="btn" value="<{$smarty.const._CANCEL}>" name="_form_control_cancel"><{$smarty.const._CANCEL}></button>
+  </div>
+</form>
+
+<{if !empty($object->mItem->mHistory)}>
+<h2><{"`$constpref`_LANG_HISTORY"|constant}></h2>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th><{"`$constpref`_LANG_APPROVED_BY"|constant}></th>
+    <th><{"`$constpref`_LANG_STEP"|constant}></th>
+    <th><{"`$constpref`_LANG_RESULT"|constant}></th>
+    <th><{"`$constpref`_LANG_COMMENT"|constant}></th>
+    <th><{"`$constpref`_LANG_APPROVEDTIME"|constant}></th>
+  </tr>
+  </thead>
+  <tbody>
+<{foreach item=history from=$object->mItem->mHistory}>
+  <tr class="<{cycle name=oddeven values='odd,even'}>">
+    <td><{$history->getShow('uid')|xoops_user:"user_name"}></td>
+    <td><{$history->getShow('step')}></td>
+    <td><{$history->getShowResult()}></td>
+    <td><{$history->getShow('comment')}></td>
+    <td><{$history->getShow('posttime')|xoops_formattimestamp:m}></td>
+  </tr>
+<{/foreach}>
+  </tbody>
+</table>
+<{/if}>
+</div>

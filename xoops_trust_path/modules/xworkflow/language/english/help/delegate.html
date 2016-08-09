@@ -1,0 +1,79 @@
+<h3>Delegate List</h3>
+
+<{if $smarty.const.LEGACY_WORKFLOW_DIRNAME == $mydirname}>
+<h4>Legacy Workflow</h4>
+
+<h5>Legacy_Workflow.AddItem</h5>
+<dl>
+  <dt>string</dt><dd>$title</dd>
+  <dt>string</dt><dd>$dirname</dd>
+  <dt>string</dt><dd>$dataname</dd>
+  <dt>int</dt><dd>$target_id</dd>
+  <dt>string</dt><dd>$url</dd>
+</dl>
+
+<h5>Legacy_Workflow.DeleteItem</h5>
+<dl>
+  <dt>string</dt><dd>$dirname</dd>
+  <dt>string</dt><dd>$dataname</dd>
+  <dt>int</dt><dd>$target_id</dd>
+</dl>
+
+<h5>Legacy_Workflow.GetHistory</h5>
+<dl>
+  <dt>mixed[]</dt><dd>&amp;$historyArr</dd>
+  <dt>string</dt><dd>$dirname</dd>
+  <dt>string</dt><dd>$dataname</dd>
+  <dt>int</dt><dd>$target_id</dd>
+</dl>
+<{/if}>
+
+<h4>D3 Global</h4>
+
+<h5>Module.<{$mytrustdirname}>.Global.Event.GetAssetManager</h5>
+<dl>
+  <dt><{$mytrustdirname|ucfirst}>_AssetManager</dt><dd>$obj</dd>
+  <dt>string</dt><dd>$dirname</dd>
+</dl>
+
+<h5>Module.<{$mytrustdirname}>.Global.Event.GetNormalUri</h5>
+<dl>
+  <dt>string</dt><dd>&amp;$uri</dd>
+  <dt>string</dt><dd>$dirname</dd>
+  <dt>string</dt><dd>$dataname</dd>
+  <dt>int</dt><dd>$target_id</dd>
+  <dt>string</dt><dd>$action</dd>
+  <dt>string</dt><dd>$query</dd>
+</dl>
+
+<h5>Module.<{$mytrustdirname}>.Global.Event.Exception.ActionNotFound</h5>
+<dl>
+  <dt>string</dt><dd>$dirname</dd>
+</dl>
+
+<h5>Module.<{$mytrustdirname}>.Global.Event.Exception.Preparation</h5>
+<dl>
+  <dt>string</dt><dd>$dirname</dd>
+</dl>
+
+<h5>Module.<{$mytrustdirname}>.Global.Event.Exception.Permission</h5>
+<dl>
+  <dt>string</dt><dd>$dirname</dd>
+</dl>
+
+<h4>Module Local</h4>
+
+<h5>Module.<{$mydirname}>.Event.Exception.ActionNotFound</h5>
+<dl>
+  <dt>void</dt>
+</dl>
+
+<h5>Module.<{$mydirname}>.Event.Exception.Preparation</h5>
+<dl>
+  <dt>void</dt>
+</dl>
+
+<h5>Module.<{$mydirname}>.Event.Exception.Permission</h5>
+<dl>
+  <dt>void</dt>
+</dl>

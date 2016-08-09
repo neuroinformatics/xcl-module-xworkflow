@@ -1,0 +1,8 @@
+<ul class="nav nav-pills">
+    <li><a href="<{xoops_cooluri dirname=$xoops_dirname}>"><{"`$constpref`_LANG_MYTASK_LIST"|constant}></a></li>
+    <li><a href="<{xoops_cooluri dirname=$xoops_dirname dataname=item}>"><{"`$constpref`_LANG_ITEM_LIST"|constant}></a></li>
+    <{if $xoops_isadmin}>
+    <li><a href="<{xoops_cooluri dirname=$xoops_dirname dataname=approval}>"><{"`$constpref`_LANG_APPROVAL_LIST"|constant}></a></li>
+    <li><a href="<{xoops_cooluri dirname=$xoops_dirname dataname=approval action=edit}>"><{"`$constpref`_LANG_ADD_A_NEW_APPROVAL"|constant}></a></li>
+    <{/if}>
+</ul>

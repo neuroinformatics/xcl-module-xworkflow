@@ -1,0 +1,145 @@
+<div class="<{$xoops_dirname}>">
+<{include file="db:`$xoops_dirname`_inc_menu.html"}>
+<{if $actionForm->hasError()}>
+  <ul class="alert alert-error">
+    <{foreach item=message from=$actionForm->getErrorMessages()}>
+      <li><{$message|xoops_escape}></li>
+    <{/foreach}>
+  </ul>
+<{/if}>
+
+<{if $actionForm->get('approval_id') == 0}>
+<h1><{"`$constpref`_LANG_APPROVAL_ADD"|constant}></h1>
+<{else}>
+<h1><{"`$constpref`_LANG_APPROVAL_EDIT"|constant}></h1>
+<{/if}>
+<form class="form-horizontal" id="<{$xoops_dirname}>_approval_edit_form" action="<{xoops_cooluri dirname=$xoops_dirname dataname=approval data_id=$object->getShow('approval_id') action=edit}>" method="post">
+  <div class="control-group">
+    <label><{"`$constpref`_LANG_APPROVED_BY"|constant}></label>
+    <div class="controls">
+      <select id="<{$xoops_dirname}>_approval_edit_id_type">
+        <option value="uid"><{"`$constpref`_LANG_UID"|constant}></option>
+        <option value="gid"><{"`$constpref`_LANG_GID"|constant}></option>
+      </select>
+      <span id="<{$xoops_dirname}>_approval_edit_id_type_uid">
+      <select name="uid" size="1">
+        <option value="0"><{"`$constpref`_LANG_CHOOSE_FROM_HERE"|constant}></option>
+<{foreach item=uid from=$uids}>
+        <option value="<{$uid}>"<{if $uid == $actionForm->get('uid')}> selected="selected"<{/if}>><{$uid|xoops_user:"user_name"}></option>
+<{/foreach}>
+      </select>
+      </span>
+      <span id="<{$xoops_dirname}>_approval_edit_id_type_gid" style="display:none;">
+      <select name="gid" size="1">
+        <option value=""><{"`$constpref`_LANG_CHOOSE_FROM_HERE"|constant}></option>
+<{foreach item=group key=gid from=$groups}>
+        <option value="<{$gid}>"<{if $gid == $actionForm->get('gid')}> selected="selected"<{/if}><{if $gid == 0}> id="<{$xoops_dirname}>_approval_edit_gid0"<{/if}>><{$group|xoops_escape}></option>
+<{/foreach}>
+      </select>
+      </span>
+    </div>
+  </div>
+  <div class="control-group">
+    <label><{"`$constpref`_LANG_TARGET_MODULE"|constant}></label>
+    <div class="controls">
+      <select name="target">
+<{foreach item=modules key=dirname from=$clients}>
+<{foreach item=info key=dataname from=$modules}>
+        <option value="<{$dirname|cat:"|"|cat:$dataname}>"<{if $dirname|cat:"|"|cat:$dataname==$actionForm->get('dirname')|cat:"|"|cat:$actionForm->get('dataname')}> selected="selected"<{/if}>><{$dirname}> - <{$info.label|xoops_escape}></option>
+<{/foreach}>
+<{/foreach}>
+    </select>
+    </div>
+  </div>
+  <div class="control-group">
+    <label><{"`$constpref`_LANG_STEP"|constant}></label>
+    <div class="controls">
+      <{xoops_input type=text name=step value=$actionForm->get('step')}>
+    </div>
+  </div>
+  <div class="form-actions">
+    <{xoops_token form=$actionForm}>
+    <{xoops_input type=hidden name=approval_id value=$actionForm->get('approval_id')}>
+    <button type="submit" class="btn btn-primary" value="<{$smarty.const._SUBMIT}>"><{$smarty.const._SUBMIT}></button>
+    <button type="submit" class="btn" value="<{$smarty.const._CANCEL}>" name="_form_control_cancel"><{$smarty.const._CANCEL}></button>
+  </div>
+</form>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+(function() {
+<{$xoops_dirname}>_approval_edit_handler = function() {
+  var obj = this;
+  var onload = window.onload;
+  window.onload = function() {
+    if (typeof(onload) == "function")
+      onload();
+    obj.onload();
+  }
+}
+<{$xoops_dirname}>_approval_edit_handler.prototype = {
+  hasGroupAdmin: {},
+  onload: function() {
+    var prefix = '<{$xoops_dirname}>_approval_edit';
+    this.el_form = document.getElementById(prefix + '_form');
+    this.el_sel = document.getElementById(prefix + '_id_type');
+    this.el_uid = document.getElementById(prefix + '_id_type_uid');
+    this.el_gid = document.getElementById(prefix + '_id_type_gid');
+    this.el_gid0 = document.getElementById(prefix + '_gid0');
+    if (this.el_form.elements['approval_id'].value == 0 || this.el_form.elements['uid'].value > 0) {
+      this.el_sel.value = 'uid';
+      this.el_gid.style.display = 'none';
+      this.el_uid.style.display = '';
+      this.el_form.elements['gid'].value = '';
+      if (this.el_form.elements['approval_id'].value == 0)
+        this.el_form.elements['uid'].value = '0';
+    } else {
+      this.el_sel.value = 'gid';
+      this.el_uid.style.display = 'none';
+      this.el_gid.style.display = '';
+      this.el_form.elements['uid'].value = '0';
+    }
+<{foreach item=modules key=dirname from=$clients}>
+<{foreach item=info key=dataname from=$modules}>
+    this.hasGroupAdmin['<{$dirname|cat:"|"|cat:$dataname}>'] = <{if $info.hasGroupAdmin}>true<{else}>false<{/if}>;
+<{/foreach}>
+<{/foreach}>
+    var obj = this;
+    this.el_sel.onchange = function() { return obj.onChangeIdType(); };
+    this.el_form.elements['target'].onchange = function() { return obj.onChangeTarget(); };
+    this.el_form.onsubmit = function() { return obj.onSubmit(); };
+    this.onChangeTarget();
+  },
+  onChangeIdType: function() {
+    if (this.el_sel.value == 'uid') {
+      this.el_gid.style.display = 'none';
+      this.el_uid.style.display = '';
+      this.el_form.elements['gid'].value = '';
+    } else {
+      this.el_uid.style.display = 'none';
+      this.el_gid.style.display = '';
+      this.el_form.elements['uid'].value = '0';
+    }
+    return true;
+  },
+  onSubmit: function() {
+    if (this.el_sel.value == 'uid') {
+      if (this.el_form.elements['uid'].value != '0')
+        this.el_form.elements['gid'].value = '0';
+    }
+    return true;
+  },
+  onChangeTarget: function() {
+    var target = this.el_form.elements['target'].value;
+    if (this.hasGroupAdmin[target]) {
+      this.el_gid0.style.display = '';
+    } else {
+      this.el_gid0.style.display = 'none';
+      if (this.el_form.elements['gid'].value == 0)
+        this.el_form.elements['gid'].value = '';
+    }
+  }
+}
+var approval_edit = new <{$xoops_dirname}>_approval_edit_handler();
+})();
+</script>

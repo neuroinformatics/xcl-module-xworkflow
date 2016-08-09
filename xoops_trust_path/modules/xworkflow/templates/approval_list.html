@@ -1,0 +1,34 @@
+<div class="<{$xoops_dirname}>">
+<{include file="db:`$xoops_dirname`_inc_menu.html"}>
+
+<h1><{"`$constpref`_LANG_APPROVAL_LIST"|constant}></h1>
+
+<{if count($clients) > 0}>
+<{foreach item=modules key=dirname from=$clients}>
+<{foreach item=info key=dataname from=$modules}>
+  <h3><{$dirname}> - <{$info.label|xoops_escape}></h3>
+  <ul class="unstyled">
+<{if count($objects.$dirname.$dataname) > 0}>
+<{foreach item=obj from=$objects.$dirname.$dataname}>
+    <li>[<{"`$constpref`_LANG_STEP"|constant}> <{$obj->getShow('step')}>]
+  <{if $obj->get('uid') > 0}>
+    <{$obj->getShow('uid')|xoops_user:"user_name"}>
+  <{else}>
+    <{assign var=gid value=$obj->get('gid')}>
+    <{$groups.$gid|xoops_escape}>
+  <{/if}>
+    <a class="btn btn-mini" href="<{xoops_cooluri dirname=$xoops_dirname dataname=approval data_id=$obj->getShow('approval_id') action=edit}>"><{$smarty.const._EDIT}></a>
+    <a class="btn btn-mini" href="<{xoops_cooluri dirname=$xoops_dirname dataname=approval data_id=$obj->getShow('approval_id') action=delete}>"><{$smarty.const._DELETE}></a>
+    </li>
+  <{/foreach}>
+  <{else}>
+    <li><{"`$constpref`_MESSAGE_NO_APPROVALS_EXIST"|constant}></li>
+  <{/if}>
+    <li><a class="btn btn-mini btn-primary" href="<{xoops_cooluri dirname=$xoops_dirname dataname=approval action=edit query=$query|sprintf:"$dirname":"$dataname"}>"><{"`$constpref`_LANG_ADD_A_NEW_APPROVAL"|constant}></a></li>
+  </ul>
+<{/foreach}>
+<{/foreach}>
+<{else}>
+  <{"`$constpref`_MESSAGE_ADD_A_APPROVAL"|constant}>
+<{/if}>
+</div>

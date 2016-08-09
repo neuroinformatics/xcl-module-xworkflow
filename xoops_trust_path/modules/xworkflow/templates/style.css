@@ -1,0 +1,98 @@
+<{* comment out if bootstrap based theme is used *}>
+.<{$xoops_dirname}> a {
+	text-decoration: none;
+}
+.<{$xoops_dirname}> ul.unstyled,
+.<{$xoops_dirname}> ol.unstyled {
+	margin-left: 0;
+	list-style: none;
+}
+.<{$xoops_dirname}> dl {
+	margin-bottom: 20px;
+}
+.<{$xoops_dirname}> dt {
+	font-weight: bold;
+}
+.<{$xoops_dirname}> dd {
+	margin-left: 20px;
+}
+.<{$xoops_dirname}> form {
+	margin: 0 0 20px 0;
+}
+.<{$xoops_dirname}> .nav {
+	margin: 0 0 20px 0;
+	padding: 0;
+	list-style: none outside none;
+	display: block;
+}
+.<{$xoops_dirname}> .nav-pills > li {
+	float: left;
+	margin-right: 5px;
+	padding: 5px;
+}
+.<{$xoops_dirname}> .nav-pills:after {
+	display: table;
+	line-height: 0;
+	content: "";
+	clear: both;
+}
+.<{$xoops_dirname}> .nav > li {
+	border: 1px solid #cccccc;
+}
+.<{$xoops_dirname}> .nav > li:hover {
+	background-color: #eeeeee;
+}
+.<{$xoops_dirname}> .nav > li a {
+	display: block;
+}
+.<{$xoops_dirname}> .nav > li a:hover {
+	text-decoration: none;
+}
+.<{$xoops_dirname}> .btn {
+	display: inline-block;
+	border: 1px solid #cccccc;
+	background-color: #eeeeee;
+	margin: 2px;
+	padding: 4px 14px;
+	color: #000000 !important;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.<{$xoops_dirname}> .btn:hover {
+	border: 1px solid #888888;
+}
+.<{$xoops_dirname}> .btn-mini {
+	padding: 2px 6px;
+}
+.<{$xoops_dirname}> .btn-primary {
+	background-color: #0066cc;
+	color: #ffffff !important;
+}
+.<{$xoops_dirname}> .control-group {
+	margin-bottom: 10px;
+}
+.<{$xoops_dirname}> .control-group label {
+	font-weight: bold;
+}
+.<{$xoops_dirname}> .alert {
+	padding: 8px 35px 8px 14px;
+	margin-bottom: 20px;
+	color: #c09853;
+	background-color: #fcf8e3;
+	border: 1px solid #fbeed5;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.<{$xoops_dirname}> .alert-info {
+	color: #3a87ad;
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+
+}
+.<{$xoops_dirname}> .alert-error {
+	color: #b94a48;
+	background-color: #f2dede;
+	border-color: #eed3d7;
+}

@@ -1,0 +1,102 @@
+<?php
+
+require_once dirname(dirname(__FILE__)).'/class/AbstractDeleteAction.class.php';
+
+/**
+ * approval delete action.
+ */
+class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
+{
+    /**
+     * get header.
+     *
+     * return {Trustdirname}_ApprovalHandler
+     */
+    protected function &_getHandler()
+    {
+        $handler = &$this->mAsset->getObject('handler', 'Approval');
+
+        return $handler;
+    }
+
+    /**
+     * check whether user has permission.
+     * 
+     * @return bool
+     */
+    public function hasPermission()
+    {
+        $cnameUtils = ucfirst($this->mAsset->mTrustDirname).'_Utils';
+
+        return $cnameUtils::isAdmin($this->mAsset->mDirname);
+    }
+
+    /**
+     * prepare.
+     * 
+     * @return bool
+     */
+    public function prepare()
+    {
+        parent::prepare();
+        if ($this->mObject->countProgressItem() > 0) {
+            $constpref = '_MD_'.strtoupper($this->mAsset->mDirname);
+            $this->mRoot->mController->executeRedirect(Legacy_Utils::renderUri($this->mAsset->mDirname, 'approval'), 1, constant($constpref.'_ERROR_ITEM_REMAINS'));
+        }
+    }
+
+    /**
+     * setup action form.
+     */
+    protected function _setupActionForm()
+    {
+        $this->mActionForm = &$this->mAsset->getObject('form', 'Approval', false, 'delete');
+        $this->mActionForm->prepare();
+    }
+
+    /**
+     * execute view input.
+     * 
+     * @param XCube_RenderTarget &$render
+     */
+    public function executeViewInput(&$render)
+    {
+        $render->setTemplateName($this->mAsset->mDirname.'_approval_delete.html');
+        $render->setAttribute('actionForm', $this->mActionForm);
+        $render->setAttribute('groups', $this->_getGroupList());
+        $render->setAttribute('object', $this->mObject);
+        $cnameUtils = ucfirst($this->mAsset->mTrustDirname).'_Utils';
+        $render->setAttribute('clients', $cnameUtils::getClients());
+    }
+
+    /**
+     * execute view success.
+     * 
+     * @param XCube_RenderTarget &$render
+     */
+    public function executeViewSuccess(&$render)
+    {
+        $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'approval'));
+    }
+
+    /**
+     * execute view error.
+     * 
+     * @param XCube_RenderTarget &$render
+     */
+    public function executeViewError(&$render)
+    {
+        $constpref = '_MD_'.strtoupper($this->mAsset->mDirname);
+        $this->mRoot->mController->executeRedirect(Legacy_Utils::renderUri($this->mAsset->mDirname, 'approval'), 1, constant($constpref.'_ERROR_DBUPDATE_FAILED'));
+    }
+
+    /**
+     * execute view cancel.
+     * 
+     * @param XCube_RenderTarget &$render
+     */
+    public function executeViewCancel(&$render)
+    {
+        $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'approval'));
+    }
+}

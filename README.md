@@ -1,4 +1,4 @@
-xcl-module-xworkflow
-====================
+xworkflow
+=========
 
 An extended XOOPS Cube Legacy Workflow module for XooNIps.

@@ -49,7 +49,7 @@ class Xworkflow_CssViewAction extends Xworkflow_AbstractAction
 
     /**
      * execute.
-     * 
+     *
      * @return Enum
      */
     public function execute()

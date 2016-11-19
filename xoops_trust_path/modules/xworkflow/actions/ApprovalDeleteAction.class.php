@@ -21,7 +21,7 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
 
     /**
      * check whether user has permission.
-     * 
+     *
      * @return bool
      */
     public function hasPermission()
@@ -33,7 +33,7 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
 
     /**
      * prepare.
-     * 
+     *
      * @return bool
      */
     public function prepare()
@@ -56,7 +56,7 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
 
     /**
      * execute view input.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewInput(&$render)
@@ -71,7 +71,7 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
 
     /**
      * execute view success.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewSuccess(&$render)
@@ -81,7 +81,7 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
 
     /**
      * execute view error.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewError(&$render)
@@ -92,7 +92,7 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
 
     /**
      * execute view cancel.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewCancel(&$render)

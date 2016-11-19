@@ -18,9 +18,8 @@ if (!defined($constpref.'_LOADED')) {
 
 require_once dirname(__FILE__).'/class/Utils.class.php';
 
-//
 // Define a basic manifesto.
-//
+
 $modversion['name'] = constant($constpref.'_NAME');
 $modversion['version'] = 1.1;
 $modversion['description'] = constant($constpref.'_DESC');
@@ -61,9 +60,8 @@ $modversion['tables'] = array(
     '{prefix}_{dirname}_item',
 );
 
-//
 // Templates
-//
+
 $modversion['templates'] = array(
     array('file' => 'approval_list.html', 'description' => constant($constpref.'_TPL_APPROVAL_LIST')),
     array('file' => 'approval_edit.html', 'description' => constant($constpref.'_TPL_APPROVAL_EDIT')),
@@ -75,16 +73,14 @@ $modversion['templates'] = array(
     array('file' => 'inc_menu.html', 'description' => constant($constpref.'_TPL_INC_MENU')),
 );
 
-//
 // Admin panel setting
-//
+
 $modversion['hasAdmin'] = 1;
 $modversion['adminindex'] = 'admin/index.php';
 $modversion['adminmenu'] = array();
 
-//
 // Public side control setting
-//
+
 $modversion['hasMain'] = 1;
 $modversion['hasSearch'] = 0;
 $modversion['sub'] = array();
@@ -108,9 +104,8 @@ if ($cnameUtils::isAdmin($mydirname)) {
     );
 }
 
-//
 // Config setting
-//
+
 $cname = $mytrustdirname.'_RevertTo';
 $modversion['config'] = array(
     array(
@@ -127,7 +122,6 @@ $modversion['config'] = array(
     ),
 );
 
-//
 // Block setting
-//
+
 $modversion['blocks'] = array();

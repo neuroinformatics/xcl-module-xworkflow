@@ -20,7 +20,7 @@ class Xworkflow_ApprovalObject extends XoopsSimpleObject
 
     /**
      * count my item.
-     * 
+     *
      * @return int
      */
     public function countProgressItem()
@@ -78,7 +78,7 @@ class Xworkflow_ApprovalHandler extends XoopsObjectGenericHandler
 
     /**
      * constructor.
-     * 
+     *
      * @param XoopsDatabase &$db
      * @param string        $dirname
      */
@@ -93,7 +93,7 @@ class Xworkflow_ApprovalHandler extends XoopsObjectGenericHandler
 
     /**
      * get next approval object.
-     * 
+     *
      * @param string $dirname
      * @param string $dataname
      * @param int    $step
@@ -114,7 +114,7 @@ class Xworkflow_ApprovalHandler extends XoopsObjectGenericHandler
 
     /**
      * get previous approval object.
-     * 
+     *
      * @param string $dirname
      * @param string $dataname
      * @param int    $step
@@ -135,7 +135,7 @@ class Xworkflow_ApprovalHandler extends XoopsObjectGenericHandler
 
     /**
      * get approval object list.
-     * 
+     *
      * @param string $dirname
      * @param string $dataname
      *

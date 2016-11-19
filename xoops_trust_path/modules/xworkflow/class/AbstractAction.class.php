@@ -38,27 +38,27 @@ abstract class Xworkflow_AbstractAction
 
     /**
      * get action name.
-     * 
+     *
      * @return string
      */
     protected function _getActionName()
     {
-        return;
+        return null;
     }
 
     /**
      * get page title (for internal).
-     * 
+     *
      * @return string
      */
     protected function _getPagetitle()
     {
-        return;
+        return null;
     }
 
     /**
      * get page title.
-     * 
+     *
      * @return string
      */
     public function getPagetitle()
@@ -68,7 +68,7 @@ abstract class Xworkflow_AbstractAction
 
     /**
      * get style sheet.
-     * 
+     *
      * @return string
      */
     protected function _getStylesheet()
@@ -87,7 +87,7 @@ abstract class Xworkflow_AbstractAction
 
     /**
      * prepare.
-     * 
+     *
      * @return bool
      */
     public function prepare()
@@ -97,7 +97,7 @@ abstract class Xworkflow_AbstractAction
 
     /**
      * check whether user has permission.
-     * 
+     *
      * @return bool
      */
     public function hasPermission()
@@ -107,7 +107,7 @@ abstract class Xworkflow_AbstractAction
 
     /**
      * get default view.
-     * 
+     *
      * @return Enum
      */
     public function getDefaultView()
@@ -117,7 +117,7 @@ abstract class Xworkflow_AbstractAction
 
     /**
      * execute.
-     * 
+     *
      * @return Enum
      */
     public function execute()
@@ -127,7 +127,7 @@ abstract class Xworkflow_AbstractAction
 
     /**
      * execute view success.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewSuccess(&$render)
@@ -136,7 +136,7 @@ abstract class Xworkflow_AbstractAction
 
     /**
      * execute view error.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewError(&$render)
@@ -145,7 +145,7 @@ abstract class Xworkflow_AbstractAction
 
     /**
      * execute view index.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewIndex(&$render)
@@ -163,7 +163,7 @@ abstract class Xworkflow_AbstractAction
 
     /**
      * execute view preview.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewPreview(&$render)
@@ -172,7 +172,7 @@ abstract class Xworkflow_AbstractAction
 
     /**
      * execute view cancel.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewCancel(&$render)

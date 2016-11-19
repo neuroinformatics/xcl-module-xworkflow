@@ -16,7 +16,7 @@ class Xworkflow_ItemViewAction extends Xworkflow_AbstractViewAction
 
     /**
      *  get handler.
-     * 
+     *
      * return {Trustdirname}_ItemHandler
      */
     protected function &_getHandler()
@@ -28,7 +28,7 @@ class Xworkflow_ItemViewAction extends Xworkflow_AbstractViewAction
 
     /**
      * get page title.
-     * 
+     *
      * @return string
      */
     protected function _getPagetitle()
@@ -38,7 +38,7 @@ class Xworkflow_ItemViewAction extends Xworkflow_AbstractViewAction
 
     /**
      * prepare.
-     * 
+     *
      * @return bool
      */
     public function prepare()
@@ -66,7 +66,7 @@ class Xworkflow_ItemViewAction extends Xworkflow_AbstractViewAction
 
     /**
      * execute view success.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewSuccess(&$render)
@@ -83,7 +83,7 @@ class Xworkflow_ItemViewAction extends Xworkflow_AbstractViewAction
 
     /**
      * execute view error.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewError(&$render)

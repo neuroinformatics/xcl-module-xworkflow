@@ -9,7 +9,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
 {
     /**
      * get handler.
-     * 
+     *
      * return {Trustdirname}_ApprovalHandler
      */
     protected function &_getHandler()
@@ -21,7 +21,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
 
     /**
      * has permission.
-     * 
+     *
      * @return bool
      */
     public function hasPermission()
@@ -33,7 +33,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
 
     /**
      * prepare.
-     * 
+     *
      * @return bool
      */
     public function prepare()
@@ -60,7 +60,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
 
     /**
      * execute view input.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewInput(&$render)
@@ -76,7 +76,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
 
     /**
      * execute view success.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewSuccess(&$render)
@@ -86,7 +86,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
 
     /**
      * execute view error.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewError(&$render)
@@ -97,7 +97,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
 
     /**
      * execute view cancel.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewCancel(&$render)

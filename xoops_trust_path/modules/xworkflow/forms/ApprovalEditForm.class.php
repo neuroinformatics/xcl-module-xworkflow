@@ -62,7 +62,7 @@ class Xworkflow_ApprovalEditForm extends XCube_ActionForm
 
     /**
      * update.
-     * 
+     *
      * @param XoopsSimpleObject &$obj
      */
     public function update(&$obj)
@@ -78,7 +78,7 @@ class Xworkflow_ApprovalEditForm extends XCube_ActionForm
 
     /**
      * validate uid.
-     * 
+     *
      * @param string $dirname
      */
     public function validateUid()
@@ -98,7 +98,7 @@ class Xworkflow_ApprovalEditForm extends XCube_ActionForm
 
     /**
      * validate gid.
-     * 
+     *
      * @param string $dirname
      */
     public function validateGid()
@@ -116,7 +116,7 @@ class Xworkflow_ApprovalEditForm extends XCube_ActionForm
 
     /**
      * validate step.
-     * 
+     *
      * @param string $dirname
      */
     public function validateStep()
@@ -137,7 +137,7 @@ class Xworkflow_ApprovalEditForm extends XCube_ActionForm
 
     /**
      * get target.
-     * 
+     *
      * @return string[]
      */
     protected function _getTarget()

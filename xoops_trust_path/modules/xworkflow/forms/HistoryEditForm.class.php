@@ -10,7 +10,7 @@ class Xworkflow_HistoryEditForm extends XCube_ActionForm
 {
     /**
      * get token name.
-     * 
+     *
      * @return string
      */
     public function getTokenName()
@@ -46,7 +46,7 @@ class Xworkflow_HistoryEditForm extends XCube_ActionForm
 
     /**
      * load.
-     * 
+     *
      * @param XoopsSimpleObject &$obj
      */
     public function load(&$obj)
@@ -62,7 +62,7 @@ class Xworkflow_HistoryEditForm extends XCube_ActionForm
 
     /**
      * update.
-     * 
+     *
      * @param XoopsSimpleObject &$obj
      */
     public function update(&$obj)

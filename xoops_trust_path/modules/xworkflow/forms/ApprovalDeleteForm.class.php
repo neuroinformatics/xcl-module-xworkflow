@@ -3,14 +3,14 @@
 require_once XOOPS_ROOT_PATH.'/core/XCube_ActionForm.class.php';
 require_once XOOPS_MODULE_PATH.'/legacy/class/Legacy_Validator.class.php';
 
-/** 
+/**
  * approval delete form.
  */
 class Xworkflow_ApprovalDeleteForm extends XCube_ActionForm
 {
     /**
      * get token name.
-     * 
+     *
      * @return string
      */
     public function getTokenName()
@@ -37,7 +37,7 @@ class Xworkflow_ApprovalDeleteForm extends XCube_ActionForm
 
     /**
      * load.
-     * 
+     *
      * @param XoopsSimpleObject &$obj
      */
     public function load(&$obj)
@@ -47,7 +47,7 @@ class Xworkflow_ApprovalDeleteForm extends XCube_ActionForm
 
     /**
      * update.
-     * 
+     *
      * @param XoopsSimpleObject &$obj
      */
     public function update(&$obj)

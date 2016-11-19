@@ -94,7 +94,7 @@ class Xworkflow_Module extends Legacy_ModuleAdapter
 
     /**
      * set admin mode.
-     * 
+     *
      * @param bool $flag
      */
     public function setAdminMode($flag)
@@ -145,7 +145,7 @@ class Xworkflow_Module extends Legacy_ModuleAdapter
 
     /**
      * set action name.
-     * 
+     *
      * @param string $name
      */
     public function setActionName($name)
@@ -155,7 +155,7 @@ class Xworkflow_Module extends Legacy_ModuleAdapter
 
     /**
      * get render system name.
-     * 
+     *
      * @return string
      */
     public function getRenderSystemName()
@@ -189,7 +189,7 @@ class Xworkflow_Module extends Legacy_ModuleAdapter
 
     /**
      * get admin menu.
-     * 
+     *
      * @return {string 'title', string 'link', string 'keywords', bool 'show', bool 'absolute'}[]
      */
     public function getAdminMenu()
@@ -244,7 +244,7 @@ class Xworkflow_Module extends Legacy_ModuleAdapter
 
     /**
      * get preference edit url.
-     * 
+     *
      * @return string
      */
     public function getPreferenceEditUrl()
@@ -263,7 +263,7 @@ class Xworkflow_Module extends Legacy_ModuleAdapter
 
     /**
      * get help view url.
-     * 
+     *
      * @return string
      */
     public function getHelpViewUrl()
@@ -288,7 +288,7 @@ class Xworkflow_Module extends Legacy_ModuleAdapter
 
     /**
      * execute.
-     * 
+     *
      * @param XCube_Controller &$controller
      */
     public function execute(&$controller)
@@ -328,7 +328,7 @@ class Xworkflow_Module extends Legacy_ModuleAdapter
 
     /**
      * create action.
-     * 
+     *
      * @return bool
      */
     private function _createAction()

@@ -28,7 +28,7 @@ class Xworkflow_ApprovalListAction extends Xworkflow_AbstractListAction
 
     /**
      * get filter form.
-     * 
+     *
      * return {Trustdirname}_ApprovalFilterForm
      */
     protected function &_getFilterForm()
@@ -41,7 +41,7 @@ class Xworkflow_ApprovalListAction extends Xworkflow_AbstractListAction
 
     /**
      * get default view.
-     * 
+     *
      * @return Enum
      */
     public function getDefaultView()
@@ -67,7 +67,7 @@ class Xworkflow_ApprovalListAction extends Xworkflow_AbstractListAction
 
     /**
      * get base url.
-     * 
+     *
      * @return string
      */
     protected function _getBaseUrl()
@@ -77,7 +77,7 @@ class Xworkflow_ApprovalListAction extends Xworkflow_AbstractListAction
 
     /**
      * execute view index.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewIndex(&$render)

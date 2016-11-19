@@ -21,7 +21,7 @@ class Xworkflow_ItemObject extends XoopsSimpleObject
 
     /**
      * constructor.
-     * 
+     *
      * @param string $dirname
      */
     public function __construct()
@@ -66,7 +66,7 @@ class Xworkflow_ItemObject extends XoopsSimpleObject
 
     /**
      * load history.
-     * 
+     *
      * @param string $order 'ASC' or 'DESC'
      */
     public function loadHistory($order = 'ASC')
@@ -82,7 +82,7 @@ class Xworkflow_ItemObject extends XoopsSimpleObject
 
     /**
      * get show status.
-     * 
+     *
      * @return string
      */
     public function getShowStatus()
@@ -157,7 +157,7 @@ class Xworkflow_ItemObject extends XoopsSimpleObject
         $aHandler = Legacy_Utils::getModuleHandler('approval', $this->getDirname());
         $aObjs = $aHandler->getObjects($criteria);
         if (empty($aObjs)) {
-            return;
+            return null;
         }
 
         return array_shift($aObjs);
@@ -220,7 +220,7 @@ class Xworkflow_ItemHandler extends XoopsObjectGenericHandler
 
     /**
      * constructor.
-     * 
+     *
      * @param XoopsDatabase &$db
      * @param string        $dirname
      */
@@ -235,7 +235,7 @@ class Xworkflow_ItemHandler extends XoopsObjectGenericHandler
 
     /**
      * delete.
-     * 
+     *
      * @param {Trustdirname}_ItemObject &$obj
      * @param bool                      $force
      *
@@ -278,7 +278,7 @@ class Xworkflow_ItemHandler extends XoopsObjectGenericHandler
 
     /**
      * revert step.
-     * 
+     *
      * @param {Trustdirname}_ItemObject $obj
      *
      * @return bool
@@ -351,7 +351,7 @@ class Xworkflow_ItemHandler extends XoopsObjectGenericHandler
         $gid = $aObj->get('gid');
         if ($uid > 0) {
             $uids[] = $uid;
-        } elseif ($gid  > 0) {
+        } elseif ($gid > 0) {
             $uids = $memberHandler->getUsersByGroup($gid, false);
         } else {
             $gid = $cnameUtils::getTargetGroupId($dirname, $dataname, $target_id);
@@ -432,7 +432,7 @@ class Xworkflow_ItemHandler extends XoopsObjectGenericHandler
     {
         $objs = $this->_getProgressItems($dirname, $dataname, $target_id);
         if (empty($objs)) {
-            return;
+            return null;
         }
 
         return array_shift($objs);

@@ -27,7 +27,7 @@ class Xworkflow_AssetPreloadBase extends XCube_ActionFilter
 
     /**
      * prepare.
-     * 
+     *
      * @param string $dirname
      * @param string $trustDirname
      */
@@ -70,7 +70,7 @@ class Xworkflow_AssetPreloadBase extends XCube_ActionFilter
 
     /**
      * get manager.
-     * 
+     *
      * @param {Trustdirname}_AssetManager &$obj
      * @param string                      $dirname
      */
@@ -83,7 +83,7 @@ class Xworkflow_AssetPreloadBase extends XCube_ActionFilter
 
     /**
      * get module.
-     * 
+     *
      * @param Legacy_AbstractModule &$obj
      * @param XoopsModule           $module
      */
@@ -99,7 +99,7 @@ class Xworkflow_AssetPreloadBase extends XCube_ActionFilter
 
     /**
      * get block.
-     * 
+     *
      * @param Legacy_AbstractBlockProcedure &$obj
      * @param XoopsBlock                    $block
      */

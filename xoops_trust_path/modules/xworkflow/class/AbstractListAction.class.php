@@ -23,7 +23,7 @@ abstract class Xworkflow_AbstractListAction extends Xworkflow_AbstractAction
 
     /**
      * get object handler.
-     * 
+     *
      * @return &XoopsObjectGenericHandler
      */
     protected function &_getHandler()
@@ -32,7 +32,7 @@ abstract class Xworkflow_AbstractListAction extends Xworkflow_AbstractAction
 
     /**
      * get action name.
-     * 
+     *
      * @return string
      */
     protected function _getActionName()
@@ -42,7 +42,7 @@ abstract class Xworkflow_AbstractListAction extends Xworkflow_AbstractAction
 
     /**
      * get filter form.
-     * 
+     *
      * @return &{Trustdirname}_AbstractFilterForm
      */
     protected function &_getFilterForm()
@@ -51,7 +51,7 @@ abstract class Xworkflow_AbstractListAction extends Xworkflow_AbstractAction
 
     /**
      * get base url.
-     * 
+     *
      * @return string
      */
     protected function _getBaseUrl()
@@ -60,7 +60,7 @@ abstract class Xworkflow_AbstractListAction extends Xworkflow_AbstractAction
 
     /**
      * get page navigation.
-     * 
+     *
      * @return &XCube_PageNavigator
      */
     protected function &_getPageNavi()
@@ -72,7 +72,7 @@ abstract class Xworkflow_AbstractListAction extends Xworkflow_AbstractAction
 
     /**
      * get default view.
-     * 
+     *
      * @return Enum
      */
     public function getDefaultView()
@@ -87,7 +87,7 @@ abstract class Xworkflow_AbstractListAction extends Xworkflow_AbstractAction
 
     /**
      * execute.
-     * 
+     *
      * @return Enum
      */
     public function execute()

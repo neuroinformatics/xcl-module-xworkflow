@@ -28,7 +28,7 @@ abstract class Xworkflow_AbstractEditAction extends Xworkflow_AbstractAction
 
     /**
      * get id.
-     * 
+     *
      * @return int
      */
     protected function _getId()
@@ -41,7 +41,7 @@ abstract class Xworkflow_AbstractEditAction extends Xworkflow_AbstractAction
 
     /**
      * get handler.
-     * 
+     *
      * @return XoopsObjectGenericHandler
      */
     protected function &_getHandler()
@@ -50,7 +50,7 @@ abstract class Xworkflow_AbstractEditAction extends Xworkflow_AbstractAction
 
     /**
      * get action name.
-     * 
+     *
      * @return string
      */
     protected function _getActionName()
@@ -80,7 +80,7 @@ abstract class Xworkflow_AbstractEditAction extends Xworkflow_AbstractAction
 
     /**
      * check whether form is enable to create.
-     * 
+     *
      * @return bool
      */
     protected function _isEnableCreate()
@@ -90,7 +90,7 @@ abstract class Xworkflow_AbstractEditAction extends Xworkflow_AbstractAction
 
     /**
      * prepare.
-     * 
+     *
      * @return bool
      */
     public function prepare()
@@ -103,7 +103,7 @@ abstract class Xworkflow_AbstractEditAction extends Xworkflow_AbstractAction
 
     /**
      * get default view.
-     * 
+     *
      * @return Enum
      */
     public function getDefaultView()
@@ -118,7 +118,7 @@ abstract class Xworkflow_AbstractEditAction extends Xworkflow_AbstractAction
 
     /**
      * execute.
-     * 
+     *
      * @return Enum
      */
     public function execute()
@@ -142,7 +142,7 @@ abstract class Xworkflow_AbstractEditAction extends Xworkflow_AbstractAction
 
     /**
      * do execute.
-     * 
+     *
      * @return Enum
      */
     protected function _doExecute()

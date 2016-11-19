@@ -21,7 +21,7 @@ abstract class Xworkflow_AbstractViewAction extends Xworkflow_AbstractAction
 
     /**
      *  get id.
-     * 
+     *
      * @return int
      */
     protected function _getId()
@@ -34,7 +34,7 @@ abstract class Xworkflow_AbstractViewAction extends Xworkflow_AbstractAction
 
     /**
      * get object handler.
-     * 
+     *
      * @return &XoopsObjectGenericHandler
      */
     protected function &_getHandler()
@@ -43,7 +43,7 @@ abstract class Xworkflow_AbstractViewAction extends Xworkflow_AbstractAction
 
     /**
      * get actin name.
-     * 
+     *
      * @return string
      */
     protected function _getActionName()
@@ -53,7 +53,7 @@ abstract class Xworkflow_AbstractViewAction extends Xworkflow_AbstractAction
 
     /**
      * set object.
-     * 
+     *
      * @param void
      */
     protected function _setupObject()
@@ -65,7 +65,7 @@ abstract class Xworkflow_AbstractViewAction extends Xworkflow_AbstractAction
 
     /**
      * prepare.
-     * 
+     *
      * @return bool
      */
     public function prepare()
@@ -77,7 +77,7 @@ abstract class Xworkflow_AbstractViewAction extends Xworkflow_AbstractAction
 
     /**
      * getDefaultView.
-     * 
+     *
      * @return Enum
      */
     public function getDefaultView()
@@ -91,7 +91,7 @@ abstract class Xworkflow_AbstractViewAction extends Xworkflow_AbstractAction
 
     /**
      * execute.
-     * 
+     *
      * @return Enum
      */
     public function execute()

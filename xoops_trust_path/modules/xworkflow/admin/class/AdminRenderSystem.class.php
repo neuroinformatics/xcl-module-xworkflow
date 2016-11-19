@@ -21,7 +21,7 @@ class Xworkflow_AdminRenderSystem extends Legacy_AdminRenderSystem
 
     /**
      * prepare.
-     * 
+     *
      * @param XCube_Controller &$controller
      */
     public function prepare(&$controller)
@@ -48,7 +48,7 @@ class Xworkflow_AdminRenderSystem extends Legacy_AdminRenderSystem
 
     /**
      * render block.
-     * 
+     *
      * @param XCube_RenderTarget &$target
      */
     public function renderBlock(&$target)
@@ -58,7 +58,7 @@ class Xworkflow_AdminRenderSystem extends Legacy_AdminRenderSystem
 
     /**
      * render theme.
-     * 
+     *
      * @param XCube_RenderTarget &$target
      */
     public function renderTheme(&$target)
@@ -88,7 +88,7 @@ class Xworkflow_AdminRenderSystem extends Legacy_AdminRenderSystem
 
     /**
      * render main.
-     * 
+     *
      * @param XCube_RenderTarget &$target
      */
     public function renderMain(&$target)
@@ -107,7 +107,7 @@ class Xworkflow_AdminRenderSystem extends Legacy_AdminRenderSystem
 
     /**
      * get override file info.
-     * 
+     *
      * @param string $file
      * @param string $prefix
      * @param bool   $isSpDirName
@@ -178,7 +178,7 @@ class Xworkflow_AdminRenderSystem extends Legacy_AdminRenderSystem
 
     /**
      * modifier theme.
-     * 
+     *
      * @param string $str
      *
      * @return string
@@ -195,7 +195,7 @@ class Xworkflow_AdminRenderSystem extends Legacy_AdminRenderSystem
 
     /**
      * function stylesheet.
-     * 
+     *
      * @param {string 'file', string 'media'} $param
      * @param Smarty                          &$smarty
      */

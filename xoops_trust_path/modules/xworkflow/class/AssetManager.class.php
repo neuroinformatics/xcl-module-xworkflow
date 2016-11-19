@@ -35,7 +35,7 @@ class Xworkflow_AssetManager
 
     /**
      * constructor.
-     * 
+     *
      * @param string $dirname
      */
     public function __construct($dirname, $trustDirname)
@@ -46,7 +46,7 @@ class Xworkflow_AssetManager
 
     /**
      * get instance.
-     * 
+     *
      * @param string $dirname
      * @param string $trustDirname
      *
@@ -64,7 +64,7 @@ class Xworkflow_AssetManager
 
     /**
      * get object.
-     * 
+     *
      * @param string $type
      * @param string $name
      * @param bool   $isAdmin
@@ -92,7 +92,7 @@ class Xworkflow_AssetManager
 
     /**
      * get role name.
-     * 
+     *
      * @param string $role
      *
      * @return string
@@ -104,7 +104,7 @@ class Xworkflow_AssetManager
 
     /**
      * fallback create object.
-     * 
+     *
      * @param string $type
      * @param string $name
      * @param bool   $isAdmin
@@ -157,7 +157,7 @@ class Xworkflow_AssetManager
 
     /**
      * get filter name.
-     * 
+     *
      * @param string $name
      * @param bool   $isAdmin
      *
@@ -174,7 +174,7 @@ class Xworkflow_AssetManager
 
     /**
      * get action form name.
-     * 
+     *
      * @param string $name
      * @param bool   $isAdmin
      * @param string $mode
@@ -192,7 +192,7 @@ class Xworkflow_AssetManager
 
     /**
      * get handler name.
-     * 
+     *
      * @param string $name
      *
      * @return string
@@ -207,7 +207,7 @@ class Xworkflow_AssetManager
 
     /**
      * load class file.
-     * 
+     *
      * @param string $path
      * @param string $class
      *
@@ -227,7 +227,7 @@ class Xworkflow_AssetManager
 
     /**
      * get public path.
-     * 
+     *
      * @param bool $isAdmin
      *
      * @return string
@@ -239,7 +239,7 @@ class Xworkflow_AssetManager
 
     /**
      * _getTrustPath.
-     * 
+     *
      * @param bool $isAdmin
      *
      * @return string

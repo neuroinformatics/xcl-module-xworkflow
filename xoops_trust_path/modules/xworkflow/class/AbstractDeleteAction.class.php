@@ -9,7 +9,7 @@ abstract class Xworkflow_AbstractDeleteAction extends Xworkflow_AbstractEditActi
 {
     /**
      * check whether form is enable to create.
-     * 
+     *
      * @return bool
      */
     protected function _isEnableCreate()
@@ -19,7 +19,7 @@ abstract class Xworkflow_AbstractDeleteAction extends Xworkflow_AbstractEditActi
 
     /**
      * get action name.
-     * 
+     *
      * @return string
      */
     protected function _getActionName()
@@ -29,7 +29,7 @@ abstract class Xworkflow_AbstractDeleteAction extends Xworkflow_AbstractEditActi
 
     /**
      * prepare.
-     * 
+     *
      * @return bool
      */
     public function prepare()
@@ -39,7 +39,7 @@ abstract class Xworkflow_AbstractDeleteAction extends Xworkflow_AbstractEditActi
 
     /**
      * do execute.
-     * 
+     *
      * @return Enum
      */
     protected function _doExecute()

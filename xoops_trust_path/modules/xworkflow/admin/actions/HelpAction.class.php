@@ -14,7 +14,7 @@ class Xworkflow_Admin_HelpAction extends Xworkflow_AbstractAction
 
     /**
      * getDefaultView.
-     * 
+     *
      * @return Enum
      */
     public function getDefaultView()
@@ -93,7 +93,7 @@ class Xworkflow_Admin_HelpAction extends Xworkflow_AbstractAction
 
     /**
      * executeViewSuccess.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewSuccess(&$render)
@@ -108,7 +108,7 @@ class Xworkflow_Admin_HelpAction extends Xworkflow_AbstractAction
 
     /**
      * executeViewError.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewError(&$render)

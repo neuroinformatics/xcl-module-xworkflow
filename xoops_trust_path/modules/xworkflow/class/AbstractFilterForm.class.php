@@ -41,8 +41,15 @@ abstract class Xworkflow_AbstractFilterForm
     protected $_mCriteria = null;
 
     /**
+     * join criteria.
+     *
+     * @var JoinCriteria
+     */
+    protected $_mJoinCriteria = null;
+
+    /**
      * get id.
-     * 
+     *
      * @return int
      */
     protected function _getId()
@@ -51,7 +58,7 @@ abstract class Xworkflow_AbstractFilterForm
 
     /**
      * get object handler.
-     * 
+     *
      * @return XoopsObjectGenericHandler
      */
     protected function &_getHandler()
@@ -68,7 +75,7 @@ abstract class Xworkflow_AbstractFilterForm
 
     /**
      * prepare.
-     * 
+     *
      * @param XCube_PageNavigator       &$navi
      * @param XoopsObjectGenericHandler &$handler
      */
@@ -81,7 +88,7 @@ abstract class Xworkflow_AbstractFilterForm
 
     /**
      * get total items.
-     * 
+     *
      * @param int &$total
      */
     public function getTotalItems(&$total)
@@ -127,7 +134,7 @@ abstract class Xworkflow_AbstractFilterForm
 
     /**
      * get sort value.
-     * 
+     *
      * @param int $k
      *
      * @return Enum
@@ -141,9 +148,9 @@ abstract class Xworkflow_AbstractFilterForm
 
     /**
      * get order.
-     * 
+     *
      * @param int $k
-     * 
+     *
      * @return Enum
      */
     public function getOrder($k)
@@ -153,7 +160,7 @@ abstract class Xworkflow_AbstractFilterForm
 
     /**
      * get criteria.
-     * 
+     *
      * @param int $start
      * @param int $limit
      *

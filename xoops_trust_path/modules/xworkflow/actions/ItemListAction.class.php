@@ -11,7 +11,7 @@ class Xworkflow_ItemListAction extends Xworkflow_AbstractListAction
 
     /**
      * get handler.
-     * 
+     *
      * return {Trustdirname}_ItemHandler
      */
     protected function &_getHandler()
@@ -23,7 +23,7 @@ class Xworkflow_ItemListAction extends Xworkflow_AbstractListAction
 
     /**
      * get filter form.
-     * 
+     *
      * return {Trustdirname}_ItemFilterForm
      */
     protected function &_getFilterForm()
@@ -36,7 +36,7 @@ class Xworkflow_ItemListAction extends Xworkflow_AbstractListAction
 
     /**
      * get base url.
-     * 
+     *
      * @return string
      */
     protected function _getBaseUrl()
@@ -46,7 +46,7 @@ class Xworkflow_ItemListAction extends Xworkflow_AbstractListAction
 
     /**
      * execute view index.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewIndex(&$render)

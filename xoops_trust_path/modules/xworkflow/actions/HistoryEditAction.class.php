@@ -21,7 +21,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
 
     /**
      * prepare.
-     * 
+     *
      * @return bool
      */
     public function prepare()
@@ -63,7 +63,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
 
     /**
      * do execute.
-     * 
+     *
      * @return Enum
      */
     protected function _doExecute()
@@ -85,7 +85,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
 
     /**
      * execute view input.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewInput(&$render)
@@ -97,7 +97,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
 
     /**
      * execute view success.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewSuccess(&$render)
@@ -107,7 +107,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
 
     /**
      * execute view error.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewError(&$render)
@@ -118,7 +118,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
 
     /**
      * execute view cancel.
-     * 
+     *
      * @param XCube_RenderTarget &$render
      */
     public function executeViewCancel(&$render)

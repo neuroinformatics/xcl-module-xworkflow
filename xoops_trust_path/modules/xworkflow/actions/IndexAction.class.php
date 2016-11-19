@@ -9,7 +9,7 @@ class Xworkflow_IndexAction extends Xworkflow_ItemListAction
 {
     /**
      * get default view.
-     * 
+     *
      * @return Enum
      */
     public function getDefaultView()

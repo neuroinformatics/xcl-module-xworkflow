@@ -21,7 +21,7 @@ class Xworkflow_HistoryObject extends XoopsSimpleObject
 
     /**
      * constructor.
-     * 
+     *
      * @param string $dirname
      */
     public function __construct()
@@ -49,7 +49,7 @@ class Xworkflow_HistoryObject extends XoopsSimpleObject
 
     /**
      * get show result.
-     * 
+     *
      * @return string
      */
     public function getShowResult()
@@ -111,7 +111,7 @@ class Xworkflow_HistoryHandler extends XoopsObjectGenericHandler
 
     /**
      * constructor.
-     * 
+     *
      * @param XoopsDatabase &$db
      * @param string        $dirname
      */

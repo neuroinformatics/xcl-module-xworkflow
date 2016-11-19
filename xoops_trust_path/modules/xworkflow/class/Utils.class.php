@@ -9,7 +9,7 @@ class Xworkflow_Utils
 {
     /**
      * get xoops handler.
-     * 
+     *
      * @param string $name
      * @param bool   $optional
      *
@@ -22,7 +22,7 @@ class Xworkflow_Utils
 
     /**
      * get module handler.
-     * 
+     *
      * @param string $name
      * @param string $dirname
      *
@@ -35,7 +35,7 @@ class Xworkflow_Utils
 
     /**
      * get environment variable.
-     * 
+     *
      * @param string $key
      *
      * @return string
@@ -47,7 +47,7 @@ class Xworkflow_Utils
 
     /**
      * get module configs.
-     * 
+     *
      * @param string $dirname
      * @param string $key
      *

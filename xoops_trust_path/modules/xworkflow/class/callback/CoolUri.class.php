@@ -1,5 +1,7 @@
 <?php
 
+use Xworkflow\Core\XoopsUtils;
+
 /**
  * cool uri delegate.
  */
@@ -50,8 +52,8 @@ class Xworkflow_CoolUriDelegate
                 if (isset($action)) {
                     die();
                 } else {
-                    $handler = Legacy_Utils::getModuleHandler($table, $dirname);
-                    $key = $handler->mPrimary;
+                    $handler = &XoopsUtils::getModuleHandler($table.'Object', $dirname);
+                    $key = $handler->getPrimaryKey();
                     $uri = sprintf($lUri, $dirname, ucfirst($table), 'View', $key, $target_id);
                 }
                 $uri = isset($query) ? $uri.'&'.$query : $uri;

@@ -1,5 +1,7 @@
 <?php
 
+use Xworkflow\Core\Functions;
+
 require_once dirname(dirname(__FILE__)).'/class/AbstractListAction.class.php';
 
 /**
@@ -16,7 +18,7 @@ class Xworkflow_ItemListAction extends Xworkflow_AbstractListAction
      */
     protected function &_getHandler()
     {
-        $handler = &$this->mAsset->getObject('handler', 'Item');
+        $handler = &$this->mAsset->getObject('handler', 'ItemObject');
 
         return $handler;
     }
@@ -57,7 +59,6 @@ class Xworkflow_ItemListAction extends Xworkflow_AbstractListAction
         $render->setAttribute('actionName', $this->mRoot->mContext->mRequest->getRequest('action'));
         $render->setAttribute('pageNavi', $this->mFilter->mNavi);
         $render->setAttribute('isMyTask', $this->_mIsMyTask);
-        $cnameUtils = ucfirst($this->mAsset->mTrustDirname).'_Utils';
-        $render->setAttribute('clients', $cnameUtils::getClients());
+        $render->setAttribute('clients', Functions::getClients());
     }
 }

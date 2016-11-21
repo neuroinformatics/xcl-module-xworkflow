@@ -1,89 +1,12 @@
 <?php
 
-require_once dirname(__FILE__).'/Enum.class.php';
+namespace Xworkflow\Core;
 
 /**
- * utilities.
+ * static functions.
  */
-class Xworkflow_Utils
+class Functions
 {
-    /**
-     * get xoops handler.
-     *
-     * @param string $name
-     * @param bool   $optional
-     *
-     * @return XoopsObjectHandler&
-     */
-    public static function &getXoopsHandler($name, $optional = false)
-    {
-        return xoops_gethandler($name, $optional);
-    }
-
-    /**
-     * get module handler.
-     *
-     * @param string $name
-     * @param string $dirname
-     *
-     * @return XoopsObjectHandleer&
-     */
-    public static function &getModuleHandler($name, $dirname)
-    {
-        return xoops_getmodulehandler($name, $dirname);
-    }
-
-    /**
-     * get environment variable.
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    public static function getEnv($key)
-    {
-        return @getenv($key);
-    }
-
-    /**
-     * get module configs.
-     *
-     * @param string $dirname
-     * @param string $key
-     *
-     * @return mixed
-     */
-    public static function getModuleConfig($dirname, $key)
-    {
-        $handler = &self::getXoopsHandler('config');
-        $configArr = $handler->getConfigsByDirname($dirname);
-
-        return $configArr[$key];
-    }
-
-    /**
-     * check whether user is administrator.
-     *
-     * @param string $dirname
-     *
-     * @return bool
-     */
-    public static function isAdmin($dirname = false)
-    {
-        $root = &XCube_Root::getSingleton();
-        if ($root->mContext->mUser->isInRole('Site.Owner')) {
-            return true;
-        }
-        if (empty($dirname)) {
-            return false;
-        }
-        $root->mRoleManager->loadRolesByDirname($dirname);
-
-        return $root->mContext->mUser->isInRole('Module.'.$dirname.'.Admin');
-    }
-
-    // extend methods blow:
-
     /**
      * get workflow clients.
      *
@@ -100,7 +23,7 @@ class Xworkflow_Utils
         }
         $clients = array();
         $list = array();
-        XCube_DelegateUtils::call('Legacy_WorkflowClient.GetClientList', new XCube_Ref($list));
+        \XCube_DelegateUtils::call('Legacy_WorkflowClient.GetClientList', new \XCube_Ref($list));
         foreach ($list as $item) {
             $clients[$item['dirname']][$item['dataname']] = array(
                 'label' => isset($item['label']) ? $item['label'] : $item['dataname'],
@@ -122,8 +45,7 @@ class Xworkflow_Utils
         if ($cache !== null) {
             return $cache;
         }
-        $root = &XCube_Root::getSingleton();
-        $db = &$root->mController->getDB();
+        $db = &\XoopsDatabaseFactory::getDatabaseConnection();
         $table = $db->prefix('groups');
         $sql = sprintf('SHOW COLUMNS FROM `%s` LIKE \'index_id\'', $table);
         $result = $db->queryF($sql);
@@ -170,8 +92,7 @@ class Xworkflow_Utils
         if ($gid == 0) {
             return $uids;
         }
-        $root = &XCube_Root::getSingleton();
-        $db = &$root->mController->getDB();
+        $db = &\XoopsDatabaseFactory::getDatabaseConnection();
         $table = $db->prefix('groups');
         $table2 = $db->prefix('groups_users_link');
         // check group admin
@@ -199,8 +120,8 @@ class Xworkflow_Utils
     public static function getTargetGroupId($dirname, $dataname, $target_id)
     {
         $gid = false;
-        $trustDirname = basename(dirname(dirname(__FILE__)));
-        XCube_DelegateUtils::call(ucfirst($trustDirname).'_WorkflowClient.GetTargetGroupId', new XCube_Ref($gid), $dirname, $dataname, $target_id);
+        $trustDirname = XoopsUtils::getTrustDirname();
+        \XCube_DelegateUtils::call(ucfirst($trustDirname).'_WorkflowClient.GetTargetGroupId', new \XCube_Ref($gid), $dirname, $dataname, $target_id);
 
         return $gid;
     }

@@ -75,13 +75,13 @@ class Xworkflow_Installer
     {
         $dirname = $this->_mXoopsModule->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
-        $moduleHandler = &Xworkflow_Utils::getXoopsHandler('module');
+        $moduleHandler = &xoops_gethandler('module');
         if (!$moduleHandler->insert($this->_mXoopsModule)) {
             $this->mLog->addError(constant($constpref.'_INSTALL_ERROR_MODULE_INSTALLED'));
 
             return false;
         }
-        $gpermHandler = &Xworkflow_Utils::getXoopsHandler('groupperm');
+        $gpermHandler = &xoops_gethandler('groupperm');
         if ($this->_mXoopsModule->getInfo('hasAdmin')) {
             $adminPerm = &$this->_createPermission(XOOPS_GROUP_ADMIN);
             $adminPerm->set('gperm_name', 'module_admin');
@@ -91,7 +91,7 @@ class Xworkflow_Installer
         }
         if ($this->_mXoopsModule->getInfo('hasMain')) {
             if ($this->_mXoopsModule->getInfo('read_any')) {
-                $memberHandler = &Xworkflow_Utils::getXoopsHandler('member');
+                $memberHandler = &xoops_gethandler('member');
                 $groupObjects = &$memberHandler->getGroups();
                 foreach ($groupObjects as $group) {
                     $readPerm = &$this->_createPermission($group->get('groupid'));
@@ -123,7 +123,7 @@ class Xworkflow_Installer
      */
     private function &_createPermission($gid)
     {
-        $gpermHandler = &Xworkflow_Utils::getXoopsHandler('groupperm');
+        $gpermHandler = &xoops_gethandler('groupperm');
         $perm = &$gpermHandler->create();
         $perm->set('gperm_groupid', $gid);
         $perm->set('gperm_itemid', $this->_mXoopsModule->get('mid'));

@@ -1,10 +1,19 @@
 <?php
 
+namespace Xworkflow\Core;
+
 /**
  * module icon.
  */
-class Xworkflow_ModuleIcon
+class ModuleIcon
 {
+    const ICON_FILE = 'images/module_icon.png';
+
+    /**
+     * letters font map.
+     *
+     * @var array
+     */
     private static $_mLetters = array(
         'a' => ' ###/#   #/#####/#   #/#   #',
         'b' => '####/#   #/####/#   #/####',
@@ -47,21 +56,23 @@ class Xworkflow_ModuleIcon
     );
 
     /**
-     * render module icon.
+     * show module icon.
      *
-     * @param string $fpath        base image file
      * @param string $dirname
-     * @param string $trustDirname
      */
-    public static function render($fpath, $dirname, $trustDirname)
+    public static function show($dirname)
     {
-        self::_prepare();
+        $trustDirnamePath = dirname(dirname(__DIR__));
+        $fpath = $trustDirnamePath.'/'.self::ICON_FILE;
         if (!file_exists($fpath)) {
-            self::_error404();
+            CacheUtils::errorExit(404);
         }
+        $mtime = filemtime($fpath);
+        $etag = md5($fpath.filesize($fpath).$mydirname.$mtime);
+        CacheUtils::check304($mtime, $etag);
         $im = @imagecreatefrompng($fpath);
         if ($im === false) {
-            self::_error404();
+            CacheUtils::errorExit(404);
         }
         $mw = 79; // maximum width of drawing area
         $ox = 47; // offset X
@@ -94,68 +105,10 @@ class Xworkflow_ModuleIcon
             $y = $oy_t;
             self::_writeString($im, $x, $y, $trustDirname, $color_t);
         }
-        self::_showImage($im);
+        CacheUtils::outputImagePng($mtime, $etag, $im);
         imagecolordeallocate($im, $color_d);
         imagecolordeallocate($im, $color_t);
         imagedestroy($im);
-        self::_cleanup();
-    }
-
-    /**
-     * show image.
-     *
-     * @param resource $im
-     */
-    private static function _showImage($im)
-    {
-        $icon_cache_limit = 3600;
-        session_cache_limiter('public');
-        header('Expires: '.date('r', intval(time() / $icon_cache_limit) * $icon_cache_limit + $icon_cache_limit));
-        header('Cache-Control: public, max-age='.$icon_cache_limit);
-        header('Last-Modified: '.date('r', intval(time() / $icon_cache_limit) * $icon_cache_limit));
-        header('Content-Type: image/png');
-        imagepng($im);
-    }
-
-    /**
-     * output 404 Not Found.
-     */
-    private static function _error404()
-    {
-        $error = 'HTTP/1.0 404 Not Found';
-        header($error);
-        echo $error;
-        self::_cleanup();
-    }
-
-    /**
-     * prepare.
-     */
-    private static function _prepare()
-    {
-        self::_clearObFilters();
-    }
-
-    /**
-     * cleanup.
-     */
-    private static function _cleanup()
-    {
-        register_shutdown_function(array(__CLASS__, 'onShutdown'));
-        ob_start();
-        exit();
-    }
-
-    /**
-     * clear ob filters.
-     */
-    private static function _clearObFilters()
-    {
-        $handlers = ob_list_handlers();
-        while (!empty($handlers)) {
-            ob_end_clean();
-            $handlers = ob_list_handlers();
-        }
     }
 
     /**
@@ -236,13 +189,5 @@ class Xworkflow_ModuleIcon
             $width = self::_writeCharacter($im, $x, $y, $ch, $color);
             $x += $width + 1;
         }
-    }
-
-    /**
-     * on shutdown callback handler.
-     */
-    public static function onShutdown()
-    {
-        self::_clearObFilters();
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
+require_once dirname(__DIR__).'/include/common.php';
+
 if (!defined('LEGACY_WORKFLOW_DIRNAME')) {
     define('LEGACY_WORKFLOW_DIRNAME', $mydirname);
 }
-
-require_once dirname(dirname(__FILE__)).'/class/Utils.class.php';
 
 /**
  * asset preload base class.

@@ -1,5 +1,8 @@
 <?php
 
+use Xworkflow\Core\Functions;
+use Xworkflow\Core\XoopsUtils;
+
 require_once dirname(dirname(__FILE__)).'/class/AbstractEditAction.class.php';
 
 /**
@@ -14,7 +17,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
      */
     protected function &_getHandler()
     {
-        $handler = &$this->mAsset->getObject('handler', 'Approval');
+        $handler = &$this->mAsset->getObject('handler', 'ApprovalObject');
 
         return $handler;
     }
@@ -26,9 +29,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
      */
     public function hasPermission()
     {
-        $cnameUtils = ucfirst($this->mAsset->mTrustDirname).'_Utils';
-
-        return $cnameUtils::isAdmin($this->mAsset->mDirname);
+        return XoopsUtils::isAdmin(XoopsUtils::getUid(), $this->mAsset->mDirname);
     }
 
     /**
@@ -70,8 +71,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
         $render->setAttribute('uids', $this->_getUserIds());
         $render->setAttribute('groups', $this->_getGroupList());
         $render->setAttribute('object', $this->mObject);
-        $cnameUtils = ucfirst($this->mAsset->mTrustDirname).'_Utils';
-        $render->setAttribute('clients', $cnameUtils::getClients());
+        $render->setAttribute('clients', Functions::getClients());
     }
 
     /**
@@ -112,8 +112,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
      */
     protected function _getUserIds()
     {
-        $cnameUtils = ucfirst($this->mAsset->mTrustDirname).'_Utils';
-        $memberHandler = &$cnameUtils::getXoopsHandler('member');
+        $memberHandler = &xoops_gethandler('member');
 
         return $memberHandler->getUsersByGroup(XOOPS_GROUP_USERS, false);
     }

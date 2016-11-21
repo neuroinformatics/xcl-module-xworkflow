@@ -1,5 +1,7 @@
 <?php
 
+use Xworkflow\Core\XoopsUtils;
+
 require_once XOOPS_ROOT_PATH.'/core/XCube_ActionForm.class.php';
 require_once XOOPS_MODULE_PATH.'/legacy/class/Legacy_Validator.class.php';
 
@@ -123,7 +125,7 @@ class Xworkflow_ApprovalEditForm extends XCube_ActionForm
     {
         $dirname = $this->mContext->mModule->mXoopsModule->get('dirname');
         $constpref = '_MD_'.strtoupper($dirname);
-        $handler = Legacy_Utils::getModuleHandler('approval', $dirname);
+        $handler = XoopsUtils::getModuleHandler('ApprovalObject', $dirname);
         $target = $this->_getTarget();
         $cri = new CriteriaCompo();
         $cri->add(new Criteria('dirname', $target[0]));

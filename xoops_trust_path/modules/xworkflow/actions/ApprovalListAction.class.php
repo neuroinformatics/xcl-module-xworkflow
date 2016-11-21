@@ -1,5 +1,7 @@
 <?php
 
+use Xworkflow\Core\Functions;
+
 require_once dirname(dirname(__FILE__)).'/class/AbstractListAction.class.php';
 
 /**
@@ -21,7 +23,7 @@ class Xworkflow_ApprovalListAction extends Xworkflow_AbstractListAction
      */
     protected function &_getHandler()
     {
-        $handler = &$this->mAsset->getObject('handler', 'Approval');
+        $handler = &$this->mAsset->getObject('handler', 'ApprovalObject');
 
         return $handler;
     }
@@ -46,8 +48,7 @@ class Xworkflow_ApprovalListAction extends Xworkflow_AbstractListAction
      */
     public function getDefaultView()
     {
-        $cnameUtils = ucfirst($this->mAsset->mTrustDirname).'_Utils';
-        $this->mClients = $cnameUtils::getClients();
+        $this->mClients = Functions::getClients();
         if (count($this->mClients) > 0) {
             $handler = $this->_getHandler();
             foreach ($this->mClients as $dirname => $modules) {

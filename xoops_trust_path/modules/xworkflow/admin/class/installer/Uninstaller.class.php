@@ -63,7 +63,7 @@ class Xworkflow_Uninstaller
     {
         $dirname = $this->_mXoopsModule->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
-        $moduleHandler = &Xworkflow_Utils::getXoopsHandler('module');
+        $moduleHandler = &xoops_gethandler('module');
         if ($moduleHandler->delete($this->_mXoopsModule)) {
             $this->mLog->addReport(constant($constpref.'_INSTALL_MSG_MODULE_INFORMATION_DELETED'));
         } else {
@@ -110,7 +110,7 @@ class Xworkflow_Uninstaller
         $dirname = $this->_mXoopsModule->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
         Xworkflow_InstallUtils::uninstallAllOfBlocks($this->_mXoopsModule, $this->mLog);
-        $tplHandler = &Xworkflow_Utils::getXoopsHandler('tplfile');
+        $tplHandler = &xoops_gethandler('tplfile');
         $cri = new Criteria('tpl_module', $dirname);
         if (!$tplHandler->deleteAll($cri)) {
             $this->mLog->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_TPL_DELETED'), $tplHandler->db->error()));

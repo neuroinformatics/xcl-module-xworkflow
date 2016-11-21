@@ -1,5 +1,7 @@
 <?php
 
+use Xworkflow\Core\XoopsUtils;
+
 require_once dirname(dirname(__FILE__)).'/class/AbstractEditAction.class.php';
 
 /**
@@ -14,7 +16,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
      */
     protected function &_getHandler()
     {
-        $handler = &$this->mAsset->getObject('handler', 'History');
+        $handler = &$this->mAsset->getObject('handler', 'HistoryObject');
 
         return $handler;
     }
@@ -32,7 +34,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
             $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'item'));
         }
         $this->mObject->set('item_id', $this->mRoot->mContext->mRequest->getRequest('item_id'));
-        $this->mObject->set('uid', Legacy_Utils::getUid());
+        $this->mObject->set('uid', XoopsUtils::getUid());
         $this->mObject->loadItem();
         if (!$this->mObject->mItem) {
             // don't accept to edit if item is not found
@@ -42,7 +44,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
             // don't accept to edit if not in progress
             $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'item', $this->mObject->getShow('item_id')));
         }
-        if (!$this->mObject->mItem->checkStep(Legacy_Utils::getUid())) {
+        if (!$this->mObject->mItem->checkStep(XoopsUtils::getUid())) {
             // don't accept to edit if not my approval step
             $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'item', $this->mObject->getShow('item_id')));
         }
@@ -68,7 +70,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
      */
     protected function _doExecute()
     {
-        $iHandler = Legacy_Utils::getModuleHandler('item', $this->mAsset->mDirname);
+        $iHandler = XoopsUtils::getModuleHandler('ItemObject', $this->mAsset->mDirname);
         if ($this->mObjectHandler->insert($this->mObject)) {
             $cname = ucfirst($this->mAsset->mTrustDirname).'_Result';
             if ($this->mObject->get('result') == $cname::APPROVE) {

@@ -1,5 +1,7 @@
 <?php
 
+use Xworkflow\Core\Functions;
+
 /**
  * abstract action.
  */
@@ -198,14 +200,13 @@ abstract class Xworkflow_AbstractAction
      */
     protected function _getGroupList()
     {
-        $cnameUtils = ucfirst($this->mAsset->mTrustDirname).'_Utils';
-        $member_handler = &$cnameUtils::getXoopsHandler('member');
+        $member_handler = &xoops_gethandler('member');
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('groupid', XOOPS_GROUP_USERS, '!='));
         $criteria->add(new Criteria('groupid', XOOPS_GROUP_ANONYMOUS, '!='));
         $groups = $member_handler->getGroupList($criteria);
         $constpref = '_MD_'.strtoupper($this->mAsset->mDirname);
-        if ($cnameUtils::isExtendedGroup()) {
+        if (Functions::isExtendedGroup()) {
             $groups[0] = constant($constpref.'_LANG_GROUP_ADMIN');
         }
         ksort($groups);

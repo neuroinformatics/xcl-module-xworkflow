@@ -1,5 +1,9 @@
 <?php
 
+use Xworkflow\Core\XoopsUtils;
+
+require_once __DIR__.'/include/common.php';
+
 // force load modinfo message catalog
 XCube_Root::getSingleton()->mLanguageManager->loadModinfoMessageCatalog($mydirname);
 
@@ -16,12 +20,10 @@ if (!defined($constpref.'_LOADED')) {
     require_once $fname;
 }
 
-require_once dirname(__FILE__).'/class/Utils.class.php';
-
 // Define a basic manifesto.
 
 $modversion['name'] = constant($constpref.'_NAME');
-$modversion['version'] = 1.1;
+$modversion['version'] = 2.0;
 $modversion['description'] = constant($constpref.'_DESC');
 $modversion['author'] = constant($constpref.'_AUTHOR');
 $modversion['credits'] = constant($constpref.'_CREDITS');
@@ -92,8 +94,7 @@ $modversion['sub'][] = array(
     'name' => constant($constpref.'_SUB_ITEM_LIST'),
     'url' => 'index.php?action=ItemList',
 );
-$cnameUtils = ucfirst($mytrustdirname).'_Utils';
-if ($cnameUtils::isAdmin($mydirname)) {
+if (XoopsUtils::isAdmin(XoopsUtils::getUid(), $mydirname)) {
     $modversion['sub'][] = array(
         'name' => constant($constpref.'_SUB_APPROVAL_LIST'),
         'url' => 'index.php?action=ApprovalList',

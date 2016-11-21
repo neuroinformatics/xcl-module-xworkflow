@@ -82,7 +82,7 @@ class Xworkflow_Updater
     public function setCurrentXoopsModule(&$module)
     {
         $dirname = $module->get('dirname');
-        $moduleHandler = &Xworkflow_Utils::getXoopsHandler('module');
+        $moduleHandler = &xoops_gethandler('module');
         $cloneModule = &$moduleHandler->create();
         $cloneModule->unsetNew();
         $cloneModule->set('mid', $module->get('mid'));
@@ -265,7 +265,7 @@ class Xworkflow_Updater
     {
         $dirname = $module->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
-        $moduleHandler = &Xworkflow_Utils::getXoopsHandler('module');
+        $moduleHandler = &xoops_gethandler('module');
         if ($moduleHandler->insert($module)) {
             $this->mLog->addReport(constant($constpref.'_INSTALL_MSG_UPDATE_FINISHED'));
         } else {

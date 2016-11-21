@@ -173,7 +173,7 @@ class Xworkflow_InstallUtils
         $dirname = $module->get('dirname');
         $trustDirname = $module->getInfo('trust_dirname');
         $constpref = '_MI_'.strtoupper($dirname);
-        $tplHandler = &Xworkflow_Utils::getXoopsHandler('tplfile');
+        $tplHandler = &xoops_gethandler('tplfile');
         $filename = self::replaceDirname(trim($template['file']), $dirname, $trustDirname);
         $tplData = self::readTemplateFile($dirname, $trustDirname, $filename['trust']);
         if ($tplData == false) {
@@ -211,7 +211,7 @@ class Xworkflow_InstallUtils
     {
         $dirname = $module->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
-        $tplHandler = &Xworkflow_Utils::getXoopsHandler('tplfile');
+        $tplHandler = &xoops_gethandler('tplfile');
         $delTemplates = &$tplHandler->find($defaultOnly ? 'default' : null, null, $module->get('mid'));
         if (is_array($delTemplates) && count($delTemplates) > 0) {
             $xoopsTpl = new XoopsTpl();
@@ -258,7 +258,7 @@ class Xworkflow_InstallUtils
         $dirname = $module->get('dirname');
         $visible = isset($block['visible']) ? $block['visible'] : (isset($block['visible_any']) ? $block['visible_any'] : 0);
         $filename = isset($block['template']) ? self::replaceDirname($block['template'], $dirname) : null;
-        $blockHandler = &Xworkflow_Utils::getXoopsHandler('block');
+        $blockHandler = &xoops_gethandler('block');
         $blockObj = &$blockHandler->create();
         $blockObj->set('mid', $module->get('mid'));
         $blockObj->set('options', isset($block['options']) ? $block['options'] : null);
@@ -293,7 +293,7 @@ class Xworkflow_InstallUtils
         $dirname = $module->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
         $isNew = $blockObj->isNew();
-        $blockHandler = &Xworkflow_Utils::getXoopsHandler('block');
+        $blockHandler = &xoops_gethandler('block');
         $autoLink = isset($block['show_all_module']) ? $block['show_all_module'] : false;
         if (!$blockHandler->insert($blockObj, $autoLink)) {
             $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_INSTALLED'), $blockObj->get('name')));
@@ -311,13 +311,13 @@ class Xworkflow_InstallUtils
                 $log->addWarning(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_COULD_NOT_LINK'), $blockObj->get('name')));
             }
         }
-        $gpermHandler = &Xworkflow_Utils::getXoopsHandler('groupperm');
+        $gpermHandler = &xoops_gethandler('groupperm');
         $perm = &$gpermHandler->create();
         $perm->set('gperm_itemid', $blockObj->get('bid'));
         $perm->set('gperm_name', 'block_read');
         $perm->set('gperm_modid', 1);
         if (isset($block['visible_any']) && $block['visible_any']) {
-            $memberHandler = &Xworkflow_Utils::getXoopsHandler('member');
+            $memberHandler = &xoops_gethandler('member');
             $groups = &$memberHandler->getGroups();
             foreach ($groups as $group) {
                 $perm->set('gperm_groupid', $group->get('groupid'));
@@ -358,7 +358,7 @@ class Xworkflow_InstallUtils
         }
         $info = &$module->getInfo('blocks');
         $filename = self::replaceDirname($info[$block->get('func_num')]['template'], $dirname, $trustDirname);
-        $tplHandler = &Xworkflow_Utils::getXoopsHandler('tplfile');
+        $tplHandler = &xoops_gethandler('tplfile');
         $cri = new CriteriaCompo();
         $cri->add(new Criteria('tpl_type', 'block'));
         $cri->add(new Criteria('tpl_tplset', 'default'));
@@ -403,8 +403,8 @@ class Xworkflow_InstallUtils
         $dirname = $module->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
         $successFlag = true;
-        $blockHandler = &Xworkflow_Utils::getXoopsHandler('block');
-        $gpermHandler = &Xworkflow_Utils::getXoopsHandler('groupperm');
+        $blockHandler = &xoops_gethandler('block');
+        $gpermHandler = &xoops_gethandler('groupperm');
         $cri = new Criteria('mid', $module->get('mid'));
         $blocks = &$blockHandler->getObjectsDirectly($cri);
         foreach ($blocks as $block) {
@@ -470,7 +470,7 @@ class Xworkflow_InstallUtils
     public static function updateBlockTemplateByInfo(&$info, &$module, &$log)
     {
         $dirname = $module->get('dirname');
-        $blockHandler = &Xworkflow_Utils::getModuleHandler('newblocks', 'legacy');
+        $blockHandler = &xoops_getmodulehandler('newblocks', 'legacy');
         $cri = new CriteriaCompo();
         $cri->add(new Criteria('dirname', $dirname));
         $cri->add(new Criteria('func_num', $info->mFuncNum));
@@ -493,7 +493,7 @@ class Xworkflow_InstallUtils
         $dirname = $module->get('dirname');
         $trustDirname = $module->getInfo('trust_dirname');
         $constpref = '_MI_'.strtoupper($dirname);
-        $blockHandler = &Xworkflow_Utils::getModuleHandler('newblocks', 'legacy');
+        $blockHandler = &xoops_getmodulehandler('newblocks', 'legacy');
         $cri = new CriteriaCompo();
         $cri->add(new Criteria('dirname', $dirname));
         $cri->add(new Criteria('func_num', $info->mFuncNum));
@@ -531,7 +531,7 @@ class Xworkflow_InstallUtils
         $trustDirname = $module->getInfo('trust_dirname');
         $constpref = '_MI_'.strtoupper($dirname);
         $filename = self::replaceDirname($info->mTemplate, $dirname, $trustDirname);
-        $blockHandler = &Xworkflow_Utils::getXoopsHandler('block');
+        $blockHandler = &xoops_gethandler('block');
         $block = &$blockHandler->create();
         $block->set('mid', $module->get('mid'));
         $block->set('func_num', $info->mFuncNum);
@@ -569,7 +569,7 @@ class Xworkflow_InstallUtils
     {
         $dirname = $module->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
-        $blockHandler = &Xworkflow_Utils::getModuleHandler('newblocks', 'legacy');
+        $blockHandler = &xoops_getmodulehandler('newblocks', 'legacy');
         $cri = new CriteriaCompo();
         $cri->add(new Criteria('dirname', $dirname));
         $cri->add(new Criteria('func_num', $func_num));
@@ -601,7 +601,7 @@ class Xworkflow_InstallUtils
     {
         $dirname = $module->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
-        $tplHandler = &Xworkflow_Utils::getXoopsHandler('tplfile');
+        $tplHandler = &xoops_gethandler('tplfile');
         $delTemplates = &$tplHandler->find($defaultOnly ? 'default' : null, 'block', $module->get('mid'), $dirname, $block->get('template'));
         if (is_array($delTemplates) && count($delTemplates) > 0) {
             foreach ($delTemplates as $tpl) {
@@ -628,7 +628,7 @@ class Xworkflow_InstallUtils
         $dirname = $module->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
         $successFlag = true;
-        $configHandler = &Xworkflow_Utils::getXoopsHandler('config');
+        $configHandler = &xoops_gethandler('config');
         $fileReader = new Legacy_ModinfoX2FileReader($dirname);
         $preferences = $fileReader->loadPreferenceInformations();
         foreach ($preferences->mPreferences as $info) {
@@ -673,7 +673,7 @@ class Xworkflow_InstallUtils
     {
         $dirname = $module->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
-        $configHandler = &Xworkflow_Utils::getXoopsHandler('config');
+        $configHandler = &xoops_gethandler('config');
         $config = &$configHandler->createConfig();
         $config->set('conf_modid', $module->get('mid'));
         $config->set('conf_catid', 0);
@@ -715,7 +715,7 @@ class Xworkflow_InstallUtils
         if ($module->get('hasconfig') == 0) {
             return true;
         }
-        $configHandler = &Xworkflow_Utils::getXoopsHandler('config');
+        $configHandler = &xoops_gethandler('config');
         $configs = &$configHandler->getConfigs(new Criteria('conf_modid', $module->get('mid')));
         if (count($configs) == 0) {
             return true;
@@ -744,7 +744,7 @@ class Xworkflow_InstallUtils
     {
         $dirname = $module->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
-        $configHandler = &Xworkflow_Utils::getXoopsHandler('config');
+        $configHandler = &xoops_gethandler('config');
         $cri = new CriteriaCompo();
         $cri->add(new Criteria('conf_modid', $module->get('mid')));
         $cri->add(new Criteria('conf_catid', 0));
@@ -806,7 +806,7 @@ class Xworkflow_InstallUtils
     {
         $dirname = $module->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
-        $configHandler = &Xworkflow_Utils::getXoopsHandler('config');
+        $configHandler = &xoops_gethandler('config');
         $cri = new CriteriaCompo();
         $cri->add(new Criteria('conf_modid', $module->get('mid')));
         $cri->add(new Criteria('conf_catid', 0));
@@ -868,7 +868,7 @@ class Xworkflow_InstallUtils
     {
         $dirname = $module->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
-        $configHandler = &Xworkflow_Utils::getXoopsHandler('config');
+        $configHandler = &xoops_gethandler('config');
         $cri = new CriteriaCompo();
         $cri->add(new Criteria('conf_modid', $module->get('mid')));
         $cri->add(new Criteria('conf_catid', 0));

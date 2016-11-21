@@ -1,5 +1,7 @@
 <?php
 
+use Xworkflow\Core\XoopsUtils;
+
 /**
  * asset manager.
  */
@@ -139,8 +141,7 @@ class Xworkflow_AssetManager
                 $className = $this->_getActionFormName($name, $isAdmin, $mode);
                 break;
             case 'handler':
-                $className = $this->_getHandlerName($name);
-                break;
+                return XoopsUtils::getModuleHandler($name, $this->mDirname);
             default:
                 return $instance;
             }
@@ -188,21 +189,6 @@ class Xworkflow_AssetManager
         $className = ucfirst($this->mTrustDirname).($isAdmin ? '_Admin_' : '_').$name;
 
         return ($this->_loadClassFile($this->_getPublicPath($isAdmin).$path, $className) || $this->_loadClassFile($this->_getTrustPath($isAdmin).$path, $className)) ? $className : null;
-    }
-
-    /**
-     * get handler name.
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    private function _getHandlerName($name)
-    {
-        $path = 'class/handler/'.ucfirst($name).'.class.php';
-        $className = ucfirst($this->mTrustDirname).'_'.ucfirst($name).'Handler';
-
-        return ($this->_loadClassFile($this->_getPublicPath().$path, $className) || $this->_loadClassFile($this->_getTrustPath().$path, $className)) ? $className : null;
     }
 
     /**

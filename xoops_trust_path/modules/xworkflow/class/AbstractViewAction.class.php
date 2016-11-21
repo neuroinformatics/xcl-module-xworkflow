@@ -29,7 +29,7 @@ abstract class Xworkflow_AbstractViewAction extends Xworkflow_AbstractAction
         $req = $this->mRoot->mContext->mRequest;
         $dataId = $req->getRequest(_REQUESTED_DATA_ID);
 
-        return isset($dataId) ? intval($dataId) : intval($req->getRequest($this->_getHandler()->mPrimary));
+        return isset($dataId) ? intval($dataId) : intval($req->getRequest($this->_getHandler()->getPrimaryKey()));
     }
 
     /**
@@ -60,7 +60,7 @@ abstract class Xworkflow_AbstractViewAction extends Xworkflow_AbstractAction
     {
         $id = $this->_getId();
         $this->mObjectHandler = &$this->_getHandler();
-        $this->mObject = &$this->mObjectHandler->get($id);
+        $this->mObject = $this->mObjectHandler->get($id);
     }
 
     /**

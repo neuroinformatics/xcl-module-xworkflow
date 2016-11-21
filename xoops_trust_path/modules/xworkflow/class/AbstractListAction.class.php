@@ -80,7 +80,7 @@ abstract class Xworkflow_AbstractListAction extends Xworkflow_AbstractAction
         $this->mFilter = &$this->_getFilterForm();
         $this->mFilter->fetch();
         $handler = &$this->_getHandler();
-        $this->mObjects = &$handler->getObjects($this->mFilter->getCriteria());
+        $this->mObjects = $handler->getObjects($this->mFilter->getCriteria());
 
         return $this->_getFrameViewStatus('INDEX');
     }

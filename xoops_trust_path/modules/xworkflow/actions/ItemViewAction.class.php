@@ -1,5 +1,8 @@
 <?php
 
+use Xworkflow\Core\Functions;
+use Xworkflow\Core\XoopsUtils;
+
 require_once dirname(dirname(__FILE__)).'/class/AbstractViewAction.class.php';
 
 /**
@@ -21,7 +24,7 @@ class Xworkflow_ItemViewAction extends Xworkflow_AbstractViewAction
      */
     protected function &_getHandler()
     {
-        $handler = &$this->mAsset->getObject('handler', 'Item');
+        $handler = &$this->mAsset->getObject('handler', 'ItemObject');
 
         return $handler;
     }
@@ -47,7 +50,7 @@ class Xworkflow_ItemViewAction extends Xworkflow_AbstractViewAction
             return false;
         }
         $this->mObject->loadHistory();
-        if ($this->mObject->checkStep(Legacy_Utils::getUid())) {
+        if ($this->mObject->checkStep(XoopsUtils::getUid())) {
             $this->mMyStep = true;
             $this->_setupActionForm();
         }
@@ -77,8 +80,7 @@ class Xworkflow_ItemViewAction extends Xworkflow_AbstractViewAction
         if ($this->mMyStep == true) {
             $render->setAttribute('actionForm', $this->mActionForm);
         }
-        $cnameUtils = ucfirst($this->mAsset->mTrustDirname).'_Utils';
-        $render->setAttribute('clients', $cnameUtils::getClients());
+        $render->setAttribute('clients', Functions::getClients());
     }
 
     /**

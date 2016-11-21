@@ -1,5 +1,7 @@
 <?php
 
+use Xworkflow\Core\XoopsUtils;
+
 /**
  * workflow delegate.
  */
@@ -18,7 +20,7 @@ class Xworkflow_WorkflowDelegate implements Legacy_iWorkflowDelegate
      */
     public static function addItem($title, $dirname, $dataname, $target_id,  $url)
     {
-        $handler = Legacy_Utils::getModuleHandler('item', self::_getDirname());
+        $handler = XoopsUtils::getModuleHandler('ItemObject', self::_getDirname());
         $objs = $handler->getObjects(self::_getItemCriteria($dirname, $dataname, $target_id));
         if (count($objs) == 0) {
             $obj = $handler->create();
@@ -27,13 +29,13 @@ class Xworkflow_WorkflowDelegate implements Legacy_iWorkflowDelegate
             $obj->set('dataname', $dataname);
             $obj->set('target_id', $target_id);
             $obj->set('url', $url);
-            $obj->set('uid', Legacy_Utils::getUid());
+            $obj->set('uid', XoopsUtils::getUid());
             $obj->setFirstStep();
             $handler->insert($obj);
         } elseif (count($objs) == 1) {
             $obj = array_shift($objs);
             $obj->set('title', $title);
-            $obj->set('status', Lenum_WorkflowStatus::PROGRESS);
+            $obj->set('status', \Lenum_WorkflowStatus::PROGRESS);
             $obj->set('url', $url);
             $obj->set('updatetime', time());
             $obj->setFirstStep();
@@ -53,7 +55,7 @@ class Xworkflow_WorkflowDelegate implements Legacy_iWorkflowDelegate
      */
     public static function deleteItem($dirname, $dataname, $target_id)
     {
-        $handler = Legacy_Utils::getModuleHandler('item', self::_getDirname());
+        $handler = XoopsUtils::getModuleHandler('ItemObject', self::_getDirname());
         $objs = $handler->getObjects(self::_getItemCriteria($dirname, $dataname, $target_id));
         if (count($objs) == 1) {
             $handler->delete($objs[0]);
@@ -72,7 +74,7 @@ class Xworkflow_WorkflowDelegate implements Legacy_iWorkflowDelegate
      */
     public static function getHistory(&$historyArr, $dirname, $dataname, $target_id)
     {
-        $handler = Legacy_Utils::getModuleHandler('item', self::_getDirname());
+        $handler = XoopsUtils::getModuleHandler('ItemObject', self::_getDirname());
         $objs = $handler->getObjects(self::_getItemCriteria($dirname, $dataname, $target_id));
         if (count($objs) == 1) {
             $obj = array_shift($objs);

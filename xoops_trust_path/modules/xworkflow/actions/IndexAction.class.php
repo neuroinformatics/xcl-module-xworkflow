@@ -1,5 +1,7 @@
 <?php
 
+use Xworkflow\Core\XoopsUtils;
+
 require_once dirname(__FILE__).'/ItemListAction.class.php';
 
 /**
@@ -16,7 +18,7 @@ class Xworkflow_IndexAction extends Xworkflow_ItemListAction
     {
         $this->mFilter = &$this->_getFilterForm();
         $this->mFilter->fetch();
-        $uid = Legacy_Utils::getUid();
+        $uid = XoopsUtils::getUid();
         $this->mObjects = $this->_getHandler()->getProgressItemsByUserId($uid);
         $this->_mIsMyTask = true;
 

@@ -1,5 +1,8 @@
 <?php
 
+use Xworkflow\Core\Functions;
+use Xworkflow\Core\XoopsUtils;
+
 require_once dirname(dirname(__FILE__)).'/class/AbstractDeleteAction.class.php';
 
 /**
@@ -14,7 +17,7 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
      */
     protected function &_getHandler()
     {
-        $handler = &$this->mAsset->getObject('handler', 'Approval');
+        $handler = &$this->mAsset->getObject('handler', 'ApprovalObject');
 
         return $handler;
     }
@@ -26,9 +29,7 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
      */
     public function hasPermission()
     {
-        $cnameUtils = ucfirst($this->mAsset->mTrustDirname).'_Utils';
-
-        return $cnameUtils::isAdmin($this->mAsset->mDirname);
+        return XoopsUtils::isAdmin(XoopsUtils::getUid(), $this->mAsset->mDirname);
     }
 
     /**
@@ -65,8 +66,7 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
         $render->setAttribute('actionForm', $this->mActionForm);
         $render->setAttribute('groups', $this->_getGroupList());
         $render->setAttribute('object', $this->mObject);
-        $cnameUtils = ucfirst($this->mAsset->mTrustDirname).'_Utils';
-        $render->setAttribute('clients', $cnameUtils::getClients());
+        $render->setAttribute('clients', Functions::getClients());
     }
 
     /**

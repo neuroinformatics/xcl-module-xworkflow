@@ -42,7 +42,7 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
         parent::prepare();
         if ($this->mObject->countProgressItem() > 0) {
             $constpref = '_MD_'.strtoupper($this->mAsset->mDirname);
-            $this->mRoot->mController->executeRedirect(Legacy_Utils::renderUri($this->mAsset->mDirname, 'approval'), 1, constant($constpref.'_ERROR_ITEM_REMAINS'));
+            $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'), 1, constant($constpref.'_ERROR_ITEM_REMAINS'));
         }
     }
 
@@ -76,7 +76,7 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
      */
     public function executeViewSuccess(&$render)
     {
-        $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'approval'));
+        $this->mRoot->mController->executeForward(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'));
     }
 
     /**
@@ -87,7 +87,7 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
     public function executeViewError(&$render)
     {
         $constpref = '_MD_'.strtoupper($this->mAsset->mDirname);
-        $this->mRoot->mController->executeRedirect(Legacy_Utils::renderUri($this->mAsset->mDirname, 'approval'), 1, constant($constpref.'_ERROR_DBUPDATE_FAILED'));
+        $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'), 1, constant($constpref.'_ERROR_DBUPDATE_FAILED'));
     }
 
     /**
@@ -97,6 +97,6 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
      */
     public function executeViewCancel(&$render)
     {
-        $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'approval'));
+        $this->mRoot->mController->executeForward(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'));
     }
 }

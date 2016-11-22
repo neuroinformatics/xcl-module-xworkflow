@@ -17,6 +17,13 @@ class XoopsUtils
     private static $mHandlers = array();
 
     /**
+     * configs cache.
+     *
+     * @var array
+     */
+    private static $mConfigs = array();
+
+    /**
      * user membership cache.
      *
      * @var array
@@ -100,6 +107,31 @@ class XoopsUtils
     }
 
     /**
+     * format page title.
+     *
+     * @param string $moduleName
+     * @param string $pageTitle
+     * @param string $action
+     *
+     * @return string
+     **/
+    public static function formatPagetitle($moduleName, $pageTitle, $action)
+    {
+        $format = self::getModuleConfig('legacyRender', 'pagetitle');
+        if (is_null($format)) {
+            $format = '{modulename} {action} [pagetitle]:[/pagetitle] {pagetitle}';
+        }
+        $search = array('{modulename}', '{pagetitle}', '{action}');
+        $replace = array($moduleName, $pageTitle, $action);
+        $ret = str_replace($search, $replace, $format);
+        $ret = preg_replace('/\[modulename\](.*)\[\/modulename\]/U', (empty($moduleName) ? '' : '$1'), $ret);
+        $ret = preg_replace('/\[pagetitle\](.*)\[\/pagetitle\]/U', (empty($pageTitle) ? '' : '$1'), $ret);
+        $ret = preg_replace('/\[action\](.*)\[\/action\]/U', (empty($action) ? '' : '$1'), $ret);
+
+        return $ret;
+    }
+
+    /**
      * get module handler.
      *
      * @param string $name
@@ -130,7 +162,50 @@ class XoopsUtils
     }
 
     /**
-     * get module configs.
+     * get xoops config.
+     *
+     * @param string $key
+     * @param string $catId
+     *
+     * @return mixed
+     */
+    public static function getXoopsConfig($key, $catId = XOOPS_CONF)
+    {
+        $configHandler = &xoops_gethandler('config');
+        $configArr = $configHandler->getConfigsByCat($catId);
+        if (defined('XOOPS_CUBE_LEGACY')) {
+            switch ($catId) {
+            case XOOPS_CONF:
+                static $keysMap = array(
+                    'user' => array('avatar_minposts', 'maxuname', 'sslloginlink', 'sslpost_name', 'use_ssl', 'usercookie'),
+                    'legacyRender' => array('banners'),
+                );
+                foreach ($keyMap as $dirname => $keys) {
+                    foreach ($keys as $key) {
+                        $configArr[$key] = self::getModuleConfig($dirname, $key);
+                    }
+                }
+                break;
+            case XOOPS_CONF_USER:
+            case XOOPS_CONF_METAFOOTER:
+                static $configDirname = array(
+                    XOOPS_CONF_USER => 'user',
+                    XOOPS_CONF_METAFOOTER => 'legacyRender',
+                );
+                $dirname = $configDirname[$catId];
+                if (!array_key_exists($dirname, self::$mConfigs)) {
+                    self::$mConfigs[$dirname] = $configHandler->getConfigsByDirname($dirname);
+                }
+                $configArr = self::$mConfigs[$dirname];
+                break;
+            }
+        }
+
+        return array_key_exists($key, $configArr) ? $configArr[$key] : null;
+    }
+
+    /**
+     * get module config.
      *
      * @param string $dirname
      * @param string $key
@@ -139,10 +214,69 @@ class XoopsUtils
      */
     public static function getModuleConfig($dirname, $key)
     {
-        $configHandler = &xoops_gethandler('config');
-        $configArr = $configHandler->getConfigsByDirname($dirname);
+        if (!array_key_exists($dirname, self::$mConfigs)) {
+            $configHandler = &xoops_gethandler('config');
+            self::$mConfigs[$dirname] = $configHandler->getConfigsByDirname($dirname);
+        }
+        if (is_null(self::$mConfigs[$dirname])) {
+            // dirname not found
+            return null;
+        }
 
-        return $configArr[$key];
+        return array_key_exists($key, self::$mConfigs[$dirname]) ? self::$mConfigs[$dirname][$key] : null;
+    }
+
+    /**
+     * render uri.
+     *
+     * @param string $dirname
+     * @param string $dataname
+     * @param int    $dataId
+     * @param string $action
+     * @param string $query
+     *
+     * @return string
+     **/
+    public static function renderUri($dirname, $dataname = null, $dataId = 0, $action = null, $query = null)
+    {
+        $uri = null;
+        if (self::getXoopsConfig('cool_uri') == true) {
+            if (isset($dataname)) {
+                if ($dataId > 0) {
+                    if (isset($action)) {
+                        $uri = sprintf('/%s/%s/%d/%s', $dirname, $dataname, $dataId, $action);
+                    } else {
+                        $uri = sprintf('/%s/%s/%d', $dirname, $dataname, $dataId);
+                    }
+                } else {
+                    if (isset($action)) {
+                        $uri = sprintf('/%s/%s/%s', $dirname, $dataname, $action);
+                    } else {
+                        $uri = sprintf('/%s/%s', $dirname, $dataname);
+                    }
+                }
+            } else {
+                if ($dataId > 0) {
+                    if (isset($action)) {
+                        die();
+                    } else {
+                        $uri = sprintf('/%s/%d', $dirname, $dataId);
+                    }
+                } else {
+                    if (isset($action)) {
+                        die();
+                    } else {
+                        $uri = '/'.$dirname;
+                    }
+                }
+            }
+            $uri = (isset($query)) ? XOOPS_URL.$uri.'?'.$query : XOOPS_URL.$uri;
+        } else {
+            \XCube_DelegateUtils::call('Module.'.$dirname.'.Global.Event.GetNormalUri', new \XCube_Ref($uri), $dirname, $dataname, $dataId, $action, $query);
+            $uri = XOOPS_MODULE_URL.$uri;
+        }
+
+        return $uri;
     }
 
     /**

@@ -31,22 +31,22 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
         parent::prepare();
         if (!$this->mObject->isNew()) {
             // don't accept to edit previous history data
-            $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'item'));
+            $this->mRoot->mController->executeForward(XoopsUtils::renderUri($this->mAsset->mDirname, 'item'));
         }
         $this->mObject->set('item_id', $this->mRoot->mContext->mRequest->getRequest('item_id'));
         $this->mObject->set('uid', XoopsUtils::getUid());
         $this->mObject->loadItem();
         if (!$this->mObject->mItem) {
             // don't accept to edit if item is not found
-            $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'item'));
+            $this->mRoot->mController->executeForward(XoopsUtils::renderUri($this->mAsset->mDirname, 'item'));
         }
         if ($this->mObject->mItem->get('status') != Lenum_WorkflowStatus::PROGRESS) {
             // don't accept to edit if not in progress
-            $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'item', $this->mObject->getShow('item_id')));
+            $this->mRoot->mController->executeForward(XoopsUtils::renderUri($this->mAsset->mDirname, 'item', $this->mObject->getShow('item_id')));
         }
         if (!$this->mObject->mItem->checkStep(XoopsUtils::getUid())) {
             // don't accept to edit if not my approval step
-            $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'item', $this->mObject->getShow('item_id')));
+            $this->mRoot->mController->executeForward(XoopsUtils::renderUri($this->mAsset->mDirname, 'item', $this->mObject->getShow('item_id')));
         }
         $this->mObject->mItem->loadHistory();
         $this->mObject->set('step', $this->mObject->mItem->get('step'));
@@ -104,7 +104,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
      */
     public function executeViewSuccess(&$render)
     {
-        $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'item', $this->mObject->get('item_id'), 'view'));
+        $this->mRoot->mController->executeForward(XoopsUtils::renderUri($this->mAsset->mDirname, 'item', $this->mObject->get('item_id'), 'view'));
     }
 
     /**
@@ -115,7 +115,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
     public function executeViewError(&$render)
     {
         $constpref = 'MD_'.strtoupper($this->mAsset->mDirname);
-        $this->mRoot->mController->executeRedirect(Legacy_Utils::renderUri($this->mAsset->mDirname, 'item'), 1, constant($constpref.'_ERROR_DBUPDATE_FAILED'));
+        $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'item'), 1, constant($constpref.'_ERROR_DBUPDATE_FAILED'));
     }
 
     /**
@@ -125,6 +125,6 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
      */
     public function executeViewCancel(&$render)
     {
-        $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'item'));
+        $this->mRoot->mController->executeForward(XoopsUtils::renderUri($this->mAsset->mDirname, 'item'));
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Xworkflow\Core\Functions;
+use Xworkflow\Core\XoopsUtils;
 
 require_once dirname(dirname(__FILE__)).'/class/AbstractListAction.class.php';
 
@@ -73,7 +74,7 @@ class Xworkflow_ApprovalListAction extends Xworkflow_AbstractListAction
      */
     protected function _getBaseUrl()
     {
-        return Legacy_Utils::renderUri($this->mAsset->mDirname, 'approval');
+        return XoopsUtils::renderUri($this->mAsset->mDirname, 'approval');
     }
 
     /**

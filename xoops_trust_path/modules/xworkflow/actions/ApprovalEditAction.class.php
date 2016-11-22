@@ -42,7 +42,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
         parent::prepare();
         if (!$this->mObject->isNew() && $this->mObject->countProgressItem() > 0) {
             $constpref = '_MD_'.strtoupper($this->mAsset->mDirname);
-            $this->mRoot->mController->executeRedirect(Legacy_Utils::renderUri($this->mAsset->mDirname, 'approval'), 1, constant($constpref.'_ERROR_ITEM_REMAINS'));
+            $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'), 1, constant($constpref.'_ERROR_ITEM_REMAINS'));
         }
         if ($this->mObject->isNew()) {
             $this->mObject->set('dirname', $this->mRoot->mContext->mRequest->getRequest('dirname'));
@@ -81,7 +81,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
      */
     public function executeViewSuccess(&$render)
     {
-        $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'approval'));
+        $this->mRoot->mController->executeForward(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'));
     }
 
     /**
@@ -92,7 +92,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
     public function executeViewError(&$render)
     {
         $constpref = '_MD_'.strtoupper($this->mAsset->mDirname);
-        $this->mRoot->mController->executeRedirect(Legacy_Utils::renderUri($this->mAsset->mDirname, 'approval'), 1, constant($constpref.'_ERROR_DBUPDATE_FAILED'));
+        $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'), 1, constant($constpref.'_ERROR_DBUPDATE_FAILED'));
     }
 
     /**
@@ -102,7 +102,7 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
      */
     public function executeViewCancel(&$render)
     {
-        $this->mRoot->mController->executeForward(Legacy_Utils::renderUri($this->mAsset->mDirname, 'approval'));
+        $this->mRoot->mController->executeForward(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'));
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use Xworkflow\Core\Functions;
+use Xworkflow\Core\XoopsUtils;
 
 /**
  * abstract action.
@@ -65,7 +66,7 @@ abstract class Xworkflow_AbstractAction
      */
     public function getPagetitle()
     {
-        return Legacy_Utils::formatPagetitle($this->mRoot->mContext->mModule->mXoopsModule->get('name'), $this->_getPagetitle(), $this->_getActionName());
+        return XoopsUtils::formatPagetitle($this->mRoot->mContext->mModule->mXoopsModule->get('name'), $this->_getPagetitle(), $this->_getActionName());
     }
 
     /**

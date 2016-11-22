@@ -284,12 +284,12 @@ abstract class AbstractObjectHandler extends AbstractHandler
         }
         if ($obj->isNew() || $isReplace) {
             $cmd = $isReplace ? 'REPLACE' : 'INSERT';
-            $fieldsArr = array_keys($varArr);
+            $fieldsArr = array_keys($varsArr);
             $sql = $cmd.' INTO `'.$this->mTable.'` ( '.implode(', ', $fieldsArr).' ) VALUES ( '.implode(', ', $varsArr).' )';
         } else {
             $keyField = '`'.$this->mPrimaryKey.'`';
-            $where = $keyField.'='.$varArr[$keyField];
-            foreach ($varArr as $field => $value) {
+            $where = $keyField.'='.$varsArr[$keyField];
+            foreach ($varsArr as $field => $value) {
                 if ($field != $keyField) {
                     $setArr[] = $field.'='.$value;
                 }

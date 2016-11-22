@@ -58,7 +58,7 @@ class ItemObjectHandler extends AbstractObjectHandler
         }
         if ($this->insert($obj)) {
             $result = null;
-            \XCube_DelegateUtils::call('Legacy_WorkflowClient.UpdateStatus', new XCube_Ref($result), $obj->get('dirname'), $obj->get('dataname'), $obj->get('target_id'), $obj->get('status'));
+            \XCube_DelegateUtils::call('Legacy_WorkflowClient.UpdateStatus', new \XCube_Ref($result), $obj->get('dirname'), $obj->get('dataname'), $obj->get('target_id'), $obj->get('status'));
 
             return true;
         }
@@ -87,7 +87,7 @@ class ItemObjectHandler extends AbstractObjectHandler
         }
         if ($this->insert($obj)) {
             $result = null;
-            \XCube_DelegateUtils::call('Legacy_WorkflowClient.UpdateStatus', new XCube_Ref($result), $obj->get('dirname'), $obj->get('dataname'), $obj->get('target_id'), $obj->get('status'));
+            \XCube_DelegateUtils::call('Legacy_WorkflowClient.UpdateStatus', new \XCube_Ref($result), $obj->get('dirname'), $obj->get('dataname'), $obj->get('target_id'), $obj->get('status'));
 
             return true;
         }

@@ -38,9 +38,9 @@ class HistoryObject extends AbstractObject
      */
     public function loadItem()
     {
-        if (is_null($this->_mItem)) {
+        if (is_null($this->mItem)) {
             $iHandler = XoopsUtils::getModuleHandler('ItemObject', $this->mDirname);
-            $this->mItem = &$iHandler->get($this->get('item_id'));
+            $this->mItem = $iHandler->get($this->get('item_id'));
         }
     }
 

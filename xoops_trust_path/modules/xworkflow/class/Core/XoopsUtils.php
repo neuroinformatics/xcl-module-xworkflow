@@ -180,7 +180,7 @@ class XoopsUtils
                     'user' => array('avatar_minposts', 'maxuname', 'sslloginlink', 'sslpost_name', 'use_ssl', 'usercookie'),
                     'legacyRender' => array('banners'),
                 );
-                foreach ($keyMap as $dirname => $keys) {
+                foreach ($keysMap as $dirname => $keys) {
                     foreach ($keys as $key) {
                         $configArr[$key] = self::getModuleConfig($dirname, $key);
                     }

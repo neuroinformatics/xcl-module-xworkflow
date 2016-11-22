@@ -74,27 +74,27 @@ class XoopsUtils
     /**
      * get module constant string.
      *
-     * @param string $type
      * @param string $dirname
+     * @param string $type
      * @param string $name
      *
      * @return string
      */
-    public static function getModuleConstant($type, $dirname, $name)
+    public static function getModuleConstant($dirname, $type, $name)
     {
-        return constant(self::getModuleConstantName($type, $dirname, $name));
+        return constant(self::getModuleConstantName($dirname, $type, $name));
     }
 
     /**
      * get module constant name.
      *
-     * @param string $type
      * @param string $dirname
+     * @param string $type
      * @param string $name
      *
      * @return string
      */
-    public static function getModuleConstantName($type, $dirname, $name)
+    public static function getModuleConstantName($dirname, $type, $name)
     {
         static $mTypes = array(
             'modinfo' => 'MI',

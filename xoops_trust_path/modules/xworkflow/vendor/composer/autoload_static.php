@@ -10,6 +10,7 @@ class ComposerStaticInite6d23cfe9d8081b8bb10e73c30323454
         'X' => 
         array (
             'Xworkflow\\Object\\' => 17,
+            'Xworkflow\\Installer\\' => 20,
             'Xworkflow\\Handler\\' => 18,
             'Xworkflow\\Core\\' => 15,
         ),
@@ -19,6 +20,10 @@ class ComposerStaticInite6d23cfe9d8081b8bb10e73c30323454
         'Xworkflow\\Object\\' => 
         array (
             0 => __DIR__ . '/../..' . '/class/Object',
+        ),
+        'Xworkflow\\Installer\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/class/Installer',
         ),
         'Xworkflow\\Handler\\' => 
         array (

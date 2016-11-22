@@ -1,6 +1,7 @@
 <?php
 
-require_once dirname(__FILE__).'/InstallUtils.class.php';
+use Xworkflow\Core\XCubeUtils;
+use Xworkflow\Installer\InstallUtils;
 
 /**
  * updater class.
@@ -170,8 +171,8 @@ class Xworkflow_Updater
      */
     private function _updateModuleTemplates()
     {
-        Xworkflow_InstallUtils::uninstallAllOfModuleTemplates($this->_mTargetXoopsModule, $this->mLog);
-        Xworkflow_InstallUtils::installAllOfModuleTemplates($this->_mTargetXoopsModule, $this->mLog);
+        InstallUtils::uninstallAllOfModuleTemplates($this->_mTargetXoopsModule, $this->mLog);
+        InstallUtils::installAllOfModuleTemplates($this->_mTargetXoopsModule, $this->mLog);
     }
 
     /**
@@ -179,7 +180,7 @@ class Xworkflow_Updater
      */
     private function _updateBlocks()
     {
-        Xworkflow_InstallUtils::smartUpdateAllOfBlocks($this->_mTargetXoopsModule, $this->mLog);
+        InstallUtils::smartUpdateAllOfBlocks($this->_mTargetXoopsModule, $this->mLog);
     }
 
     /**
@@ -187,7 +188,7 @@ class Xworkflow_Updater
      */
     private function _updatePreferences()
     {
-        Xworkflow_InstallUtils::smartUpdateAllOfConfigs($this->_mTargetXoopsModule, $this->mLog);
+        InstallUtils::smartUpdateAllOfConfigs($this->_mTargetXoopsModule, $this->mLog);
     }
 
     /**
@@ -281,9 +282,9 @@ class Xworkflow_Updater
         $dirname = $this->_mCurrentXoopsModule->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
         if (!$this->mLog->hasError()) {
-            $this->mLog->add(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_MODULE_UPDATED'), $this->_mCurrentXoopsModule->get('name')));
+            $this->mLog->add(XCubeUtils::formatString(constant($constpref.'_INSTALL_MSG_MODULE_UPDATED'), $this->_mCurrentXoopsModule->get('name')));
         } else {
-            $this->mLog->add(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_UPDATED'), $this->_mCurrentXoopsModule->get('name')));
+            $this->mLog->add(XCubeUtils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_UPDATED'), $this->_mCurrentXoopsModule->get('name')));
         }
     }
 }

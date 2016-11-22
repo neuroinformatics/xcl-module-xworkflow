@@ -3,7 +3,8 @@
         "psr-4": {
             "Xworkflow\\Core\\": "class/Core/",
             "Xworkflow\\Object\\": "class/Object/",
-            "Xworkflow\\Handler\\": "class/Handler/"
+            "Xworkflow\\Handler\\": "class/Handler/",
+            "Xworkflow\\Installer\\": "class/Installer/"
         }
     }
 }

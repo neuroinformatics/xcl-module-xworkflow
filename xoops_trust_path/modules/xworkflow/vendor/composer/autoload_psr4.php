@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Xworkflow\\Object\\' => array($baseDir . '/class/Object'),
+    'Xworkflow\\Installer\\' => array($baseDir . '/class/Installer'),
     'Xworkflow\\Handler\\' => array($baseDir . '/class/Handler'),
     'Xworkflow\\Core\\' => array($baseDir . '/class/Core'),
 );

@@ -1,6 +1,7 @@
 <?php
 
-require_once dirname(__FILE__).'/InstallUtils.class.php';
+use Xworkflow\Core\XCubeUtils;
+use Xworkflow\Installer\InstallUtils;
 
 /**
  * uninstaller class.
@@ -86,9 +87,9 @@ class Xworkflow_Uninstaller
                 $tableName = str_replace(array('{prefix}', '{dirname}'), array(XOOPS_DB_PREFIX, $dirname), $table);
                 $sql = sprintf('DROP TABLE `%s`;', $tableName);
                 if ($db->query($sql)) {
-                    $this->mLog->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_TABLE_DOROPPED'), $tableName));
+                    $this->mLog->addReport(XCubeUtils::formatString(constant($constpref.'_INSTALL_MSG_TABLE_DOROPPED'), $tableName));
                 } else {
-                    $this->mLog->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_TABLE_DOROPPED'), $tableName));
+                    $this->mLog->addError(XCubeUtils::formatString(constant($constpref.'_INSTALL_ERROR_TABLE_DOROPPED'), $tableName));
                 }
             }
         }
@@ -99,7 +100,7 @@ class Xworkflow_Uninstaller
      */
     private function _uninstallTemplates()
     {
-        Xworkflow_InstallUtils::uninstallAllOfModuleTemplates($this->_mXoopsModule, $this->mLog, false);
+        InstallUtils::uninstallAllOfModuleTemplates($this->_mXoopsModule, $this->mLog, false);
     }
 
     /**
@@ -109,11 +110,11 @@ class Xworkflow_Uninstaller
     {
         $dirname = $this->_mXoopsModule->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
-        Xworkflow_InstallUtils::uninstallAllOfBlocks($this->_mXoopsModule, $this->mLog);
+        InstallUtils::uninstallAllOfBlocks($this->_mXoopsModule, $this->mLog);
         $tplHandler = &xoops_gethandler('tplfile');
         $cri = new Criteria('tpl_module', $dirname);
         if (!$tplHandler->deleteAll($cri)) {
-            $this->mLog->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_TPL_DELETED'), $tplHandler->db->error()));
+            $this->mLog->addError(XCubeUtils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_TPL_DELETED'), $tplHandler->db->error()));
         }
     }
 
@@ -122,7 +123,7 @@ class Xworkflow_Uninstaller
      */
     private function _uninstallPreferences()
     {
-        Xworkflow_InstallUtils::uninstallAllOfConfigs($this->_mXoopsModule, $this->mLog);
+        InstallUtils::uninstallAllOfConfigs($this->_mXoopsModule, $this->mLog);
     }
 
     /**
@@ -133,11 +134,11 @@ class Xworkflow_Uninstaller
         $dirname = $this->_mXoopsModule->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
         if (!$this->mLog->hasError()) {
-            $this->mLog->add(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_MODULE_UNINSTALLED'), $this->_mXoopsModule->get('name')));
+            $this->mLog->add(XCubeUtils::formatString(constant($constpref.'_INSTALL_MSG_MODULE_UNINSTALLED'), $this->_mXoopsModule->get('name')));
         } elseif (is_object($this->_mXoopsModule)) {
-            $this->mLog->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_UNINSTALLED'), $this->_mXoopsModule->get('name')));
+            $this->mLog->addError(XCubeUtils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_UNINSTALLED'), $this->_mXoopsModule->get('name')));
         } else {
-            $this->mLog->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_UNINSTALLED'), 'something'));
+            $this->mLog->addError(XCubeUtils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_UNINSTALLED'), 'something'));
         }
     }
 

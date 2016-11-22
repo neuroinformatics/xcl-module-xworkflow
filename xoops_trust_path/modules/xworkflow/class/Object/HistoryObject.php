@@ -55,11 +55,11 @@ class HistoryObject extends AbstractObject
         $cnameResult = ucfirst($trustDirname).'_Result';
         switch ($this->get('result')) {
         case $cnameResult::HOLD:
-            return XoopsUtils::getModuleConstant('main', $this->mDirname, 'LANG_RESULT_HOLD');
+            return XoopsUtils::getModuleConstant($this->mDirname, 'main', 'LANG_RESULT_HOLD');
         case $cnameResult::REJECT:
-            return XoopsUtils::getModuleConstant('main', $this->mDirname, 'LANG_RESULT_REJECT');
+            return XoopsUtils::getModuleConstant($this->mDirname, 'main', 'LANG_RESULT_REJECT');
         case $cnameResult::APPROVE:
-            return XoopsUtils::getModuleConstant('main', $this->mDirname, 'LANG_RESULT_APPROVE');
+            return XoopsUtils::getModuleConstant($this->mDirname, 'main', 'LANG_RESULT_APPROVE');
         }
 
         return '';

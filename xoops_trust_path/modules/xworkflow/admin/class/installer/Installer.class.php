@@ -1,6 +1,7 @@
 <?php
 
-require_once dirname(__FILE__).'/InstallUtils.class.php';
+use Xworkflow\Core\XCubeUtils;
+use Xworkflow\Installer\InstallUtils;
 
 /**
  * module installer class.
@@ -63,7 +64,7 @@ class Xworkflow_Installer
      */
     private function _installTables()
     {
-        Xworkflow_InstallUtils::installSQLAutomatically($this->_mXoopsModule, $this->mLog);
+        InstallUtils::installSQLAutomatically($this->_mXoopsModule, $this->mLog);
     }
 
     /**
@@ -137,7 +138,7 @@ class Xworkflow_Installer
      */
     private function _installTemplates()
     {
-        Xworkflow_InstallUtils::installAllOfModuleTemplates($this->_mXoopsModule, $this->mLog);
+        InstallUtils::installAllOfModuleTemplates($this->_mXoopsModule, $this->mLog);
     }
 
     /**
@@ -145,7 +146,7 @@ class Xworkflow_Installer
      */
     private function _installBlocks()
     {
-        Xworkflow_InstallUtils::installAllOfBlocks($this->_mXoopsModule, $this->mLog);
+        InstallUtils::installAllOfBlocks($this->_mXoopsModule, $this->mLog);
     }
 
     /**
@@ -153,7 +154,7 @@ class Xworkflow_Installer
      */
     private function _installPreferences()
     {
-        Xworkflow_InstallUtils::installAllOfConfigs($this->_mXoopsModule, $this->mLog);
+        InstallUtils::installAllOfConfigs($this->_mXoopsModule, $this->mLog);
     }
 
     /**
@@ -164,11 +165,11 @@ class Xworkflow_Installer
         $dirname = $this->_mXoopsModule->get('dirname');
         $constpref = '_MI_'.strtoupper($dirname);
         if (!$this->mLog->hasError()) {
-            $this->mLog->add(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_MODULE_INSTALLED'), $this->_mXoopsModule->getInfo('name')));
+            $this->mLog->add(XCubeUtils::formatString(constant($constpref.'_INSTALL_MSG_MODULE_INSTALLED'), $this->_mXoopsModule->getInfo('name')));
         } elseif (is_object($this->_mXoopsModule)) {
-            $this->mLog->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_INSTALLED'), $this->_mXoopsModule->getInfo('name')));
+            $this->mLog->addError(XCubeUtils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_INSTALLED'), $this->_mXoopsModule->getInfo('name')));
         } else {
-            $this->mLog->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_INSTALLED'), 'something'));
+            $this->mLog->addError(XCubeUtils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_INSTALLED'), 'something'));
         }
     }
 

@@ -1,9 +1,14 @@
 <?php
 
+namespace Xworkflow\Installer;
+
+use Xworkflow\Core\XoopsUtils;
+use Xworkflow\Core\XCubeUtils;
+
 /**
  * install utilities class.
  */
-class Xworkflow_InstallUtils
+class InstallUtils
 {
     /**
      * install sql automatically.
@@ -20,7 +25,6 @@ class Xworkflow_InstallUtils
         );
         $dirname = $module->get('dirname');
         $trustDirname = $module->getInfo('trust_dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         $sqlFileInfo = &$module->getInfo('sqlfile');
         $dbType = (isset($sqlfileInfo[XOOPS_DB_TYPE]) || !isset($dbTypeAliases[XOOPS_DB_TYPE])) ? XOOPS_DB_TYPE : $dbTypeAliases[XOOPS_DB_TYPE];
         if (!isset($sqlFileInfo[$dbType])) {
@@ -32,16 +36,16 @@ class Xworkflow_InstallUtils
             $sqlFilePath = sprintf('%s/modules/%s/%s', XOOPS_TRUST_PATH, $trustDirname, $sqlFile);
         }
         require_once XOOPS_MODULE_PATH.'/legacy/admin/class/Legacy_SQLScanner.class.php';
-        $scanner = new Legacy_SQLScanner();
+        $scanner = new \Legacy_SQLScanner();
         $scanner->setDB_PREFIX(XOOPS_DB_PREFIX);
         $scanner->setDirname($dirname);
         if (!$scanner->loadFile($sqlFilePath)) {
-            $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_SQL_FILE_NOT_FOUND'), $sqlFile));
+            $log->addError(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_SQL_FILE_NOT_FOUND'), $sqlFile));
 
             return false;
         }
         $scanner->parse();
-        $root = &XCube_Root::getSingleton();
+        $root = &\XCube_Root::getSingleton();
         $db = &$root->mController->getDB();
         foreach ($scanner->getSQL() as $sql) {
             if (!$db->query($sql)) {
@@ -50,7 +54,7 @@ class Xworkflow_InstallUtils
                 return false;
             }
         }
-        $log->addReport(constant($constpref.'_INSTALL_MSG_DB_SETUP_FINISHED'));
+        $log->addReport(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_DB_SETUP_FINISHED'));
 
         return true;
     }
@@ -67,21 +71,20 @@ class Xworkflow_InstallUtils
     public static function DBquery($query, &$module, &$log)
     {
         $dirname = $module->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         require_once XOOPS_MODULE_PATH.'/legacy/admin/class/Legacy_SQLScanner.class.php';
-        $scanner = new Legacy_SQLScanner();
+        $scanner = new \Legacy_SQLScanner();
         $scanner->setDB_PREFIX(XOOPS_DB_PREFIX);
         $scanner->setDirname($dirname);
         $scanner->setBuffer($query);
         $scanner->parse();
         $sqls = $scanner->getSQL();
-        $root = &XCube_Root::getSingleton();
+        $root = &\XCube_Root::getSingleton();
         $successFlag = true;
         foreach ($sqls as $sql) {
             if ($root->mController->mDB->query($sql)) {
-                $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_SQL_SUCCESS'), $sql));
+                $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_SQL_SUCCESS'), $sql));
             } else {
-                $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_SQL_ERROR'), $sql));
+                $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_SQL_ERROR'), $sql));
                 $successFlag = false;
             }
         }
@@ -172,7 +175,6 @@ class Xworkflow_InstallUtils
     {
         $dirname = $module->get('dirname');
         $trustDirname = $module->getInfo('trust_dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         $tplHandler = &xoops_gethandler('tplfile');
         $filename = self::replaceDirname(trim($template['file']), $dirname, $trustDirname);
         $tplData = self::readTemplateFile($dirname, $trustDirname, $filename['trust']);
@@ -190,9 +192,9 @@ class Xworkflow_InstallUtils
         $tplFile->set('tpl_file', $filename['public']);
         $tplFile->set('tpl_desc', isset($template['description']) ? $template['description'] : '');
         if ($tplHandler->insert($tplFile)) {
-            $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_TPL_INSTALLED'), $filename['public']));
+            $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_TPL_INSTALLED'), $filename['public']));
         } else {
-            $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_TPL_INSTALLED'), $filename['public']));
+            $log->addError(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_TPL_INSTALLED'), $filename['public']));
 
             return false;
         }
@@ -210,15 +212,14 @@ class Xworkflow_InstallUtils
     public static function uninstallAllOfModuleTemplates(&$module, &$log, $defaultOnly = true)
     {
         $dirname = $module->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         $tplHandler = &xoops_gethandler('tplfile');
         $delTemplates = &$tplHandler->find($defaultOnly ? 'default' : null, null, $module->get('mid'));
         if (is_array($delTemplates) && count($delTemplates) > 0) {
-            $xoopsTpl = new XoopsTpl();
+            $xoopsTpl = new \XoopsTpl();
             $xoopsTpl->clear_cache(null, 'mod_'.$dirname);
             foreach ($delTemplates as $tpl) {
                 if (!$tplHandler->delete($tpl)) {
-                    $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_TPL_UNINSTALLED'), $tpl->get('tpl_file')));
+                    $log->addError(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_TPL_UNINSTALLED'), $tpl->get('tpl_file')));
                 }
             }
         }
@@ -291,16 +292,15 @@ class Xworkflow_InstallUtils
     public static function installBlock(&$module, &$blockObj, &$block, &$log)
     {
         $dirname = $module->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         $isNew = $blockObj->isNew();
         $blockHandler = &xoops_gethandler('block');
         $autoLink = isset($block['show_all_module']) ? $block['show_all_module'] : false;
         if (!$blockHandler->insert($blockObj, $autoLink)) {
-            $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_INSTALLED'), $blockObj->get('name')));
+            $log->addError(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_BLOCK_INSTALLED'), $blockObj->get('name')));
 
             return false;
         }
-        $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_BLOCK_INSTALLED'), $blockObj->get('name')));
+        $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_BLOCK_INSTALLED'), $blockObj->get('name')));
         self::installBlockTemplate($blockObj, $module, $log);
         if (!$isNew) {
             return true;
@@ -308,7 +308,7 @@ class Xworkflow_InstallUtils
         if ($autoLink) {
             $sql = sprintf('INSERT INTO `%s` (`block_id`, `module_id`) VALUES (%d, 0);', $blockHandler->db->prefix('block_module_link'), $blockObj->get('bid'));
             if (!$blockHandler->db->query($sql)) {
-                $log->addWarning(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_COULD_NOT_LINK'), $blockObj->get('name')));
+                $log->addWarning(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_BLOCK_COULD_NOT_LINK'), $blockObj->get('name')));
             }
         }
         $gpermHandler = &xoops_gethandler('groupperm');
@@ -323,7 +323,7 @@ class Xworkflow_InstallUtils
                 $perm->set('gperm_groupid', $group->get('groupid'));
                 $perm->setNew();
                 if (!$gpermHandler->insert($perm)) {
-                    $log->addWarning(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_PERM_COULD_NOT_SET'), $blockObj->get('name')));
+                    $log->addWarning(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_PERM_COULD_NOT_SET'), $blockObj->get('name')));
                 }
             }
         } else {
@@ -331,7 +331,7 @@ class Xworkflow_InstallUtils
                 $perm->set('gperm_groupid', $group);
                 $perm->setNew();
                 if (!$gpermHandler->insert($perm)) {
-                    $log->addWarning(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_PERM_SET'), $blockObj->get('name')));
+                    $log->addWarning(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_BLOCK_PERM_SET'), $blockObj->get('name')));
                 }
             }
         }
@@ -352,18 +352,17 @@ class Xworkflow_InstallUtils
     {
         $dirname = $module->get('dirname');
         $trustDirname = $module->getInfo('trust_dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         if ($block->get('template') == null) {
             return true;
         }
         $info = &$module->getInfo('blocks');
         $filename = self::replaceDirname($info[$block->get('func_num')]['template'], $dirname, $trustDirname);
         $tplHandler = &xoops_gethandler('tplfile');
-        $cri = new CriteriaCompo();
-        $cri->add(new Criteria('tpl_type', 'block'));
-        $cri->add(new Criteria('tpl_tplset', 'default'));
-        $cri->add(new Criteria('tpl_module', $dirname));
-        $cri->add(new Criteria('tpl_file', $filename['public']));
+        $cri = new \CriteriaCompo();
+        $cri->add(new \Criteria('tpl_type', 'block'));
+        $cri->add(new \Criteria('tpl_tplset', 'default'));
+        $cri->add(new \Criteria('tpl_module', $dirname));
+        $cri->add(new \Criteria('tpl_file', $filename['public']));
         $tpls = &$tplHandler->getObjects($cri);
         if (count($tpls) > 0) {
             $tplFile = &$tpls[0];
@@ -381,11 +380,11 @@ class Xworkflow_InstallUtils
         $tplFile->set('tpl_source', $tplSource);
         $tplFile->set('tpl_lastmodified', time());
         if (!$tplHandler->insert($tplFile)) {
-            $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_TPL_INSTALLED'), $filename['public']));
+            $log->addError(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_BLOCK_TPL_INSTALLED'), $filename['public']));
 
             return false;
         }
-        $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_BLOCK_TPL_INSTALLED'), $filename['public']));
+        $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_BLOCK_TPL_INSTALLED'), $filename['public']));
 
         return true;
     }
@@ -401,25 +400,24 @@ class Xworkflow_InstallUtils
     public static function uninstallAllOfBlocks(&$module, &$log)
     {
         $dirname = $module->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         $successFlag = true;
         $blockHandler = &xoops_gethandler('block');
         $gpermHandler = &xoops_gethandler('groupperm');
-        $cri = new Criteria('mid', $module->get('mid'));
+        $cri = new \Criteria('mid', $module->get('mid'));
         $blocks = &$blockHandler->getObjectsDirectly($cri);
         foreach ($blocks as $block) {
             if ($blockHandler->delete($block)) {
-                $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_BLOCK_UNINSTALLED'), $block->get('name')));
+                $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_BLOCK_UNINSTALLED'), $block->get('name')));
             } else {
-                $log->addWarning(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_UNINSTALLED'), $block->get('name')));
+                $log->addWarning(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_BLOCK_UNINSTALLED'), $block->get('name')));
                 $successFlag = false;
             }
-            $cri = new CriteriaCompo();
-            $cri->add(new Criteria('gperm_name', 'block_read'));
-            $cri->add(new Criteria('gperm_itemid', $block->get('bid')));
-            $cri->add(new Criteria('gperm_modid', 1));
+            $cri = new \CriteriaCompo();
+            $cri->add(new \Criteria('gperm_name', 'block_read'));
+            $cri->add(new \Criteria('gperm_itemid', $block->get('bid')));
+            $cri->add(new \Criteria('gperm_modid', 1));
             if (!$gpermHandler->deleteAll($cri)) {
-                $log->addWarning(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_PERM_DELETE'), $block->get('name')));
+                $log->addWarning(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_BLOCK_PERM_DELETE'), $block->get('name')));
                 $successFlag = false;
             }
         }
@@ -436,8 +434,8 @@ class Xworkflow_InstallUtils
     public static function smartUpdateAllOfBlocks(&$module, &$log)
     {
         $dirname = $module->get('dirname');
-        $fileReader = new Legacy_ModinfoX2FileReader($dirname);
-        $dbReader = new Legacy_ModinfoX2DBReader($dirname);
+        $fileReader = new \Legacy_ModinfoX2FileReader($dirname);
+        $dbReader = new \Legacy_ModinfoX2DBReader($dirname);
         $blocks = &$dbReader->loadBlockInformations();
         $blocks->update($fileReader->loadBlockInformations());
         foreach ($blocks->mBlocks as $block) {
@@ -471,9 +469,9 @@ class Xworkflow_InstallUtils
     {
         $dirname = $module->get('dirname');
         $blockHandler = &xoops_getmodulehandler('newblocks', 'legacy');
-        $cri = new CriteriaCompo();
-        $cri->add(new Criteria('dirname', $dirname));
-        $cri->add(new Criteria('func_num', $info->mFuncNum));
+        $cri = new \CriteriaCompo();
+        $cri->add(new \Criteria('dirname', $dirname));
+        $cri->add(new \Criteria('func_num', $info->mFuncNum));
         $blocks = &$blockHandler->getObjects($cri);
         foreach ($blocks as $block) {
             self::uninstallBlockTemplate($block, $module, $log, true);
@@ -492,11 +490,10 @@ class Xworkflow_InstallUtils
     {
         $dirname = $module->get('dirname');
         $trustDirname = $module->getInfo('trust_dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         $blockHandler = &xoops_getmodulehandler('newblocks', 'legacy');
-        $cri = new CriteriaCompo();
-        $cri->add(new Criteria('dirname', $dirname));
-        $cri->add(new Criteria('func_num', $info->mFuncNum));
+        $cri = new \CriteriaCompo();
+        $cri->add(new \Criteria('dirname', $dirname));
+        $cri->add(new \Criteria('func_num', $info->mFuncNum));
         $blocks = &$blockHandler->getObjects($cri);
         foreach ($blocks as $block) {
             $filename = self::replaceDirname($info->mTemplate, $dirname, $trustDirname);
@@ -507,9 +504,9 @@ class Xworkflow_InstallUtils
             // $block->set('edit_func', $info->mEditFunc);
             $block->set('template', $filename['public']);
             if ($blockHandler->insert($block)) {
-                $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_BLOCK_UPDATED'), $block->get('name')));
+                $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_BLOCK_UPDATED'), $block->get('name')));
             } else {
-                $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_UPDATED'), $block->get('name')));
+                $log->addError(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_BLOCK_UPDATED'), $block->get('name')));
             }
             self::uninstallBlockTemplate($block, $module, $log, true);
             self::installBlockTemplate($block, $module, $log);
@@ -529,7 +526,6 @@ class Xworkflow_InstallUtils
     {
         $dirname = $module->get('dirname');
         $trustDirname = $module->getInfo('trust_dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         $filename = self::replaceDirname($info->mTemplate, $dirname, $trustDirname);
         $blockHandler = &xoops_gethandler('block');
         $block = &$blockHandler->create();
@@ -546,11 +542,11 @@ class Xworkflow_InstallUtils
         $block->set('block_type', 'M');
         $block->set('c_type', 1);
         if (!$blockHandler->insert($block)) {
-            $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_INSTALLED'), $block->get('name')));
+            $log->addError(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_BLOCK_INSTALLED'), $block->get('name')));
 
             return false;
         }
-        $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_BLOCK_INSTALLED'), $block->get('name')));
+        $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_BLOCK_INSTALLED'), $block->get('name')));
         self::installBlockTemplate($block, $module, $log);
 
         return true;
@@ -568,18 +564,17 @@ class Xworkflow_InstallUtils
     public static function uninstallBlockByFuncNum($func_num, &$module, &$log)
     {
         $dirname = $module->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         $blockHandler = &xoops_getmodulehandler('newblocks', 'legacy');
-        $cri = new CriteriaCompo();
-        $cri->add(new Criteria('dirname', $dirname));
-        $cri->add(new Criteria('func_num', $func_num));
+        $cri = new \CriteriaCompo();
+        $cri->add(new \Criteria('dirname', $dirname));
+        $cri->add(new \Criteria('func_num', $func_num));
         $blocks = &$blockHandler->getObjects($cri);
         $successFlag = true;
         foreach ($blocks as $block) {
             if ($blockHandler->delete($block)) {
-                $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_BLOCK_UNINSTALLED'), $block->get('name')));
+                $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_BLOCK_UNINSTALLED'), $block->get('name')));
             } else {
-                $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_UNINSTALLED'), $block->get('name')));
+                $log->addError(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_BLOCK_UNINSTALLED'), $block->get('name')));
                 $successFlag = false;
             }
         }
@@ -600,17 +595,16 @@ class Xworkflow_InstallUtils
     public static function uninstallBlockTemplate(&$block, &$module, &$log, $defaultOnly = false)
     {
         $dirname = $module->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         $tplHandler = &xoops_gethandler('tplfile');
         $delTemplates = &$tplHandler->find($defaultOnly ? 'default' : null, 'block', $module->get('mid'), $dirname, $block->get('template'));
         if (is_array($delTemplates) && count($delTemplates) > 0) {
             foreach ($delTemplates as $tpl) {
                 if (!$tplHandler->delete($tpl)) {
-                    $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_TPL_UNINSTALLED'), $tpl->get('tpl_file')));
+                    $log->addError(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_TPL_UNINSTALLED'), $tpl->get('tpl_file')));
                 }
             }
         }
-        $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_BLOCK_TPL_UNINSTALLED'), $block->get('template')));
+        $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_BLOCK_TPL_UNINSTALLED'), $block->get('template')));
 
         return true;
     }
@@ -626,10 +620,9 @@ class Xworkflow_InstallUtils
     public static function installAllOfConfigs(&$module, &$log)
     {
         $dirname = $module->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         $successFlag = true;
         $configHandler = &xoops_gethandler('config');
-        $fileReader = new Legacy_ModinfoX2FileReader($dirname);
+        $fileReader = new \Legacy_ModinfoX2FileReader($dirname);
         $preferences = $fileReader->loadPreferenceInformations();
         foreach ($preferences->mPreferences as $info) {
             $config = &$configHandler->createConfig();
@@ -652,9 +645,9 @@ class Xworkflow_InstallUtils
                 }
             }
             if ($configHandler->insertConfig($config)) {
-                $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_CONFIG_ADDED'), $config->get('conf_name')));
+                $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_CONFIG_ADDED'), $config->get('conf_name')));
             } else {
-                $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_CONFIG_ADDED'), $config->get('conf_name')));
+                $log->addError(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_CONFIG_ADDED'), $config->get('conf_name')));
                 $successFlag = false;
             }
         }
@@ -672,7 +665,6 @@ class Xworkflow_InstallUtils
     public static function installConfigByInfo(&$info, &$module, &$log)
     {
         $dirname = $module->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         $configHandler = &xoops_gethandler('config');
         $config = &$configHandler->createConfig();
         $config->set('conf_modid', $module->get('mid'));
@@ -694,9 +686,9 @@ class Xworkflow_InstallUtils
             }
         }
         if ($configHandler->insertConfig($config)) {
-            $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_CONFIG_ADDED'), $config->get('conf_name')));
+            $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_CONFIG_ADDED'), $config->get('conf_name')));
         } else {
-            $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_CONFIG_ADDED'), $config->get('conf_name')));
+            $log->addError(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_CONFIG_ADDED'), $config->get('conf_name')));
         }
     }
 
@@ -711,21 +703,20 @@ class Xworkflow_InstallUtils
     public static function uninstallAllOfConfigs(&$module, &$log)
     {
         $dirname = $module->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         if ($module->get('hasconfig') == 0) {
             return true;
         }
         $configHandler = &xoops_gethandler('config');
-        $configs = &$configHandler->getConfigs(new Criteria('conf_modid', $module->get('mid')));
+        $configs = &$configHandler->getConfigs(new \Criteria('conf_modid', $module->get('mid')));
         if (count($configs) == 0) {
             return true;
         }
         $sucessFlag = true;
         foreach ($configs as $config) {
             if ($configHandler->deleteConfig($config)) {
-                $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_CONFIG_DELETED'), $config->get('conf_name')));
+                $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_CONFIG_DELETED'), $config->get('conf_name')));
             } else {
-                $log->addWarning(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_CONFIG_DELETED'), $config->get('conf_name')));
+                $log->addWarning(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_CONFIG_DELETED'), $config->get('conf_name')));
                 $sucessFlag = false;
             }
         }
@@ -743,18 +734,17 @@ class Xworkflow_InstallUtils
     public static function uninstallConfigByOrder($order, &$module, &$log)
     {
         $dirname = $module->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         $configHandler = &xoops_gethandler('config');
-        $cri = new CriteriaCompo();
-        $cri->add(new Criteria('conf_modid', $module->get('mid')));
-        $cri->add(new Criteria('conf_catid', 0));
-        $cri->add(new Criteria('conf_order', $order));
+        $cri = new \CriteriaCompo();
+        $cri->add(new \Criteria('conf_modid', $module->get('mid')));
+        $cri->add(new \Criteria('conf_catid', 0));
+        $cri->add(new \Criteria('conf_order', $order));
         $configs = $configHandler->getConfigs($cri);
         foreach ($configs as $config) {
             if ($configHandler->deleteConfig($config)) {
-                $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_CONFIG_DELETED'), $config->get('conf_name')));
+                $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_CONFIG_DELETED'), $config->get('conf_name')));
             } else {
-                $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_CONFIG_DELETED'), $config->get('conf_name')));
+                $log->addError(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_CONFIG_DELETED'), $config->get('conf_name')));
             }
         }
     }
@@ -768,9 +758,8 @@ class Xworkflow_InstallUtils
     public static function smartUpdateAllOfConfigs(&$module, &$log)
     {
         $dirname = $module->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
-        $fileReader = new Legacy_ModinfoX2FileReader($dirname);
-        $dbReader = new Legacy_ModinfoX2DBReader($dirname);
+        $fileReader = new \Legacy_ModinfoX2FileReader($dirname);
+        $dbReader = new \Legacy_ModinfoX2DBReader($dirname);
         $configs = &$dbReader->loadPreferenceInformations();
         $configs->update($fileReader->loadPreferenceInformations());
         foreach ($configs->mPreferences as $config) {
@@ -805,15 +794,14 @@ class Xworkflow_InstallUtils
     public static function updateConfigByInfo(&$info, &$module, &$log)
     {
         $dirname = $module->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         $configHandler = &xoops_gethandler('config');
-        $cri = new CriteriaCompo();
-        $cri->add(new Criteria('conf_modid', $module->get('mid')));
-        $cri->add(new Criteria('conf_catid', 0));
-        $cri->add(new Criteria('conf_name', $info->mName));
+        $cri = new \CriteriaCompo();
+        $cri->add(new \Criteria('conf_modid', $module->get('mid')));
+        $cri->add(new \Criteria('conf_catid', 0));
+        $cri->add(new \Criteria('conf_name', $info->mName));
         $configs = &$configHandler->getConfigs($cri);
         if (!(count($configs) > 0 && is_object($configs[0]))) {
-            $log->addError(constant($constpref.'_INSTALL_ERROR_CONFIG_NOT_FOUND'));
+            $log->addError(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_CONFIG_NOT_FOUND'));
 
             return false;
         }
@@ -829,7 +817,7 @@ class Xworkflow_InstallUtils
             $config->set('conf_valuetype', $info->mValueType);
         }
         $config->set('conf_order', $info->mOrder);
-        $options = &$configHandler->getConfigOptions(new Criteria('conf_id', $config->get('conf_id')));
+        $options = &$configHandler->getConfigOptions(new \Criteria('conf_id', $config->get('conf_id')));
         if (is_array($options)) {
             foreach ($options as $opt) {
                 $configHandler->_oHandler->delete($opt);
@@ -846,11 +834,11 @@ class Xworkflow_InstallUtils
             }
         }
         if (!$configHandler->insertConfig($config)) {
-            $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_CONFIG_UPDATED'), $config->get('conf_name')));
+            $log->addError(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_CONFIG_UPDATED'), $config->get('conf_name')));
 
             return false;
         }
-        $log->addReport(XCube_Utils::formatString(constant($constpref.'_INSTALL_MSG_CONFIG_UPDATED'), $config->get('conf_name')));
+        $log->addReport(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_MSG_CONFIG_UPDATED'), $config->get('conf_name')));
 
         return true;
     }
@@ -867,22 +855,21 @@ class Xworkflow_InstallUtils
     public static function updateConfigOrderByInfo(&$info, &$module, &$log)
     {
         $dirname = $module->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
         $configHandler = &xoops_gethandler('config');
-        $cri = new CriteriaCompo();
-        $cri->add(new Criteria('conf_modid', $module->get('mid')));
-        $cri->add(new Criteria('conf_catid', 0));
-        $cri->add(new Criteria('conf_name', $info->mName));
+        $cri = new \CriteriaCompo();
+        $cri->add(new \Criteria('conf_modid', $module->get('mid')));
+        $cri->add(new \Criteria('conf_catid', 0));
+        $cri->add(new \Criteria('conf_name', $info->mName));
         $configs = &$configHandler->getConfigs($cri);
         if (!(count($configs) > 0 && is_object($configs[0]))) {
-            $log->addError(constant($constpref.'_INSTALL_ERROR_CONFIG_NOT_FOUND'));
+            $log->addError(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_CONFIG_NOT_FOUND'));
 
             return false;
         }
         $config = &$configs[0];
         $config->set('conf_order', $info->mOrder);
         if (!$configHandler->insertConfig($config)) {
-            $log->addError(XCube_Utils::formatString(constant($constpref.'_INSTALL_ERROR_CONFIG_UPDATED'), $config->get('conf_name')));
+            $log->addError(XCubeUtils::formatString(XoopsUtils::getModuleConstant($dirname, 'modinfo', 'INSTALL_ERROR_CONFIG_UPDATED'), $config->get('conf_name')));
 
             return false;
         }

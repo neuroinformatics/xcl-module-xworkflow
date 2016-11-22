@@ -95,13 +95,13 @@ class ItemObject extends AbstractObject
     {
         switch ($this->get('status')) {
         case \Lenum_WorkflowStatus::DELETED:
-            return XoopsUtils::getModuleConstant('main', $this->mDirname, 'LANG_STATUS_DELETED');
+            return XoopsUtils::getModuleConstant($this->mDirname, 'main', 'LANG_STATUS_DELETED');
         case \Lenum_WorkflowStatus::REJECTED:
-            return XoopsUtils::getModuleConstant('main', $this->mDirname, 'LANG_STATUS_REJECTED');
+            return XoopsUtils::getModuleConstant($this->mDirname, 'main', 'LANG_STATUS_REJECTED');
         case \Lenum_WorkflowStatus::PROGRESS:
-            return XoopsUtils::getModuleConstant('main', $this->mDirname, 'LANG_STATUS_PROGRESS');
+            return XoopsUtils::getModuleConstant($this->mDirname, 'main', 'LANG_STATUS_PROGRESS');
         case \Lenum_WorkflowStatus::FINISHED:
-            return XoopsUtils::getModuleConstant('main', $this->mDirname, 'LANG_STATUS_FINISHED');
+            return XoopsUtils::getModuleConstant($this->mDirname, 'main', 'LANG_STATUS_FINISHED');
         }
 
         return '';

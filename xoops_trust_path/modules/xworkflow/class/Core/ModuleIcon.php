@@ -63,12 +63,13 @@ class ModuleIcon
     public static function show($dirname)
     {
         $trustDirnamePath = dirname(dirname(__DIR__));
+        $trustDirname = basename($trustDirnamePath);
         $fpath = $trustDirnamePath.'/'.self::ICON_FILE;
         if (!file_exists($fpath)) {
             CacheUtils::errorExit(404);
         }
         $mtime = filemtime($fpath);
-        $etag = md5($fpath.filesize($fpath).$mydirname.$mtime);
+        $etag = md5($fpath.filesize($fpath).$dirname.$mtime);
         CacheUtils::check304($mtime, $etag);
         $im = @imagecreatefrompng($fpath);
         if ($im === false) {

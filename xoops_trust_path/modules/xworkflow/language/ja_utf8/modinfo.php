@@ -51,7 +51,7 @@ define($constpref.'_INSTALL_MSG_TABLE_DOROPPED', 'テーブル"{0}"を削除し�
 define($constpref.'_INSTALL_ERROR_TABLE_DOROPPED', 'テーブル"{0}"が削除できませんでした。');
 define($constpref.'_INSTALL_ERROR_BLOCK_TPL_DELETED', 'ブロックテンプレートが削除できませんでした。<br />{0}');
 define($constpref.'_INSTALL_MSG_MODULE_UNINSTALLED', 'モジュール"{0}"をアンインストールしました。');
-define($constpref.'_INSTALL_ERROR_MODULOE_UNINSTALLED', 'モジュール"{0}"がアンインストールできませんでした。');
+define($constpref.'_INSTALL_ERROR_MODULE_UNINSTALLED', 'モジュール"{0}"がアンインストールできませんでした。');
 define($constpref.'_INSTALL_MSG_UPDATE_STARTED', 'モジュールのアップデートを開始します。');
 define($constpref.'_INSTALL_MSG_UPDATE_FINISHED', 'モジュールのアップデートが終了しました。');
 define($constpref.'_INSTALL_ERROR_UPDATE_FINISHED', 'モジュールのアップデートに失敗しました。');

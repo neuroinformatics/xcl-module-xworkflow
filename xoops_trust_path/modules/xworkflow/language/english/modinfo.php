@@ -51,7 +51,7 @@ define($constpref.'_INSTALL_MSG_TABLE_DOROPPED', 'Table "{0}" is doropped.');
 define($constpref.'_INSTALL_ERROR_TABLE_DOROPPED', 'Table "{0}" could not doropped.');
 define($constpref.'_INSTALL_ERROR_BLOCK_TPL_DELETED', 'Block template could not deleted.<br />{0}');
 define($constpref.'_INSTALL_MSG_MODULE_UNINSTALLED', 'Module "{0}" is uninstalled.');
-define($constpref.'_INSTALL_ERROR_MODULOE_UNINSTALLED', 'Module "{0}" could not uninstalled.');
+define($constpref.'_INSTALL_ERROR_MODULE_UNINSTALLED', 'Module "{0}" could not uninstalled.');
 define($constpref.'_INSTALL_MSG_UPDATE_STARTED', 'Module update started.');
 define($constpref.'_INSTALL_MSG_UPDATE_FINISHED', 'Module update is finished.');
 define($constpref.'_INSTALL_ERROR_UPDATE_FINISHED', 'Module could not updated.');

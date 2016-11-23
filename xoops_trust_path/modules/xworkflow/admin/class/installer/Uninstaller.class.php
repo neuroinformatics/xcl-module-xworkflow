@@ -1,5 +1,6 @@
 <?php
 
+use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XCubeUtils;
 use Xworkflow\Installer\InstallUtils;
 
@@ -63,12 +64,12 @@ class Xworkflow_Uninstaller
     private function _uninstallModule()
     {
         $dirname = $this->_mXoopsModule->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
+        $langman = new LanguageManager($dirname, 'modinfo');
         $moduleHandler = &xoops_gethandler('module');
         if ($moduleHandler->delete($this->_mXoopsModule)) {
-            $this->mLog->addReport(constant($constpref.'_INSTALL_MSG_MODULE_INFORMATION_DELETED'));
+            $this->mLog->addReport($langman->get('INSTALL_MSG_MODULE_INFORMATION_DELETED'));
         } else {
-            $this->mLog->addError(constant($constpref.'_INSTALL_ERROR_MODULE_INFORMATION_DELETED'));
+            $this->mLog->addError($langman->get('INSTALL_ERROR_MODULE_INFORMATION_DELETED'));
         }
     }
 
@@ -78,7 +79,7 @@ class Xworkflow_Uninstaller
     private function _uninstallTables()
     {
         $dirname = $this->_mXoopsModule->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
+        $langman = new LanguageManager($dirname, 'modinfo');
         $root = &XCube_Root::getSingleton();
         $db = &$root->mController->getDB();
         $tables = &$this->_mXoopsModule->getInfo('tables');
@@ -87,9 +88,9 @@ class Xworkflow_Uninstaller
                 $tableName = str_replace(array('{prefix}', '{dirname}'), array(XOOPS_DB_PREFIX, $dirname), $table);
                 $sql = sprintf('DROP TABLE `%s`;', $tableName);
                 if ($db->query($sql)) {
-                    $this->mLog->addReport(XCubeUtils::formatString(constant($constpref.'_INSTALL_MSG_TABLE_DOROPPED'), $tableName));
+                    $this->mLog->addReport(XCubeUtils::formatString($langman->get('INSTALL_MSG_TABLE_DOROPPED'), $tableName));
                 } else {
-                    $this->mLog->addError(XCubeUtils::formatString(constant($constpref.'_INSTALL_ERROR_TABLE_DOROPPED'), $tableName));
+                    $this->mLog->addError(XCubeUtils::formatString($langman->get('INSTALL_ERROR_TABLE_DOROPPED'), $tableName));
                 }
             }
         }
@@ -109,12 +110,12 @@ class Xworkflow_Uninstaller
     private function _uninstallBlocks()
     {
         $dirname = $this->_mXoopsModule->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
+        $langman = new LanguageManager($dirname, 'modinfo');
         InstallUtils::uninstallAllOfBlocks($this->_mXoopsModule, $this->mLog);
         $tplHandler = &xoops_gethandler('tplfile');
         $cri = new Criteria('tpl_module', $dirname);
         if (!$tplHandler->deleteAll($cri)) {
-            $this->mLog->addError(XCubeUtils::formatString(constant($constpref.'_INSTALL_ERROR_BLOCK_TPL_DELETED'), $tplHandler->db->error()));
+            $this->mLog->addError(XCubeUtils::formatString($langman->get('INSTALL_ERROR_BLOCK_TPL_DELETED'), $tplHandler->db->error()));
         }
     }
 
@@ -132,13 +133,13 @@ class Xworkflow_Uninstaller
     private function _processReport()
     {
         $dirname = $this->_mXoopsModule->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
+        $langman = new LanguageManager($dirname, 'modinfo');
         if (!$this->mLog->hasError()) {
-            $this->mLog->add(XCubeUtils::formatString(constant($constpref.'_INSTALL_MSG_MODULE_UNINSTALLED'), $this->_mXoopsModule->get('name')));
+            $this->mLog->add(XCubeUtils::formatString($langman->get('INSTALL_MSG_MODULE_UNINSTALLED'), $this->_mXoopsModule->get('name')));
         } elseif (is_object($this->_mXoopsModule)) {
-            $this->mLog->addError(XCubeUtils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_UNINSTALLED'), $this->_mXoopsModule->get('name')));
+            $this->mLog->addError(XCubeUtils::formatString($langman->get('INSTALL_ERROR_MODULE_UNINSTALLED'), $this->_mXoopsModule->get('name')));
         } else {
-            $this->mLog->addError(XCubeUtils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_UNINSTALLED'), 'something'));
+            $this->mLog->addError(XCubeUtils::formatString($langman->get('INSTALL_ERROR_MODULE_UNINSTALLED'), 'something'));
         }
     }
 

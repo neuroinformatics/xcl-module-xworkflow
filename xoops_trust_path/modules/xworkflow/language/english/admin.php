@@ -1,14 +1,16 @@
 <?php
 
+use Xworkflow\Core\LanguageManager;
+
 if (!isset($mydirname)) {
     exit();
 }
 
-$constpref = '_AD_'.strtoupper($mydirname);
+$langman = new LanguageManager($mydirname, 'admin');
 
-if (defined($constpref.'_LOADED')) {
+if ($langman->exists('LOADED')) {
     return;
 }
 
 // system
-define($constpref.'_LOADED', 1);
+$langman->set('LOADED', 1);

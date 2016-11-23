@@ -3,6 +3,7 @@
 namespace Xworkflow\Object;
 
 use Xworkflow\Core\Functions;
+use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XoopsUtils;
 
 /**
@@ -93,15 +94,16 @@ class ItemObject extends AbstractObject
      */
     public function getShowStatus()
     {
+        $langman = new LanguageManager($this->mDirname, 'main');
         switch ($this->get('status')) {
         case \Lenum_WorkflowStatus::DELETED:
-            return XoopsUtils::getModuleConstant($this->mDirname, 'main', 'LANG_STATUS_DELETED');
+            return $langman->get('LANG_STATUS_DELETED');
         case \Lenum_WorkflowStatus::REJECTED:
-            return XoopsUtils::getModuleConstant($this->mDirname, 'main', 'LANG_STATUS_REJECTED');
+            return $langman->get('LANG_STATUS_REJECTED');
         case \Lenum_WorkflowStatus::PROGRESS:
-            return XoopsUtils::getModuleConstant($this->mDirname, 'main', 'LANG_STATUS_PROGRESS');
+            return $langman->get('LANG_STATUS_PROGRESS');
         case \Lenum_WorkflowStatus::FINISHED:
-            return XoopsUtils::getModuleConstant($this->mDirname, 'main', 'LANG_STATUS_FINISHED');
+            return $langman->get('LANG_STATUS_FINISHED');
         }
 
         return '';

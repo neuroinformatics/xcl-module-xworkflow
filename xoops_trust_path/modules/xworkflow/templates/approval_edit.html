@@ -9,21 +9,21 @@
 <{/if}>
 
 <{if $actionForm->get('approval_id') == 0}>
-<h1><{"`$constpref`_LANG_APPROVAL_ADD"|constant}></h1>
+<h1><{$langman->get("LANG_APPROVAL_ADD")}></h1>
 <{else}>
-<h1><{"`$constpref`_LANG_APPROVAL_EDIT"|constant}></h1>
+<h1><{$langman->get("LANG_APPROVAL_EDIT")}></h1>
 <{/if}>
 <form class="form-horizontal" id="<{$xoops_dirname}>_approval_edit_form" action="<{xoops_cooluri dirname=$xoops_dirname dataname=approval data_id=$object->getShow('approval_id') action=edit}>" method="post">
   <div class="control-group">
-    <label><{"`$constpref`_LANG_APPROVED_BY"|constant}></label>
+    <label><{$langman->get("LANG_APPROVED_BY")}></label>
     <div class="controls">
       <select id="<{$xoops_dirname}>_approval_edit_id_type">
-        <option value="uid"><{"`$constpref`_LANG_UID"|constant}></option>
-        <option value="gid"><{"`$constpref`_LANG_GID"|constant}></option>
+        <option value="uid"><{$langman->get("LANG_UID")}></option>
+        <option value="gid"><{$langman->get("LANG_GID")}></option>
       </select>
       <span id="<{$xoops_dirname}>_approval_edit_id_type_uid">
       <select name="uid" size="1">
-        <option value="0"><{"`$constpref`_LANG_CHOOSE_FROM_HERE"|constant}></option>
+        <option value="0"><{$langman->get("LANG_CHOOSE_FROM_HERE")}></option>
 <{foreach item=uid from=$uids}>
         <option value="<{$uid}>"<{if $uid == $actionForm->get('uid')}> selected="selected"<{/if}>><{$uid|xoops_user:"user_name"}></option>
 <{/foreach}>
@@ -31,7 +31,7 @@
       </span>
       <span id="<{$xoops_dirname}>_approval_edit_id_type_gid" style="display:none;">
       <select name="gid" size="1">
-        <option value=""><{"`$constpref`_LANG_CHOOSE_FROM_HERE"|constant}></option>
+        <option value=""><{$langman->get("LANG_CHOOSE_FROM_HERE")}></option>
 <{foreach item=group key=gid from=$groups}>
         <option value="<{$gid}>"<{if $gid == $actionForm->get('gid')}> selected="selected"<{/if}><{if $gid == 0}> id="<{$xoops_dirname}>_approval_edit_gid0"<{/if}>><{$group|xoops_escape}></option>
 <{/foreach}>
@@ -40,7 +40,7 @@
     </div>
   </div>
   <div class="control-group">
-    <label><{"`$constpref`_LANG_TARGET_MODULE"|constant}></label>
+    <label><{$langman->get("LANG_TARGET_MODULE")}></label>
     <div class="controls">
       <select name="target">
 <{foreach item=modules key=dirname from=$clients}>
@@ -52,7 +52,7 @@
     </div>
   </div>
   <div class="control-group">
-    <label><{"`$constpref`_LANG_STEP"|constant}></label>
+    <label><{$langman->get("LANG_STEP")}></label>
     <div class="controls">
       <{xoops_input type=text name=step value=$actionForm->get('step')}>
     </div>

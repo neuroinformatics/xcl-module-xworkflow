@@ -1,5 +1,6 @@
 <?php
 
+use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XoopsUtils;
 
 require_once XOOPS_ROOT_PATH.'/core/XCube_ActionForm.class.php';
@@ -28,7 +29,7 @@ class Xworkflow_ApprovalEditForm extends XCube_ActionForm
     public function prepare()
     {
         $dirname = $this->mContext->mModule->mXoopsModule->get('dirname');
-        $constpref = '_MD_'.strtoupper($dirname);
+        $langman = new LanguageManager($dirname, 'main');
         // Set form properties
         $this->mFormProperties['approval_id'] = new XCube_IntProperty('approval_id');
         $this->mFormProperties['uid'] = new XCube_IntProperty('uid');
@@ -39,11 +40,11 @@ class Xworkflow_ApprovalEditForm extends XCube_ActionForm
         // Set field properties
         $this->mFieldProperties['approval_id'] = new XCube_FieldProperty($this);
         $this->mFieldProperties['approval_id']->setDependsByArray(array('required'));
-        $this->mFieldProperties['approval_id']->addMessage('required', constant($constpref.'_ERROR_REQUIRED'), constant($constpref.'_LANG_APPROVAL_ID'));
+        $this->mFieldProperties['approval_id']->addMessage('required', $langman->get('ERROR_REQUIRED'), $langman->get('LANG_APPROVAL_ID'));
         $this->mFieldProperties['step'] = new XCube_FieldProperty($this);
         $this->mFieldProperties['step']->setDependsByArray(array('required', 'min'));
-        $this->mFieldProperties['step']->addMessage('required', constant($constpref.'_ERROR_REQUIRED'), constant($constpref.'_LANG_STEP'));
-        $this->mFieldProperties['step']->addMessage('min', constant($constpref.'_ERROR_MIN'), constant($constpref.'_LANG_STEP'), '1');
+        $this->mFieldProperties['step']->addMessage('required', $langman->get('ERROR_REQUIRED'), $langman->get('LANG_STEP'));
+        $this->mFieldProperties['step']->addMessage('min', $langman->get('ERROR_MIN'), $langman->get('LANG_STEP'), '1');
         $this->mFieldProperties['step']->addVar('min', '1');
     }
 
@@ -86,15 +87,13 @@ class Xworkflow_ApprovalEditForm extends XCube_ActionForm
     public function validateUid()
     {
         $dirname = $this->mContext->mModule->mXoopsModule->get('dirname');
-        $constpref = '_MD_'.strtoupper($dirname);
+        $langman = new LanguageManager($dirname, 'main');
         $uid = $this->get('uid');
         $gid = $this->get('gid');
         if ($uid === null || $gid === null) {
-            $this->addErrorMessage(XCube_Utils::formatString(constant($constpref.'_ERROR_INTRANGE'), constant($constpref.'_LANG_APPROVED_BY')));
+            $this->addErrorMessage(XCube_Utils::formatString($langman->get('ERROR_INTRANGE'), $langman->get('LANG_APPROVED_BY')));
         } elseif ($uid != 0 && $gid != 0) {
-            $dirname = $this->mContext->mModule->mXoopsModule->get('dirname');
-            $constpref = '_MD_'.strtoupper($dirname);
-            $this->addErrorMessage(XCube_Utils::formatString(constant($constpref.'_ERROR_INTRANGE'), constant($constpref.'_LANG_APPROVED_BY')));
+            $this->addErrorMessage(XCube_Utils::formatString($langman->get('ERROR_INTRANGE'), $langman->get('LANG_APPROVED_BY')));
         }
     }
 
@@ -105,13 +104,13 @@ class Xworkflow_ApprovalEditForm extends XCube_ActionForm
      */
     public function validateGid()
     {
+        $dirname = $this->mContext->mModule->mXoopsModule->get('dirname');
+        $langman = new LanguageManager($dirname, 'main');
         $gid = $this->get('gid');
         if ($gid != null && $gid != 0) {
             $member_handler = &xoops_gethandler('member');
             if ($member_handler->getGroup($this->get('gid')) === false) {
-                $dirname = $this->mContext->mModule->mXoopsModule->get('dirname');
-                $constpref = '_MD_'.strtoupper($dirname);
-                $this->addErrorMessage(XCube_Utils::formatString(constant($constpref.'_ERROR_INTRANGE'), constant($constpref.'_LANG_GID')));
+                $this->addErrorMessage(XCube_Utils::formatString($langman->get('ERROR_INTRANGE'), $langman->get('LANG_GID')));
             }
         }
     }
@@ -124,7 +123,7 @@ class Xworkflow_ApprovalEditForm extends XCube_ActionForm
     public function validateStep()
     {
         $dirname = $this->mContext->mModule->mXoopsModule->get('dirname');
-        $constpref = '_MD_'.strtoupper($dirname);
+        $langman = new LanguageManager($dirname, 'main');
         $handler = XoopsUtils::getModuleHandler('ApprovalObject', $dirname);
         $target = $this->_getTarget();
         $cri = new CriteriaCompo();
@@ -133,7 +132,7 @@ class Xworkflow_ApprovalEditForm extends XCube_ActionForm
         $cri->add(new Criteria('step', $this->get('step')));
         $objs = $handler->getObjects($cri);
         if (count($objs) > 0 && $objs[0]->get('approval_id') != $this->get('approval_id')) {
-            $this->addErrorMessage(constant($constpref.'_ERROR_DUPLICATED_STEP'));
+            $this->addErrorMessage($langman->get('ERROR_DUPLICATED_STEP'));
         }
     }
 

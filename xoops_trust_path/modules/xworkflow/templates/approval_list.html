@@ -1,7 +1,7 @@
 <div class="<{$xoops_dirname}>">
 <{include file="db:`$xoops_dirname`_inc_menu.html"}>
 
-<h1><{"`$constpref`_LANG_APPROVAL_LIST"|constant}></h1>
+<h1><{$langman->get("LANG_APPROVAL_LIST")}></h1>
 
 <{if count($clients) > 0}>
 <{foreach item=modules key=dirname from=$clients}>
@@ -10,7 +10,7 @@
   <ul class="unstyled">
 <{if count($objects.$dirname.$dataname) > 0}>
 <{foreach item=obj from=$objects.$dirname.$dataname}>
-    <li>[<{"`$constpref`_LANG_STEP"|constant}> <{$obj->getShow('step')}>]
+    <li>[<{$langman->get("LANG_STEP")}> <{$obj->getShow('step')}>]
   <{if $obj->get('uid') > 0}>
     <{$obj->getShow('uid')|xoops_user:"user_name"}>
   <{else}>
@@ -22,13 +22,13 @@
     </li>
   <{/foreach}>
   <{else}>
-    <li><{"`$constpref`_MESSAGE_NO_APPROVALS_EXIST"|constant}></li>
+    <li><{$langman->get("MESSAGE_NO_APPROVALS_EXIST")}></li>
   <{/if}>
-    <li><a class="btn btn-mini btn-primary" href="<{xoops_cooluri dirname=$xoops_dirname dataname=approval action=edit query=$query|sprintf:"$dirname":"$dataname"}>"><{"`$constpref`_LANG_ADD_A_NEW_APPROVAL"|constant}></a></li>
+    <li><a class="btn btn-mini btn-primary" href="<{xoops_cooluri dirname=$xoops_dirname dataname=approval action=edit query=$query|sprintf:"$dirname":"$dataname"}>"><{$langman->get("LANG_ADD_A_NEW_APPROVAL")}></a></li>
   </ul>
 <{/foreach}>
 <{/foreach}>
 <{else}>
-  <{"`$constpref`_MESSAGE_ADD_A_APPROVAL"|constant}>
+  <{$langman->get("MESSAGE_ADD_A_APPROVAL")}>
 <{/if}>
 </div>

@@ -1,6 +1,7 @@
 <?php
 
 use Xworkflow\Core\Functions;
+use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XoopsUtils;
 
 /**
@@ -206,9 +207,9 @@ abstract class Xworkflow_AbstractAction
         $criteria->add(new Criteria('groupid', XOOPS_GROUP_USERS, '!='));
         $criteria->add(new Criteria('groupid', XOOPS_GROUP_ANONYMOUS, '!='));
         $groups = $member_handler->getGroupList($criteria);
-        $constpref = '_MD_'.strtoupper($this->mAsset->mDirname);
         if (Functions::isExtendedGroup()) {
-            $groups[0] = constant($constpref.'_LANG_GROUP_ADMIN');
+            $langman = new LanguageManager($this->mAsset->mDirname, 'main');
+            $groups[0] = $langman->get('LANG_GROUP_ADMIN');
         }
         ksort($groups);
 

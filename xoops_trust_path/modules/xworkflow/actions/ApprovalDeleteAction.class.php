@@ -1,6 +1,7 @@
 <?php
 
 use Xworkflow\Core\Functions;
+use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XoopsUtils;
 
 require_once dirname(dirname(__FILE__)).'/class/AbstractDeleteAction.class.php';
@@ -41,8 +42,8 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
     {
         parent::prepare();
         if ($this->mObject->countProgressItem() > 0) {
-            $constpref = '_MD_'.strtoupper($this->mAsset->mDirname);
-            $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'), 1, constant($constpref.'_ERROR_ITEM_REMAINS'));
+            $langman = new LanguageManager($this->mAsset->mDirname, 'main');
+            $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'), 1, $langman->get('ERROR_ITEM_REMAINS'));
         }
     }
 
@@ -86,8 +87,8 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
      */
     public function executeViewError(&$render)
     {
-        $constpref = '_MD_'.strtoupper($this->mAsset->mDirname);
-        $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'), 1, constant($constpref.'_ERROR_DBUPDATE_FAILED'));
+        $langman = new LanguageManager($this->mAsset->mDirname, 'main');
+        $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'), 1, $langman->get('ERROR_DBUPDATE_FAILED'));
     }
 
     /**

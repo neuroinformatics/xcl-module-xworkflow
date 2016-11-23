@@ -1,5 +1,6 @@
 <?php
 
+use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XCubeUtils;
 use Xworkflow\Installer\InstallUtils;
 
@@ -75,10 +76,10 @@ class Xworkflow_Installer
     private function _installModule()
     {
         $dirname = $this->_mXoopsModule->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
+        $langman = new LanguageManager($dirname, 'modinfo');
         $moduleHandler = &xoops_gethandler('module');
         if (!$moduleHandler->insert($this->_mXoopsModule)) {
-            $this->mLog->addError(constant($constpref.'_INSTALL_ERROR_MODULE_INSTALLED'));
+            $this->mLog->addError($langman->get('INSTALL_ERROR_MODULE_INSTALLED'));
 
             return false;
         }
@@ -87,7 +88,7 @@ class Xworkflow_Installer
             $adminPerm = &$this->_createPermission(XOOPS_GROUP_ADMIN);
             $adminPerm->set('gperm_name', 'module_admin');
             if (!$gpermHandler->insert($adminPerm)) {
-                $this->mLog->addError(constant($constpref.'_INSTALL_ERROR_PERM_ADMIN_SET'));
+                $this->mLog->addError($langman->get('INSTALL_ERROR_PERM_ADMIN_SET'));
             }
         }
         if ($this->_mXoopsModule->getInfo('hasMain')) {
@@ -98,7 +99,7 @@ class Xworkflow_Installer
                     $readPerm = &$this->_createPermission($group->get('groupid'));
                     $readPerm->set('gperm_name', 'module_read');
                     if (!$gpermHandler->insert($readPerm)) {
-                        $this->mLog->addError(constant($constpref.'_INSTALL_ERROR_PERM_READ_SET'));
+                        $this->mLog->addError($langman->get('INSTALL_ERROR_PERM_READ_SET'));
                     }
                 }
             } else {
@@ -106,7 +107,7 @@ class Xworkflow_Installer
                     $readPerm = &$this->_createPermission($group);
                     $readPerm->set('gperm_name', 'module_read');
                     if (!$gpermHandler->insert($readPerm)) {
-                        $this->mLog->addError(constant($constpref.'_INSTALL_ERROR_PERM_READ_SET'));
+                        $this->mLog->addError($langman->get('INSTALL_ERROR_PERM_READ_SET'));
                     }
                 }
             }
@@ -163,13 +164,13 @@ class Xworkflow_Installer
     private function _processReport()
     {
         $dirname = $this->_mXoopsModule->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
+        $langman = new LanguageManager($dirname, 'modinfo');
         if (!$this->mLog->hasError()) {
-            $this->mLog->add(XCubeUtils::formatString(constant($constpref.'_INSTALL_MSG_MODULE_INSTALLED'), $this->_mXoopsModule->getInfo('name')));
+            $this->mLog->add(XCubeUtils::formatString($langman->get('INSTALL_MSG_MODULE_INSTALLED'), $this->_mXoopsModule->getInfo('name')));
         } elseif (is_object($this->_mXoopsModule)) {
-            $this->mLog->addError(XCubeUtils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_INSTALLED'), $this->_mXoopsModule->getInfo('name')));
+            $this->mLog->addError(XCubeUtils::formatString($langman->get('INSTALL_ERROR_MODULE_INSTALLED'), $this->_mXoopsModule->getInfo('name')));
         } else {
-            $this->mLog->addError(XCubeUtils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_INSTALLED'), 'something'));
+            $this->mLog->addError(XCubeUtils::formatString($langman->get('INSTALL_ERROR_MODULE_INSTALLED'), 'something'));
         }
     }
 

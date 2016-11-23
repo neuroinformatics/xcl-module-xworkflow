@@ -41,16 +41,6 @@ class XoopsUtils
     }
 
     /**
-     * get trust dirname path.
-     *
-     * @return string
-     */
-    public static function getTrustDirnamePath()
-    {
-        return XOOPS_TRUST_PATH.'/modules/'.self::getTrustDirname();
-    }
-
-    /**
      * get trust dirname by dirname.
      *
      * @param string $dirname
@@ -69,41 +59,6 @@ class XoopsUtils
         }
 
         return null;
-    }
-
-    /**
-     * get module constant string.
-     *
-     * @param string $dirname
-     * @param string $type
-     * @param string $name
-     *
-     * @return string
-     */
-    public static function getModuleConstant($dirname, $type, $name)
-    {
-        return constant(self::getModuleConstantName($dirname, $type, $name));
-    }
-
-    /**
-     * get module constant name.
-     *
-     * @param string $dirname
-     * @param string $type
-     * @param string $name
-     *
-     * @return string
-     */
-    public static function getModuleConstantName($dirname, $type, $name)
-    {
-        static $mTypes = array(
-            'modinfo' => 'MI',
-            'admin' => 'AD',
-            'main' => 'MD',
-            'blocks' => 'MB',
-        );
-
-        return '_'.$mTypes[$type].'_'.strtoupper($dirname).'_'.$name;
     }
 
     /**

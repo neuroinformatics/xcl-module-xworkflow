@@ -1,25 +1,25 @@
 <div class="<{$xoops_dirname}>">
 <{include file="db:`$xoops_dirname`_inc_menu.html"}>
-<h1><{"`$constpref`_LANG_APPROVAL_DELETE"|constant}></h1>
+<h1><{$langman->get('LANG_APPROVAL_DELETE'))></h1>
 
-<div class="alert"><{"`$constpref`_MESSAGE_CONFIRM_DELETE"|constant}></div>
+<div class="alert"><{$langman->get('MESSAGE_CONFIRM_DELETE')}></div>
 
 <form class="form-horizontal" action="./index.php?action=ApprovalDelete" method="post">
   <dl class="dl-horizontal">
-    <dt><{"`$constpref`_LANG_APPROVED_BY"|constant}></dt>
+    <dt><{$langman->get("LANG_APPROVED_BY")}></dt>
 <{if $object->get('uid') > 0}>
     <dd><{$object->getShow('uid')|xoops_user:"user_name"}></dd>
 <{else}>
     <{assign var=gid value=$object->get('gid')}>
     <dd><{$groups.$gid|xoops_escape}></dd>
 <{/if}>
-    <dt><{"`$constpref`_LANG_DIRNAME"|constant}></dt>
+    <dt><{$langman->get("LANG_DIRNAME")}></dt>
     <dd><{$object->getShow('dirname')}></dd>
-    <dt><{"`$constpref`_LANG_DATANAME"|constant}></dt>
+    <dt><{$langman->get("LANG_DATANAME")}></dt>
 <{assign var=dirname value=$object->get('dirname')}>
 <{assign var=dataname value=$object->get('dataname')}>
     <dd><{$clients.$dirname.$dataname.label|xoops_escape}></dd>
-    <dt><{"`$constpref`_LANG_STEP"|constant}></dt>
+    <dt><{$langman->get("LANG_STEP")}></dt>
     <dd><{$object->getShow('step')}></dd>
   </dl>
   <div class="form-actions">

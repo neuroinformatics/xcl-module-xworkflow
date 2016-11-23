@@ -1,5 +1,7 @@
 <?php
 
+use Xworkflow\Core\LanguageManager;
+
 require_once XOOPS_ROOT_PATH.'/core/XCube_ActionForm.class.php';
 require_once XOOPS_MODULE_PATH.'/legacy/class/Legacy_Validator.class.php';
 
@@ -26,13 +28,13 @@ class Xworkflow_ApprovalDeleteForm extends XCube_ActionForm
     public function prepare()
     {
         $dirname = $this->mContext->mModule->mXoopsModule->get('dirname');
-        $constpref = '_MD_'.strtoupper($dirname);
+        $langman = new LauguageManager($dirname, 'main');
         // Set form properties
         $this->mFormProperties['approval_id'] = new XCube_IntProperty('approval_id');
         // Set field properties
         $this->mFieldProperties['approval_id'] = new XCube_FieldProperty($this);
         $this->mFieldProperties['approval_id']->setDependsByArray(array('required'));
-        $this->mFieldProperties['approval_id']->addMessage('required', constant($constpref.'_ERROR_REQUIRED'), constant($constpref.'_LANG_APPROVAL_ID'));
+        $this->mFieldProperties['approval_id']->addMessage('required', $langman->get('ERROR_REQUIRED'), $langman->get('LANG_APPROVAL_ID'));
     }
 
     /**

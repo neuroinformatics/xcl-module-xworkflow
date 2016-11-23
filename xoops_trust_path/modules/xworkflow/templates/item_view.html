@@ -1,14 +1,14 @@
 <div class="<{$xoops_dirname}>">
 <{include file="db:`$xoops_dirname`_inc_menu.html"}>
 
-<h1><{"`$constpref`_LANG_ITEM_VIEW"|constant}></h1>
+<h1><{$langman->get("LANG_ITEM_VIEW")}></h1>
 
 <dl class="dl-horizontal">
-  <dt><{"`$constpref`_LANG_TITLE"|constant}></dt>
+  <dt><{$langman->get("LANG_TITLE")}></dt>
   <dd><a href="<{$object->get('url')}>"><{$object->getShow('title')}></a></dd>
-  <dt><{"`$constpref`_LANG_DIRNAME"|constant}></dt>
+  <dt><{$langman->get("LANG_DIRNAME")}></dt>
   <dd><{$object->getShow('dirname')}></dd>
-  <dt><{"`$constpref`_LANG_DATANAME"|constant}></dt>
+  <dt><{$langman->get("LANG_DATANAME")}></dt>
 <{assign var=dirname value=$object->get('dirname')}>
 <{assign var=dataname value=$object->get('dataname')}>
 <{if isset($clients.$dirname.$dataname) }>
@@ -16,32 +16,32 @@
 <{else}>
   <dd><{$object->getShow('dataname')}></dd>
 <{/if}>
-  <dt><{"`$constpref`_LANG_TARGET_ID"|constant}></dt>
+  <dt><{$langman->get("LANG_TARGET_ID")}></dt>
   <dd><{$object->getShow('target_id')}></dd>
-  <dt><{"`$constpref`_LANG_CREATED_BY"|constant}></dt>
+  <dt><{$langman->get("LANG_CREATED_BY")}></dt>
   <dd><{$object->getShow('uid')|xoops_user:"user_name"}></dd>
-  <dt><{"`$constpref`_LANG_STEP"|constant}></dt>
+  <dt><{$langman->get("LANG_STEP")}></dt>
   <dd><{$object->getShow('step')}></dd>
-  <dt><{"`$constpref`_LANG_STATUS"|constant}></dt>
+  <dt><{$langman->get("LANG_STATUS")}></dt>
   <dd><{$object->getShowStatus()}></dd>
-  <dt><{"`$constpref`_LANG_POSTTIME"|constant}></dt>
+  <dt><{$langman->get("LANG_POSTTIME")}></dt>
   <dd><{$object->get('posttime')|xoops_formattimestamp:m}></dd>
 <{if $object->get('deletetime')>0}>
-  <dt><{"`$constpref`_LANG_DELETETIME"|constant}></dt>
+  <dt><{$langman->get("LANG_DELETETIME")}></dt>
   <dd><{$object->get('deletetime')|xoops_formattimestamp:m}></dd>
 <{/if}>
 </dl>
 
 <{if !empty($object->mHistory)}>
-<h2><{"`$constpref`_LANG_HISTORY"|constant}></h2>
+<h2><{$langman->get("LANG_HISTORY")}></h2>
 <table class="table table-striped">
   <thead>
   <tr class="head">
-    <th><{"`$constpref`_LANG_APPROVED_BY"|constant}></th>
-    <th><{"`$constpref`_LANG_STEP"|constant}></th>
-    <th><{"`$constpref`_LANG_RESULT"|constant}></th>
-    <th><{"`$constpref`_LANG_COMMENT"|constant}></th>
-    <th><{"`$constpref`_LANG_APPROVEDTIME"|constant}></th>
+    <th><{$langman->get("LANG_APPROVED_BY")}></th>
+    <th><{$langman->get("LANG_STEP")}></th>
+    <th><{$langman->get("LANG_RESULT")}></th>
+    <th><{$langman->get("LANG_COMMENT")}></th>
+    <th><{$langman->get("LANG_APPROVEDTIME")}></th>
   </tr>
   </thead>
   <tbody>

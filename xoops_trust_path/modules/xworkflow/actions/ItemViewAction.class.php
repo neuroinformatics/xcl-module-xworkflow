@@ -1,6 +1,7 @@
 <?php
 
 use Xworkflow\Core\Functions;
+use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XoopsUtils;
 
 require_once dirname(dirname(__FILE__)).'/class/AbstractViewAction.class.php';
@@ -90,7 +91,7 @@ class Xworkflow_ItemViewAction extends Xworkflow_AbstractViewAction
      */
     public function executeViewError(&$render)
     {
-        $constpref = '_MD_'.strtoupper($this->mAsset->mDirname);
-        $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'item'), 1, constant($constpref.'_ERROR_CONTENT_IS_NOT_FOUND'));
+        $langman = new LanguageManager($this->mAsset->mDirname, 'main');
+        $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'item'), 1, $langman->get('ERROR_CONTENT_IS_NOT_FOUND'));
     }
 }

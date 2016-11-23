@@ -1,5 +1,6 @@
 <?php
 
+use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XCubeUtils;
 use Xworkflow\Installer\InstallUtils;
 
@@ -226,8 +227,8 @@ class Xworkflow_Updater
     public function executeAutomaticUpgrade()
     {
         $dirname = $this->_mCurrentXoopsModule->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
-        $this->mLog->addReport(constant($constpref.'_INSTALL_MSG_UPDATE_STARTED'));
+        $langman = new LanguageManager($dirname, 'modinfo');
+        $this->mLog->addReport($langman->get('INSTALL_MSG_UPDATE_STARTED'));
         $this->_updateModuleTemplates();
         if (!$this->_mForceMode && $this->mLog->hasError()) {
             $this->_processReport();
@@ -265,12 +266,12 @@ class Xworkflow_Updater
     public function saveXoopsModule(&$module)
     {
         $dirname = $module->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
+        $langman = new LanguageManager($dirname, 'modinfo');
         $moduleHandler = &xoops_gethandler('module');
         if ($moduleHandler->insert($module)) {
-            $this->mLog->addReport(constant($constpref.'_INSTALL_MSG_UPDATE_FINISHED'));
+            $this->mLog->addReport($langman->get('INSTALL_MSG_UPDATE_FINISHED'));
         } else {
-            $this->mLog->addError(constant($constpref.'_INSTALL_ERROR_UPDATE_FINISHED'));
+            $this->mLog->addError($langman->get('INSTALL_ERROR_UPDATE_FINISHED'));
         }
     }
 
@@ -280,11 +281,11 @@ class Xworkflow_Updater
     private function _processReport()
     {
         $dirname = $this->_mCurrentXoopsModule->get('dirname');
-        $constpref = '_MI_'.strtoupper($dirname);
+        $langman = new LanguageManager($dirname, 'modinfo');
         if (!$this->mLog->hasError()) {
-            $this->mLog->add(XCubeUtils::formatString(constant($constpref.'_INSTALL_MSG_MODULE_UPDATED'), $this->_mCurrentXoopsModule->get('name')));
+            $this->mLog->add(XCubeUtils::formatString($langman->get('INSTALL_MSG_MODULE_UPDATED'), $this->_mCurrentXoopsModule->get('name')));
         } else {
-            $this->mLog->add(XCubeUtils::formatString(constant($constpref.'_INSTALL_ERROR_MODULE_UPDATED'), $this->_mCurrentXoopsModule->get('name')));
+            $this->mLog->add(XCubeUtils::formatString($langman->get('INSTALL_ERROR_MODULE_UPDATED'), $this->_mCurrentXoopsModule->get('name')));
         }
     }
 }

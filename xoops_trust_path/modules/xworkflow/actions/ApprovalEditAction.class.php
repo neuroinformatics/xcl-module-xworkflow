@@ -1,6 +1,7 @@
 <?php
 
 use Xworkflow\Core\Functions;
+use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XoopsUtils;
 
 require_once dirname(dirname(__FILE__)).'/class/AbstractEditAction.class.php';
@@ -41,8 +42,8 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
     {
         parent::prepare();
         if (!$this->mObject->isNew() && $this->mObject->countProgressItem() > 0) {
-            $constpref = '_MD_'.strtoupper($this->mAsset->mDirname);
-            $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'), 1, constant($constpref.'_ERROR_ITEM_REMAINS'));
+            $langman = new LanguageManager($this->mAsset->mDirname, 'main');
+            $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'), 1, $langman->get('ERROR_ITEM_REMAINS'));
         }
         if ($this->mObject->isNew()) {
             $this->mObject->set('dirname', $this->mRoot->mContext->mRequest->getRequest('dirname'));
@@ -91,8 +92,8 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
      */
     public function executeViewError(&$render)
     {
-        $constpref = '_MD_'.strtoupper($this->mAsset->mDirname);
-        $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'), 1, constant($constpref.'_ERROR_DBUPDATE_FAILED'));
+        $langman = new LanguageManager($this->mAsset->mDirname, 'main');
+        $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'), 1, $langman->get('ERROR_DBUPDATE_FAILED'));
     }
 
     /**

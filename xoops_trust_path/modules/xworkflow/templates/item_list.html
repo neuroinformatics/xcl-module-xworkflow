@@ -2,9 +2,9 @@
 <{include file="db:`$xoops_dirname`_inc_menu.html"}>
 
 <{if $isMyTask}>
-<h1><{"`$constpref`_LANG_MYTASK_LIST"|constant}></h1>
+<h1><{$langman->get("LANG_MYTASK_LIST")}></h1>
 <{else}>
-<h1><{"`$constpref`_LANG_ITEM_LIST"|constant}></h1>
+<h1><{$langman->get("LANG_ITEM_LIST")}></h1>
 <{/if}>
 
 <{if count($objects) > 0}>
@@ -15,47 +15,47 @@
     <thead class="head">
       <tr>
         <th>
-          <{"`$constpref`_LANG_ITEM_ID"|constant}>
+          <{$langman->get("LANG_ITEM_ID")}>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_ITEM_ID"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_ITEM_ID"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
         </th>
         <th>
-          <{"`$constpref`_LANG_TITLE"|constant}>
+          <{$langman->get("LANG_TITLE")}>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_TITLE"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_TITLE"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
         </th>
         <th>
-          <{"`$constpref`_LANG_DIRNAME"|constant}>
+          <{$langman->get("LANG_DIRNAME")}>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_DIRNAME"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_DIRNAME"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
         </th>
         <th>
-          <{"`$constpref`_LANG_DATANAME"|constant}>
+          <{$langman->get("LANG_DATANAME")}>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_DATANAME"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_DATANAME"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
         </th>
         <th>
-          <{"`$constpref`_LANG_TARGET_ID"|constant}>
+          <{$langman->get("LANG_TARGET_ID")}>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_TARGET_ID"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_TARGET_ID"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
         </th>
         <th>
-          <{"`$constpref`_LANG_CREATED_BY"|constant}>
+          <{$langman->get("LANG_CREATED_BY")}>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_UID"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_UID"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
         </th>
         <th>
-          <{"`$constpref`_LANG_STEP"|constant}>
+          <{$langman->get("LANG_STEP")}>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_STEP"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_STEP"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
         </th>
         <th>
-          <{"`$constpref`_LANG_STATUS"|constant}>
+          <{$langman->get("LANG_STATUS")}>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_STATUS"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_STATUS"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
         </th>
         <th>
-          <{"`$constpref`_LANG_POSTTIME"|constant}>
+          <{$langman->get("LANG_POSTTIME")}>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_POSTTIME"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/up.gif" alt="<{$smarty.const._ASCENDING}>" title="<{$smarty.const._ASCENDING}>" /></a>
           <a href="<{xoops_cooluri dirname=$xoops_dirname dataname=$dataname}><{if $coolUriEnabled}>?<{else}>&amp;<{/if}><{$pageNavi->getPrefix()}>sort=-<{$mytrustdirname|ucfirst|cat:"_ItemFilterForm::SORT_KEY_POSTTIME"|constant}>"><img src="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php/images/down.gif" alt="<{$smarty.const._DESCENDING}>" title="<{$smarty.const._DESCENDING}>" /></a>
         </th>
@@ -87,6 +87,6 @@
   <div class="pagenavi"><{xoops_pagenavi pagenavi=$pageNavi}></div>
 <{/if}>
 <{else}>
-  <div class="alert alert-info"><{"`$constpref`_MESSAGE_NO_TASK"|constant}></div>
+  <div class="alert alert-info"><{$langman->get("MESSAGE_NO_TASK")}></div>
 <{/if}>
 </div>

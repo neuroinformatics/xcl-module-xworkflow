@@ -1,5 +1,6 @@
 <?php
 
+use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XoopsUtils;
 
 require_once dirname(dirname(__FILE__)).'/class/AbstractEditAction.class.php';
@@ -114,8 +115,8 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
      */
     public function executeViewError(&$render)
     {
-        $constpref = 'MD_'.strtoupper($this->mAsset->mDirname);
-        $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'item'), 1, constant($constpref.'_ERROR_DBUPDATE_FAILED'));
+        $langman = new LanguageManager($this->mAsset->mDirname, 'main');
+        $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'item'), 1, $langman->get('ERROR_DBUPDATE_FAILED'));
     }
 
     /**

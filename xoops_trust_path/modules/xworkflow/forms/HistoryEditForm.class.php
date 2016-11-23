@@ -1,5 +1,7 @@
 <?php
 
+use Xworkflow\Core\LanguageManager;
+
 require_once XOOPS_ROOT_PATH.'/core/XCube_ActionForm.class.php';
 require_once XOOPS_MODULE_PATH.'/legacy/class/Legacy_Validator.class.php';
 
@@ -26,7 +28,7 @@ class Xworkflow_HistoryEditForm extends XCube_ActionForm
     public function prepare()
     {
         $dirname = $this->mContext->mModule->mXoopsModule->get('dirname');
-        $constpref = '_MD_'.strtoupper($dirname);
+        $langman = new LanguageManager($dirname, 'main');
         // Set form properties
         $this->mFormProperties['progress_id'] = new XCube_IntProperty('progress_id');
         $this->mFormProperties['item_id'] = new XCube_IntProperty('item_id');
@@ -38,10 +40,10 @@ class Xworkflow_HistoryEditForm extends XCube_ActionForm
         // Set field properties
         $this->mFieldProperties['item_id'] = new XCube_FieldProperty($this);
         $this->mFieldProperties['item_id']->setDependsByArray(array('required'));
-        $this->mFieldProperties['item_id']->addMessage('required', constant($constpref.'_ERROR_REQUIRED'), constant($constpref.'_LANG_ITEM_ID'));
+        $this->mFieldProperties['item_id']->addMessage('required', $langman->get('ERROR_REQUIRED'), $langman->get('LANG_ITEM_ID'));
         $this->mFieldProperties['result'] = new XCube_FieldProperty($this);
         $this->mFieldProperties['result']->setDependsByArray(array('required'));
-        $this->mFieldProperties['result']->addMessage('required', constant($constpref.'_ERROR_REQUIRED'), constant($constpref.'_LANG_RESULT'));
+        $this->mFieldProperties['result']->addMessage('required', $langman->get('ERROR_REQUIRED'), $langman->get('LANG_RESULT'));
     }
 
     /**

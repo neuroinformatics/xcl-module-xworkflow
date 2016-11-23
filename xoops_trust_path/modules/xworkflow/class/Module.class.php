@@ -1,5 +1,8 @@
 <?php
 
+use Xworkflow\Core\LanguageManager;
+use Xworkflow\Core\XoopsUtils;
+
 require_once dirname(__FILE__).'/AbstractAction.class.php';
 
 $prefix = strtoupper($mytrustdirname);
@@ -315,9 +318,9 @@ class Xworkflow_Module extends Legacy_ModuleAdapter
                 $render->setAttribute('xoops_pagetitle', $this->mAction->getPagetitle());
                 $render->setAttribute('xoops_dirname', $dirname);
                 $render->setAttribute('mytrustdirname', $trustDirname);
-                $constpref = '_MD_'.strtoupper($dirname);
-                $render->setAttribute('constpref', $constpref);
-                $coolUriEnabled = (XCube_Root::getSingleton()->mContext->getXoopsConfig('cool_uri') == true);
+                $langman = new LanguageManager($dirname, 'main');
+                $render->setAttribute('langman', $langman);
+                $coolUriEnabled = (XoopsUtils::getXoopsConfig('cool_uri') == true);
                 $render->setAttribute('coolUriEnabled', $coolUriEnabled);
                 $this->mAction->$methodName($render);
                 $this->mAction->setHeaderScript();

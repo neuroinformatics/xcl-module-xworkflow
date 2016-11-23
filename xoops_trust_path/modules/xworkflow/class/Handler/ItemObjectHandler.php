@@ -3,6 +3,8 @@
 namespace Xworkflow\Handler;
 
 use Xworkflow\Core\Functions;
+use Xworkflow\Core\JoinCriteria;
+use Xworkflow\Core\TableFieldCriteria;
 use Xworkflow\Core\XoopsUtils;
 
 /**
@@ -10,6 +12,13 @@ use Xworkflow\Core\XoopsUtils;
  */
 class ItemObjectHandler extends AbstractObjectHandler
 {
+    /**
+     * flag for my task item.
+     *
+     * @var bool
+     */
+    private $mIsMyTask = false;
+
     /**
      * constructor.
      *
@@ -21,6 +30,16 @@ class ItemObjectHandler extends AbstractObjectHandler
         parent::__construct($db, $dirname);
         $this->mTable = $db->prefix($dirname.'_item');
         $this->mPrimaryKey = 'item_id';
+    }
+
+    /**
+     * set my task.
+     *
+     * @param bool $isMyTask
+     */
+    public function setMyTask($isMyTask)
+    {
+        $this->mIsMyTask = $isMyTask;
     }
 
     /**
@@ -96,6 +115,22 @@ class ItemObjectHandler extends AbstractObjectHandler
     }
 
     /**
+     * check whether item id is in progess.
+     *
+     * @param int $itemId
+     * @param int $uid
+     *
+     * @return bool
+     */
+    public function checkInProgress($itemId, $uid)
+    {
+        $criteria = new \Criteria('item_id', $itemId, '=', $this->mTable);
+        list($criteria, $join) = $this->_getProgressItemCriteria($uid, $criteria);
+
+        return parent::getCount($criteria, $join);
+    }
+
+    /**
      * count progress items.
      *
      * @param int $uid
@@ -104,163 +139,100 @@ class ItemObjectHandler extends AbstractObjectHandler
      */
     public function countProgressItems($uid)
     {
-        return count($this->getProgressItemsByUserId($uid));
+        $uid = XoopsUtils::getUid();
+        list($criteria, $join) = $this->_getProgressItemCriteria($uid);
+
+        return parent::getCount($criteria, $join);
     }
 
     /**
-     * get current progress user ids.
+     * count progress items.
      *
-     * @param string $dirname
-     * @param string $dataname
-     * @param string $target_id
+     * @param object $criteria
+     * @param object $join
      *
-     * @return int[]
+     * @return int
      */
-    public function getProgressUserIds($dirname, $dataname, $target_id)
+    public function getCount($criteria = null, $join = null)
     {
-        $uids = array();
-        $aHandler = &XoopsUtils::getModuleHandler('ApprovalObject', $this->mDirname);
-        $memberHandler = &xoops_gethandler('member');
-        $obj = $this->getProgressItemByTargetId($dirname, $dataname, $target_id);
-        if ($obj === null) {
-            return $uids;
-        }
-        $step = $obj->get('step');
-        $criteria = new \CriteriaCompo();
-        $criteria->add(new \Criteria('dirname', $dirname));
-        $criteria->add(new \Criteria('dataname', $dataname));
-        $criteria->add(new \Criteria('step', $step));
-        $aObjs = $aHandler->getObjects($criteria);
-        if (empty($aObjs)) {
-            return $uids;
-        }
-        $aObj = array_shift($aObjs); // have to only one object
-        $uid = $aObj->get('uid');
-        $gid = $aObj->get('gid');
-        if ($uid > 0) {
-            $uids[] = $uid;
-        } elseif ($gid > 0) {
-            $uids = $memberHandler->getUsersByGroup($gid, false);
-        } else {
-            $gid = Functions::getTargetGroupId($dirname, $dataname, $target_id);
-            $uids = Functions::getGroupAdminUserIds($gid);
+        if ($this->mIsMyTask) {
+            $uid = XoopsUtils::getUid();
+            list($criteria, $join) = $this->_getProgressItemCriteria($uid, $criteria);
         }
 
-        return $uids;
-    }
-
-    /**
-     * check whether item is in progress.
-     *
-     * @param string $dirname
-     * @param string $dataname
-     * @param string $target_id
-     *
-     * @return bool
-     */
-    public function isProgressItem($dirname, $dataname, $target_id)
-    {
-        $obj = $this->getProgressItemByTargetId($dirname, $dataname, $target_id);
-
-        return $obj !== null;
-    }
-
-    /**
-     * get objects by user id.
-     *
-     * @param int $uid
-     *
-     * @return {Trustdirname}_ItemObject[]
-     */
-    public function getProgressItemsByUserId($uid)
-    {
-        $aHandler = &XoopsUtils::getModuleHandler('ApprovalObject', $this->mDirname);
-        $memberHandler = &xoops_gethandler('member');
-        $gids = &$memberHandler->getGroupsByUser($uid);
-        $gids = array_diff($gids, array(XOOPS_GROUP_USERS, XOOPS_GROUP_ANONYMOUS));
-        $ret = array();
-        $criteria = new \CriteriaCompo();
-        $criteria->add(new \Criteria('uid', $uid));
-        if (!empty($gids)) {
-            $criteria->add(new \Criteria('gid', $gids, 'IN'), 'OR');
-        }
-        $aObjs = $aHandler->getObjects($criteria);
-        foreach ($aObjs as $aObj) {
-            $ret = array_merge($ret, $this->getProgressItemsByApprovalObject($aObj));
-        }
-        // append group admin items
-        $criteria = new \CriteriaCompo();
-        $criteria->add(new \Criteria('uid', 0));
-        $criteria->add(new \Criteria('gid', 0));
-        $aObjs = $aHandler->getObjects($criteria);
-        foreach ($aObjs as $aObj) {
-            $objs = $this->getProgressItemsByApprovalObject($aObj);
-            foreach ($objs as $obj) {
-                $gid = $obj->getTargetGroupId();
-                if (Functions::isGroupAdmin($uid, $gid)) {
-                    $ret[] = $obj;
-                }
-            }
-        }
-
-        return $ret;
-    }
-
-    /**
-     * get progress item by target id.
-     *
-     * @param string $dirname
-     * @param string $dataname
-     * @param int    $target_id
-     *
-     * @return object
-     */
-    public function getProgressItemByTargetId($dirname, $dataname, $target_id)
-    {
-        $objs = $this->_getProgressItems($dirname, $dataname, $target_id);
-        if (empty($objs)) {
-            return null;
-        }
-
-        return array_shift($objs);
-    }
-
-    /**
-     * get progress items by approval object.
-     *
-     * @param {Trustdirname}_ApprovalObject $obj
-     *
-     * @return {Trustdirname}_ItemObject[]
-     */
-    public function getProgressItemsByApprovalObject($obj)
-    {
-        return $this->_getProgressItems($obj->get('dirname'), $obj->get('dataname'), false, $obj->get('step'));
+        return parent::getCount($criteria, $join);
     }
 
     /**
      * get progress items.
      *
-     * @param string $dirname
-     * @param string $dataname
-     * @param int    $target_id
-     * @param int    $step
+     * @param object $criteria
+     * @param string $fieldlist
+     * @param bool   $distinct
+     * @param object $join
+     * @param bool   $idAsKey
+     * @param object $join
      *
      * @return array
      */
-    private function _getProgressItems($dirname, $dataname, $target_id = false, $step = false)
+    public function getObjects($criteria = null, $fieldlist = '', $distinct = false, $idAsKey = false, $join = null)
     {
-        $criteria = new \CriteriaCompo();
-        $criteria->add(new \Criteria('dirname', $dirname));
-        $criteria->add(new \Criteria('dataname', $dataname));
-        $criteria->add(new \Criteria('status', \Lenum_WorkflowStatus::PROGRESS));
-        if ($target_id !== false) {
-            $criteria->add(new \Criteria('target_id', $target_id));
+        if ($this->mIsMyTask) {
+            $uid = XoopsUtils::getUid();
+            list($criteria, $join) = $this->_getProgressItemCriteria($uid, $criteria);
         }
-        if ($step !== false) {
-            $criteria->add(new \Criteria('step', $step));
-        }
-        $criteria->add(new \Criteria('deletetime', 0));
 
-        return $this->getObjects($criteria);
+        return parent::getObjects($criteria, $fieldlist, $distinct, $idAsKey, $join);
+    }
+
+    /**
+     * get progress item criteria.
+     *
+     * @param int    $uid
+     * @param object $cri
+     *
+     * @return array
+     */
+    private function _getProgressItemCriteria($uid, $cri = null)
+    {
+        $aHandler = &XoopsUtils::getModuleHandler('ApprovalObject', $this->mDirname);
+        $aTable = $aHandler->getTable();
+        $memberHandler = &xoops_gethandler('member');
+        $gids = $memberHandler->getGroupsByUser($uid);
+        $gids = array_diff($gids, array(XOOPS_GROUP_USERS, XOOPS_GROUP_ANONYMOUS));
+        $aGids = Functions::getAdminGroupIds($uid);
+        $join = new JoinCriteria('INNER', $aTable, 'dirname', $this->mTable, 'dirname');
+        $criteria = new \CriteriaCompo(new \Criteria('status', \Lenum_WorkflowStatus::PROGRESS, '=', $this->mTable));
+        $criteria->add(new TableFieldCriteria($this->mTable, 'dataname', $aTable, 'dataname'));
+        $criteria->add(new TableFieldCriteria($this->mTable, 'step', $aTable, 'step'));
+        $criteria2 = new \CriteriaCompo(new \Criteria('uid', $uid, '=', $aTable));
+        if (!empty($gids)) {
+            $criteria2->add(new \Criteria('gid', $gids, 'IN', $aTable), 'OR');
+        }
+        if (!empty($aGids)) {
+            if (XoopsUtils::getModuleVersion($this->mDirname) >= 200) {
+                $criteria3 = new \CriteriaCompo(new \Criteria('target_gid', $aGids, 'IN', $this->mTable));
+                $criteria3->add(new \Criteria('uid', 0, '=', $aTable));
+                $criteria3->add(new \Criteria('gid', 0, '=', $aTable));
+                $criteria2->add($criteria3, 'OR');
+            }
+        }
+        $criteria->add($criteria2);
+        if (is_object($cri)) {
+            if (method_exists($cri, 'getSorts')) {
+                foreach ($cri->getSorts() as $sort) {
+                    $criteria->addSort($sort['sort'], $sort['order']);
+                }
+            } else {
+                $criteria->setSort($cri->getSort(), $cri->getOrder());
+            }
+            $criteria->setLimit($cri->getLimit());
+            $criteria->setStart($cri->getStart());
+            if (!($cri instanceof \CriteriaElement)) {
+                $criteria->add($cri);
+            }
+        }
+
+        return array($criteria, $join);
     }
 }

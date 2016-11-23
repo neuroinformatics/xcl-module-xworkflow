@@ -247,6 +247,24 @@ class XoopsUtils
     }
 
     /**
+     * get module version.
+     *
+     * @param string $dirname
+     *
+     * @return float version
+     */
+    public static function getModuleVersion($dirname)
+    {
+        $moduleHandler =& xoops_gethandler('module'); 
+        $moduleObj = &$moduleHandler->getByDirname($dirname); 
+        if (!is_object($moduleObj)) {
+            return false;
+        }
+
+        return $moduleObj->get('version');
+    }
+
+    /**
      * check whether user is administraotr.
      *
      * @param int    $uid

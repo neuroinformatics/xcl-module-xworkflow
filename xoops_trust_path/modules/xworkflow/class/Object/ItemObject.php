@@ -118,31 +118,9 @@ class ItemObject extends AbstractObject
      */
     public function checkStep($uid)
     {
-        $trustDirname = XoopsUtils::getTrustDirname();
-        $memberHandler = &xoops_gethandler('member');
-        $gids = $memberHandler->getGroupsByUser($uid);
-        $aObj = $this->getApprovalObject();
-        if ($aObj === null) {
-            return false;
-        }
-        $aUid = $aObj->get('uid');
-        $aGid = $aObj->get('gid');
-        if ($aUid > 0) {
-            if ($aUid == $uid) {
-                return true;
-            }
-        } elseif ($aGid > 0) {
-            if (in_array($aGid, $gids)) {
-                return true;
-            }
-        } else {
-            $gid = $this->getTargetGroupId();
-            if (Functions::isGroupAdmin($uid, $gid)) {
-                return true;
-            }
-        }
+        $iHandler = XoopsUtils::getModuleHandler('ItemObject', $this->mDirname);
 
-        return false;
+        return $iHandler->checkInProgress($this->get('item_id'), $uid);
     }
 
     /**

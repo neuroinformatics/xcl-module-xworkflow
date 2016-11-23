@@ -8,7 +8,7 @@ $langman = new LanguageManager($mydirname, 'modinfo');
 // Define a basic manifesto.
 
 $modversion['name'] = $langman->get('NAME');
-$modversion['version'] = 2.0;
+$modversion['version'] = 1.9;
 $modversion['description'] = $langman->get('DESC');
 $modversion['author'] = $langman->get('AUTHOR');
 $modversion['credits'] = $langman->get('CREDITS');

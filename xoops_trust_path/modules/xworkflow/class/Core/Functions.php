@@ -59,56 +59,6 @@ class Functions
     }
 
     /**
-     * check whether user is group administrator.
-     *
-     * @param int $uid
-     * @param int $gid
-     *
-     * @return bool
-     */
-    public static function isGroupAdmin($uid, $gid)
-    {
-        if (!self::isExtendedGroup()) {
-            return false;
-        }
-        $uids = self::getGroupAdminUserIds($gid);
-
-        return in_array($uid, $uids);
-    }
-
-    /**
-     * get group admin user ids.
-     *
-     * @param int $gid
-     *
-     * @return int[]
-     */
-    public static function getGroupAdminUserIds($gid)
-    {
-        $uids = array();
-        if (!self::isExtendedGroup()) {
-            return $uids;
-        }
-        if ($gid == 0) {
-            return $uids;
-        }
-        $db = &\XoopsDatabaseFactory::getDatabaseConnection();
-        $table = $db->prefix('groups');
-        $table2 = $db->prefix('groups_users_link');
-        // check group admin
-        $sql = sprintf('SELECT `l`.`uid` FROM `%s` AS `l` INNER JOIN `%s` AS `g` ON `l`.`groupid`=`g`.`groupid` WHERE `l`.`activate`=0 AND `l`.`groupid`=%u AND `l`.`is_admin`=1 AND `g`.`activate`=1', $table2, $table, $gid);
-        if (!($result = $db->query($sql))) {
-            return $uids;
-        }
-        while ($row = $db->fetchRow($result)) {
-            $uids[] = $row[0];
-        }
-        $db->freeRecordSet($result);
-
-        return $uids;
-    }
-
-    /**
      * get admin group ids.
      *
      * @param int $uid

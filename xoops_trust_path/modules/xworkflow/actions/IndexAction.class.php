@@ -1,6 +1,5 @@
 <?php
 
-use Xworkflow\Core\XoopsUtils;
 
 require_once dirname(__FILE__).'/ItemListAction.class.php';
 
@@ -10,18 +9,11 @@ require_once dirname(__FILE__).'/ItemListAction.class.php';
 class Xworkflow_IndexAction extends Xworkflow_ItemListAction
 {
     /**
-     * get default view.
-     *
-     * @return Enum
+     * constructor.
      */
-    public function getDefaultView()
+    public function __construct()
     {
-        $this->mFilter = &$this->_getFilterForm();
-        $this->mFilter->fetch();
-        $uid = XoopsUtils::getUid();
-        $this->mObjects = $this->_getHandler()->getProgressItemsByUserId($uid);
+        parent::__construct();
         $this->_mIsMyTask = true;
-
-        return $this->_getFrameViewStatus('INDEX');
     }
 }

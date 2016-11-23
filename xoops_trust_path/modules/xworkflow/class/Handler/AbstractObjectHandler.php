@@ -388,7 +388,7 @@ abstract class AbstractObjectHandler extends AbstractHandler
         $fieldlist = empty($fieldlist) ? '*' : $fieldlist;
         $sql = 'SELECT '.$distinct.$fieldlist.' FROM `'.$this->mTable.'`';
         if (is_object($join)) {
-            $sql .= $join->render();
+            $sql .= ' '.$join->render();
         }
         if (is_object($criteria)) {
             $sql .= ' '.$criteria->renderWhere();

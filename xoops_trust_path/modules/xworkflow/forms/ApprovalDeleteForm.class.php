@@ -28,7 +28,7 @@ class Xworkflow_ApprovalDeleteForm extends XCube_ActionForm
     public function prepare()
     {
         $dirname = $this->mContext->mModule->mXoopsModule->get('dirname');
-        $langman = new LauguageManager($dirname, 'main');
+        $langman = new LanguageManager($dirname, 'main');
         // Set form properties
         $this->mFormProperties['approval_id'] = new XCube_IntProperty('approval_id');
         // Set field properties

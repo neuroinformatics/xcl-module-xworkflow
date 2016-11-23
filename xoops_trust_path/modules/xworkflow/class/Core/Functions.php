@@ -51,7 +51,7 @@ class Functions
         $result = $db->queryF($sql);
         if (!$result) {
             return false;
-        } // sql error
+        }
         $cache = ($db->getRowsNum($result) > 0);
         $db->freeRecordSet($result);
 
@@ -99,13 +99,44 @@ class Functions
         $sql = sprintf('SELECT `l`.`uid` FROM `%s` AS `l` INNER JOIN `%s` AS `g` ON `l`.`groupid`=`g`.`groupid` WHERE `l`.`activate`=0 AND `l`.`groupid`=%u AND `l`.`is_admin`=1 AND `g`.`activate`=1', $table2, $table, $gid);
         if (!($result = $db->query($sql))) {
             return $uids;
-        } // sql error
+        }
         while ($row = $db->fetchRow($result)) {
             $uids[] = $row[0];
         }
         $db->freeRecordSet($result);
 
         return $uids;
+    }
+
+    /**
+     * get admin group ids.
+     *
+     * @param int $uid
+     *
+     * @return array
+     */
+    public static function getAdminGroupIds($uid)
+    {
+        $gids = array();
+        if (!self::isExtendedGroup()) {
+            return $gids;
+        }
+        if ($uid == XoopsUtils::UID_GUEST) {
+            return $gids;
+        }
+        $db = &\XoopsDatabaseFactory::getDatabaseConnection();
+        $table = $db->prefix('groups');
+        $table2 = $db->prefix('groups_users_link');
+        $sql = sprintf('SELECT `g`.`groupid` FROM `%s` AS `g` INNER JOIN `%s` AS `l` ON `g`.`groupid`=`l`.`groupid` WHERE `g`.`activate`=1 AND `l`.`activate`=0 AND `l`.`uid`=%u AND `l`.`is_admin`=1', $table, $table2, $uid);
+        if (!($result = $db->query($sql))) {
+            return $gids;
+        }
+        while ($row = $db->fetchRow($result)) {
+            $gids[] = $row[0];
+        }
+        $db->freeRecordSet($result);
+
+        return $gids;
     }
 
     /**

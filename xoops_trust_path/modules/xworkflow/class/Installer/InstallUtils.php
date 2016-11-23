@@ -3,7 +3,6 @@
 namespace Xworkflow\Installer;
 
 use Xworkflow\Core\LanguageManager;
-use Xworkflow\Core\XoopsUtils;
 use Xworkflow\Core\XCubeUtils;
 
 /**

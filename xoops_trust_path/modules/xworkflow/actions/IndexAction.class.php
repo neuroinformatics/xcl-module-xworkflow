@@ -16,4 +16,16 @@ class Xworkflow_IndexAction extends Xworkflow_ItemListAction
         parent::__construct();
         $this->_mIsMyTask = true;
     }
+
+    /**
+     * get handler.
+     *
+     * return {Trustdirname}_ItemHandler
+     */
+    protected function &_getHandler()
+    {
+        $handler = &$this->mAsset->getObject('handler', 'MyItemObject');
+
+        return $handler;
+    }
 }

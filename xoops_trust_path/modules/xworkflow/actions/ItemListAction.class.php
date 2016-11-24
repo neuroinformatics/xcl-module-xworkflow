@@ -20,7 +20,6 @@ class Xworkflow_ItemListAction extends Xworkflow_AbstractListAction
     protected function &_getHandler()
     {
         $handler = &$this->mAsset->getObject('handler', 'ItemObject');
-        $handler->setMyTask($this->_mIsMyTask);
 
         return $handler;
     }

@@ -13,13 +13,6 @@ use Xworkflow\Core\XoopsUtils;
 class ItemObjectHandler extends AbstractObjectHandler
 {
     /**
-     * flag for my task item.
-     *
-     * @var bool
-     */
-    private $mIsMyTask = false;
-
-    /**
      * constructor.
      *
      * @param object &$db
@@ -30,16 +23,6 @@ class ItemObjectHandler extends AbstractObjectHandler
         parent::__construct($db, $dirname);
         $this->mTable = $db->prefix($dirname.'_item');
         $this->mPrimaryKey = 'item_id';
-    }
-
-    /**
-     * set my task.
-     *
-     * @param bool $isMyTask
-     */
-    public function setMyTask($isMyTask)
-    {
-        $this->mIsMyTask = $isMyTask;
     }
 
     /**
@@ -152,7 +135,7 @@ class ItemObjectHandler extends AbstractObjectHandler
     public function delete(&$obj, $force = false)
     {
         $hHandler = XoopsUtils::getModuleHandler('HistoryObject', $this->mDirname);
-        $hHandler->deleteAll(new \Criteria($this->mPrimaryKey, $obj->get($this->mPrimaryKey)));
+        $hHandler->deleteAll(new \Criteria($this->mPrimaryKey, $obj->get($this->mPrimaryKey)), $force);
 
         return parent::delete($obj);
     }
@@ -245,46 +228,6 @@ class ItemObjectHandler extends AbstractObjectHandler
     }
 
     /**
-     * count progress items.
-     *
-     * @param object $criteria
-     * @param object $join
-     *
-     * @return int
-     */
-    public function getCount($criteria = null, $join = null)
-    {
-        if ($this->mIsMyTask) {
-            $uid = XoopsUtils::getUid();
-            list($criteria, $join) = $this->_getProgressItemCriteria($uid, $criteria);
-        }
-
-        return parent::getCount($criteria, $join);
-    }
-
-    /**
-     * get progress items.
-     *
-     * @param object $criteria
-     * @param string $fieldlist
-     * @param bool   $distinct
-     * @param object $join
-     * @param bool   $idAsKey
-     * @param object $join
-     *
-     * @return array
-     */
-    public function getObjects($criteria = null, $fieldlist = '', $distinct = false, $idAsKey = false, $join = null)
-    {
-        if ($this->mIsMyTask) {
-            $uid = XoopsUtils::getUid();
-            list($criteria, $join) = $this->_getProgressItemCriteria($uid, $criteria);
-        }
-
-        return parent::getObjects($criteria, $fieldlist, $distinct, $idAsKey, $join);
-    }
-
-    /**
      * get progress item criteria.
      *
      * @param int    $uid
@@ -292,7 +235,7 @@ class ItemObjectHandler extends AbstractObjectHandler
      *
      * @return array
      */
-    private function _getProgressItemCriteria($uid, $cri = null)
+    protected function _getProgressItemCriteria($uid, $cri = null)
     {
         $aHandler = &XoopsUtils::getModuleHandler('ApprovalObject', $this->mDirname);
         $aTable = $aHandler->getTable();

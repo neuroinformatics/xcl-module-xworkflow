@@ -6,7 +6,7 @@ if (!isset($mydirname)) {
     exit();
 }
 
-$langman = new LanguageManager($mydirname, 'modinfo');
+$langman = new LanguageManager($mydirname, 'install');
 
 if ($langman->exists('LOADED')) {
     return;

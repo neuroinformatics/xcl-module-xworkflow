@@ -43,6 +43,7 @@ class LanguageManager
             'blocks' => 'BL',
             'main' => 'MD',
             'modinfo' => 'MI',
+            'install' => 'IN',
         );
         $this->mDirname = $dirname;
         $this->mPageType = $pageType;

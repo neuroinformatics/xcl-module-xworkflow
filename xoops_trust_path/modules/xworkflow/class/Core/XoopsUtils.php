@@ -255,8 +255,8 @@ class XoopsUtils
      */
     public static function getModuleVersion($dirname)
     {
-        $moduleHandler =& xoops_gethandler('module'); 
-        $moduleObj = &$moduleHandler->getByDirname($dirname); 
+        $moduleHandler = &xoops_gethandler('module');
+        $moduleObj = &$moduleHandler->getByDirname($dirname);
         if (!is_object($moduleObj)) {
             return false;
         }

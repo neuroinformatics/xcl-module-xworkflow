@@ -43,7 +43,7 @@ abstract class AbstractUninstaller
      */
     public function __construct()
     {
-        $this->mLog = new \Legacy_ModuleInstallLog();
+        $this->mLog = new InstallLog();
     }
 
     /**
@@ -136,7 +136,7 @@ abstract class AbstractUninstaller
     protected function _processReport()
     {
         if (!$this->mLog->hasError()) {
-            $this->mLog->add(XCubeUtils::formatString($this->mLangMan->get('INSTALL_MSG_MODULE_UNINSTALLED'), $this->mXoopsModule->get('name')));
+            $this->mLog->addReport(XCubeUtils::formatString($this->mLangMan->get('INSTALL_MSG_MODULE_UNINSTALLED'), $this->mXoopsModule->get('name')));
         } elseif (is_object($this->mXoopsModule)) {
             $this->mLog->addError(XCubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_MODULE_UNINSTALLED'), $this->mXoopsModule->get('name')));
         } else {

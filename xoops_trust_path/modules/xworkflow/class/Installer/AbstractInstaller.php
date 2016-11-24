@@ -43,7 +43,7 @@ abstract class AbstractInstaller
      */
     public function __construct()
     {
-        $this->mLog = new \Legacy_ModuleInstallLog();
+        $this->mLog = new InstallLog();
     }
 
     /**
@@ -171,7 +171,7 @@ abstract class AbstractInstaller
     protected function _processReport()
     {
         if (!$this->mLog->hasError()) {
-            $this->mLog->add(XCubeUtils::formatString($this->mLangMan->get('INSTALL_MSG_MODULE_INSTALLED'), $this->mXoopsModule->getInfo('name')));
+            $this->mLog->addReport(XCubeUtils::formatString($this->mLangMan->get('INSTALL_MSG_MODULE_INSTALLED'), $this->mXoopsModule->getInfo('name')));
         } elseif (is_object($this->mXoopsModule)) {
             $this->mLog->addError(XCubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_MODULE_INSTALLED'), $this->mXoopsModule->getInfo('name')));
         } else {

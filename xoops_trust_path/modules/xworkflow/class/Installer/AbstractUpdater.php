@@ -71,7 +71,7 @@ abstract class AbstractUpdater
      */
     public function __construct()
     {
-        $this->mLog = new \Legacy_ModuleInstallLog();
+        $this->mLog = new InstallLog();
     }
 
     /**
@@ -289,9 +289,9 @@ abstract class AbstractUpdater
     protected function _processReport()
     {
         if (!$this->mLog->hasError()) {
-            $this->mLog->add(XCubeUtils::formatString($this->mLangMan->get('INSTALL_MSG_MODULE_UPDATED'), $this->mCurrentXoopsModule->get('name')));
+            $this->mLog->addReport(XCubeUtils::formatString($this->mLangMan->get('INSTALL_MSG_MODULE_UPDATED'), $this->mCurrentXoopsModule->get('name')));
         } else {
-            $this->mLog->add(XCubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_MODULE_UPDATED'), $this->mCurrentXoopsModule->get('name')));
+            $this->mLog->addReport(XCubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_MODULE_UPDATED'), $this->mCurrentXoopsModule->get('name')));
         }
     }
 }

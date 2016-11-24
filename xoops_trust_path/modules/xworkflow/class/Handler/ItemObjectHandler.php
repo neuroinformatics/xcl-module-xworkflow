@@ -43,6 +43,105 @@ class ItemObjectHandler extends AbstractObjectHandler
     }
 
     /**
+     * get item object.
+     *
+     * @param string $dirname
+     * @param string $dataname
+     * @param int    $id
+     *
+     * @return object
+     */
+    public function getItem($dirname, $dataname, $target_id)
+    {
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('dirname', $dirname));
+        $criteria->add(new \Criteria('dataname', $dataname));
+        $criteria->add(new \Criteria('target_id', $target_id));
+        $criteria->add(new \Criteria('deletetime', 0));
+        $objs = $this->getObjects($criteria);
+        if (empty($objs)) {
+            return null;
+        }
+
+        return array_shift($objs);
+    }
+
+    /**
+     * add item.
+     *
+     * @param string $title
+     * @param string $dirname
+     * @param string $dataname
+     * @param int    $target_id
+     * @param string $url
+     *
+     * @return bool
+     */
+    public function addItem($title, $dirname, $dataname, $target_id,  $url)
+    {
+        $obj = $this->getItem($dirname, $dataname, $target_id);
+        if (is_null($obj)) {
+            $obj = $this->create();
+            $obj->set('title', $title);
+            $obj->set('dirname', $dirname);
+            $obj->set('dataname', $dataname);
+            $obj->set('target_id', $target_id);
+            $obj->set('url', $url);
+            $obj->set('uid', XoopsUtils::getUid());
+            $obj->setFirstStep();
+        } else {
+            $obj->set('title', $title);
+            $obj->set('status', \Lenum_WorkflowStatus::PROGRESS);
+            $obj->set('url', $url);
+            $obj->set('updatetime', time());
+            $obj->setFirstStep();
+            $obj->incrementRevision();
+        }
+
+        return $this->insert($obj);
+    }
+
+    /**
+     * delete item.
+     *
+     * @param string $dirname
+     * @param string $dataname
+     * @param int    $target_id
+     *
+     * @return bool
+     */
+    public function deleteItem($dirname, $dataname, $target_id)
+    {
+        $obj = $this->getItem($dirname, $dataname, $target_id);
+        if (!is_object($obj)) {
+            return false;
+        }
+
+        return $this->delete($obj);
+    }
+
+    /**
+     * get history.
+     *
+     * @param string $dirname
+     * @param string $dataname
+     * @param int    $target_id
+     *
+     * @return array
+     */
+    public static function getHistory($dirname, $dataname, $target_id)
+    {
+        static $hKeys = array('step', 'uid', 'result', 'comment', 'posttime');
+        $obj = $this->getItem($dirname, $dataname, $target_id);
+        if (!is_object($obj)) {
+            return array();
+        }
+        $obj->loadHistory();
+
+        return $obj->mHistory;
+    }
+
+    /**
      * delete.
      *
      * @param {Trustdirname}_ItemObject &$obj
@@ -53,7 +152,7 @@ class ItemObjectHandler extends AbstractObjectHandler
     public function delete(&$obj, $force = false)
     {
         $hHandler = XoopsUtils::getModuleHandler('HistoryObject', $this->mDirname);
-        $hHandler->deleteAll(new \Criteria('item_id', $obj->get('item_id')));
+        $hHandler->deleteAll(new \Criteria($this->mPrimaryKey, $obj->get($this->mPrimaryKey)));
 
         return parent::delete($obj);
     }
@@ -117,14 +216,14 @@ class ItemObjectHandler extends AbstractObjectHandler
     /**
      * check whether item id is in progess.
      *
-     * @param int $itemId
-     * @param int $uid
+     * @param object $obj
+     * @param int    $uid
      *
      * @return bool
      */
-    public function checkInProgress($itemId, $uid)
+    public function isInProgress($obj, $uid)
     {
-        $criteria = new \Criteria('item_id', $itemId, '=', $this->mTable);
+        $criteria = new \Criteria($this->mPrimaryKey, $obj->get($this->mPrimaryKey), '=', $this->mTable);
         list($criteria, $join) = $this->_getProgressItemCriteria($uid, $criteria);
 
         return parent::getCount($criteria, $join);

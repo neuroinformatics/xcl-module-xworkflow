@@ -120,7 +120,7 @@ class ItemObject extends AbstractObject
     {
         $iHandler = XoopsUtils::getModuleHandler('ItemObject', $this->mDirname);
 
-        return $iHandler->checkInProgress($this->get('item_id'), $uid);
+        return $iHandler->isInProgress($this, $uid);
     }
 
     /**

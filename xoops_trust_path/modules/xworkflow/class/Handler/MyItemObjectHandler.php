@@ -32,7 +32,7 @@ class MyItemObjectHandler extends ItemObjectHandler
     public function getCount($criteria = null, $join = null)
     {
         $uid = XoopsUtils::getUid();
-        list($criteria, $join) = $this->_getProgressItemCriteria($uid, $criteria);
+        list($criteria, $join) = $this->_getInProgressItemCriteria($uid, $criteria);
 
         return parent::getCount($criteria, $join);
     }
@@ -52,7 +52,7 @@ class MyItemObjectHandler extends ItemObjectHandler
     public function getObjects($criteria = null, $fieldlist = '', $distinct = false, $idAsKey = false, $join = null)
     {
         $uid = XoopsUtils::getUid();
-        list($criteria, $join) = $this->_getProgressItemCriteria($uid, $criteria);
+        list($criteria, $join) = $this->_getInProgressItemCriteria($uid, $criteria);
 
         return parent::getObjects($criteria, $fieldlist, $distinct, $idAsKey, $join);
     }

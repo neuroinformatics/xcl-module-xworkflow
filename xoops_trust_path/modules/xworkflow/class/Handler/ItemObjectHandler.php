@@ -134,7 +134,7 @@ class ItemObjectHandler extends AbstractObjectHandler
      */
     public function delete(&$obj, $force = false)
     {
-        $hHandler = XoopsUtils::getModuleHandler('HistoryObject', $this->mDirname);
+        $hHandler = &XoopsUtils::getModuleHandler('HistoryObject', $this->mDirname);
         $hHandler->deleteAll(new \Criteria($this->mPrimaryKey, $obj->get($this->mPrimaryKey)), $force);
 
         return parent::delete($obj);
@@ -207,22 +207,21 @@ class ItemObjectHandler extends AbstractObjectHandler
     public function isInProgress($obj, $uid)
     {
         $criteria = new \Criteria($this->mPrimaryKey, $obj->get($this->mPrimaryKey), '=', $this->mTable);
-        list($criteria, $join) = $this->_getProgressItemCriteria($uid, $criteria);
+        list($criteria, $join) = $this->_getInProgressItemCriteria($uid, $criteria);
 
         return parent::getCount($criteria, $join);
     }
 
     /**
-     * count progress items.
+     * count in progress items.
      *
      * @param int $uid
      *
      * @return int
      */
-    public function countProgressItems($uid)
+    public function countInProgressItems($uid)
     {
-        $uid = XoopsUtils::getUid();
-        list($criteria, $join) = $this->_getProgressItemCriteria($uid);
+        list($criteria, $join) = $this->_getInProgressItemCriteria($uid);
 
         return parent::getCount($criteria, $join);
     }
@@ -235,7 +234,7 @@ class ItemObjectHandler extends AbstractObjectHandler
      *
      * @return array
      */
-    protected function _getProgressItemCriteria($uid, $cri = null)
+    protected function _getInProgressItemCriteria($uid, $cri = null)
     {
         $aHandler = &XoopsUtils::getModuleHandler('ApprovalObject', $this->mDirname);
         $aTable = $aHandler->getTable();

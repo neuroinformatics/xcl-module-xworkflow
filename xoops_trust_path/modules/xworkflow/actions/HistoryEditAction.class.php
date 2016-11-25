@@ -29,7 +29,9 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
      */
     public function prepare()
     {
-        parent::prepare();
+        if (!parent::prepare()) {
+            return false;
+        }
         if (!$this->mObject->isNew()) {
             // don't accept to edit previous history data
             $this->mRoot->mController->executeForward(XoopsUtils::renderUri($this->mAsset->mDirname, 'item'));

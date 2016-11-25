@@ -40,8 +40,10 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
      */
     public function prepare()
     {
-        parent::prepare();
-        if (!$this->mObject->isNew() && $this->mObject->countProgressItem() > 0) {
+        if (!parent::prepare()) {
+            return false;
+        }
+        if (!$this->mObject->isNew() && $this->mObject->hasInProgressItems()) {
             $langman = new LanguageManager($this->mAsset->mDirname, 'main');
             $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'), 1, $langman->get('ERROR_ITEM_REMAINS'));
         }
@@ -49,6 +51,8 @@ class Xworkflow_ApprovalEditAction extends Xworkflow_AbstractEditAction
             $this->mObject->set('dirname', $this->mRoot->mContext->mRequest->getRequest('dirname'));
             $this->mObject->set('dataname', $this->mRoot->mContext->mRequest->getRequest('dataname'));
         }
+
+        return true;
     }
 
     /**

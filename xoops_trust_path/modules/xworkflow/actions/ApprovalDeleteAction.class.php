@@ -40,11 +40,15 @@ class Xworkflow_ApprovalDeleteAction extends Xworkflow_AbstractDeleteAction
      */
     public function prepare()
     {
-        parent::prepare();
-        if ($this->mObject->countProgressItem() > 0) {
+        if (!parent::prepare()) {
+            return false;
+        }
+        if ($this->mObject->hasInProgressItems()) {
             $langman = new LanguageManager($this->mAsset->mDirname, 'main');
             $this->mRoot->mController->executeRedirect(XoopsUtils::renderUri($this->mAsset->mDirname, 'approval'), 1, $langman->get('ERROR_ITEM_REMAINS'));
         }
+
+        return true;
     }
 
     /**

@@ -26,11 +26,11 @@ class ApprovalObject extends AbstractObject
     }
 
     /**
-     * count my item.
+     * check whether current step has in progress items.
      *
-     * @return int
+     * @return bool
      */
-    public function countProgressItem()
+    public function hasInProgressItems()
     {
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('dirname', $this->get('dirname')));
@@ -40,6 +40,6 @@ class ApprovalObject extends AbstractObject
         $criteria->add(new \Criteria('deletetime', 0));
         $iHandler = &XoopsUtils::getModuleHandler('ItemObject', $this->mDirname);
 
-        return $iHandler->getCount($criteria);
+        return $iHandler->getCount($criteria) > 0;
     }
 }

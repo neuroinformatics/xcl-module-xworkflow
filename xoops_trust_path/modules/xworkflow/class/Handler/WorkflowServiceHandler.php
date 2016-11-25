@@ -33,7 +33,7 @@ class WorkflowServiceHandler extends AbstractHandler
             return true;
         }
         // check group admin items
-        if ($iHandler->countProgressItems($uid) > 0) {
+        if ($iHandler->countInProgressItems($uid) > 0) {
             return true;
         }
 

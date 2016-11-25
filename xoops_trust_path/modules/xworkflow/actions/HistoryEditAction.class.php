@@ -71,7 +71,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
      */
     protected function _doExecute()
     {
-        $iHandler = XoopsUtils::getModuleHandler('ItemObject', $this->mAsset->mDirname);
+        $iHandler = &XoopsUtils::getModuleHandler('ItemObject', $this->mAsset->mDirname);
         if ($this->mObjectHandler->insert($this->mObject)) {
             $cname = ucfirst($this->mAsset->mTrustDirname).'_Result';
             if ($this->mObject->get('result') == $cname::APPROVE) {

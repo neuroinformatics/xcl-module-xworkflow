@@ -124,7 +124,7 @@ class Xworkflow_ApprovalEditForm extends XCube_ActionForm
     {
         $dirname = $this->mContext->mModule->mXoopsModule->get('dirname');
         $langman = new LanguageManager($dirname, 'main');
-        $handler = XoopsUtils::getModuleHandler('ApprovalObject', $dirname);
+        $handler = &XoopsUtils::getModuleHandler('ApprovalObject', $dirname);
         $target = $this->_getTarget();
         $cri = new CriteriaCompo();
         $cri->add(new Criteria('dirname', $target[0]));

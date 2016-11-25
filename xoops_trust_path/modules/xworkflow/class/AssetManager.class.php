@@ -141,7 +141,7 @@ class Xworkflow_AssetManager
                 $className = $this->_getActionFormName($name, $isAdmin, $mode);
                 break;
             case 'handler':
-                return XoopsUtils::getModuleHandler($name, $this->mDirname);
+                $instance = &XoopsUtils::getModuleHandler($name, $this->mDirname);
             default:
                 return $instance;
             }

@@ -39,8 +39,8 @@ abstract class AbstractObjectHandler extends AbstractHandler
     {
         parent::__construct($db, $dirname);
         $this->mClassName = str_replace(
-            array('\Handler', 'ObjectHandler'),
-            array('\Object', 'Object'),
+            array('\\Handler', 'ObjectHandler'),
+            array('\\Object', 'Object'),
             get_class($this)
         );
     }

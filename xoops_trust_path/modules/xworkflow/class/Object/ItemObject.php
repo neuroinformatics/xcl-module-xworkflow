@@ -53,7 +53,7 @@ class ItemObject extends AbstractObject
      */
     public function setFirstStep()
     {
-        $aHandler = XoopsUtils::getModuleHandler('ApprovalObject', $this->mDirname);
+        $aHandler = &XoopsUtils::getModuleHandler('ApprovalObject', $this->mDirname);
         $aObj = $aHandler->getNextApproval($this->get('dirname'), $this->get('dataname'), 0);
         if ($aObj) {
             $this->set('step', $aObj->get('step'));
@@ -79,7 +79,7 @@ class ItemObject extends AbstractObject
     public function loadHistory($order = 'ASC')
     {
         if ($this->_mHistoryLoadedFlag == false) {
-            $hHandler = XoopsUtils::getModuleHandler('HistoryObject', $this->mDirname);
+            $hHandler = &XoopsUtils::getModuleHandler('HistoryObject', $this->mDirname);
             $criteria = new \Criteria('item_id', $this->get('item_id'));
             $criteria->setSort('posttime', $order);
             $this->mHistory = $hHandler->getObjects($criteria);
@@ -118,7 +118,7 @@ class ItemObject extends AbstractObject
      */
     public function checkStep($uid)
     {
-        $iHandler = XoopsUtils::getModuleHandler('ItemObject', $this->mDirname);
+        $iHandler = &XoopsUtils::getModuleHandler('ItemObject', $this->mDirname);
 
         return $iHandler->isInProgress($this, $uid);
     }
@@ -134,7 +134,7 @@ class ItemObject extends AbstractObject
         $criteria->add(new \Criteria('dirname', $this->get('dirname')));
         $criteria->add(new \Criteria('dataname', $this->get('dataname')));
         $criteria->add(new \Criteria('step', $this->get('step')));
-        $aHandler = XoopsUtils::getModuleHandler('ApprovalObject', $this->mDirname);
+        $aHandler = &XoopsUtils::getModuleHandler('ApprovalObject', $this->mDirname);
         $aObjs = $aHandler->getObjects($criteria);
         if (empty($aObjs)) {
             return null;

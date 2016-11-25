@@ -17,7 +17,6 @@ class Xworkflow_ItemFilterForm extends Xworkflow_AbstractFilterForm
     const SORT_KEY_STATUS = 8;
     const SORT_KEY_POSTTIME = 9;
     const SORT_KEY_DELETETIME = 10;
-    const SORT_KEY_DEFAULT = self::SORT_KEY_ITEM_ID;
 
     /**
      * sort keys.
@@ -44,7 +43,7 @@ class Xworkflow_ItemFilterForm extends Xworkflow_AbstractFilterForm
      */
     public function getDefaultSortKey()
     {
-        return array(self::SORT_KEY_DEFAULT);
+        return array(-self::SORT_KEY_ITEM_ID);
     }
 
     /**

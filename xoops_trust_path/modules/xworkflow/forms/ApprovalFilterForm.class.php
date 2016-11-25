@@ -13,7 +13,6 @@ class Xworkflow_ApprovalFilterForm extends Xworkflow_AbstractFilterForm
     const SORT_KEY_DIRNAME = 4;
     const SORT_KEY_DATANAME = 5;
     const SORT_KEY_STEP = 6;
-    const SORT_KEY_DEFAULT = SORT_KEY_APPROVAL_ID;
 
     /**
      * sort keys.

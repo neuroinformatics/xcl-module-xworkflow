@@ -155,7 +155,7 @@ class WorkflowServiceHandler extends AbstractHandler
             $uids = array_merge($uids, $memberHandler->getUsersByGroup($gid, false));
         } else {
             $gid = Functions::getTargetGroupId($aObj->get('dirname'), $aObj->get('dataname'), $target_id);
-            $uids = array_merge($uids, Functions::getGroupAdminUids($gid));
+            $uids = array_merge($uids, Functions::getGroupAdminUserIds($gid));
         }
         $uids = array_unique($uids);
         sort($uids);

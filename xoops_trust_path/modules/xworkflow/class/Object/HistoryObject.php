@@ -4,6 +4,7 @@ namespace Xworkflow\Object;
 
 use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XoopsUtils;
+use Xworkflow\Enum;
 
 /**
  * history object.
@@ -53,14 +54,12 @@ class HistoryObject extends AbstractObject
     public function getShowResult()
     {
         $langman = new LanguageManager($this->mDirname, 'main');
-        $trustDirname = XoopsUtils::getTrustDirname();
-        $cnameResult = ucfirst($trustDirname).'_Result';
         switch ($this->get('result')) {
-        case $cnameResult::HOLD:
+        case Enum\Result::HOLD:
             return $langman->get('LANG_RESULT_HOLD');
-        case $cnameResult::REJECT:
+        case Enum\Result::REJECT:
             return $langman->get('LANG_RESULT_REJECT');
-        case $cnameResult::APPROVE:
+        case Enum\Result::APPROVE:
             return $langman->get('LANG_RESULT_APPROVE');
         }
 

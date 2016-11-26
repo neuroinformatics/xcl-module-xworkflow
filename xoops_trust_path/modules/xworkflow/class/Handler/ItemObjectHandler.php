@@ -6,6 +6,7 @@ use Xworkflow\Core\Functions;
 use Xworkflow\Core\JoinCriteria;
 use Xworkflow\Core\TableFieldCriteria;
 use Xworkflow\Core\XoopsUtils;
+use Xworkflow\Enum;
 
 /**
  * item object handler.
@@ -183,11 +184,10 @@ class ItemObjectHandler extends AbstractObjectHandler
      */
     public function revertStep($obj)
     {
-        $cnameRevertTo = ucfirst(XoopsUtils::getTrustDirname()).'_RevertTo';
         $revertTo = XoopsUtils::getModuleConfig($this->mDirname, 'revert_to');
         $aHandler = &XoopsUtils::getModuleHandler('ApprovalObject', $this->mDirname);
         $aObj = $aHandler->getPreviousApproval($obj->get('dirname'), $obj->get('dataname'), $obj->get('step'));
-        if (!is_object($aObj) || $revertTo == $cnameRevertTo::ZERO) {
+        if (!is_object($aObj) || $revertTo == Enum\RevertTo::ZERO) {
             $obj->set('step', 0);
             $obj->set('status', \Lenum_WorkflowStatus::REJECTED);
         } else {

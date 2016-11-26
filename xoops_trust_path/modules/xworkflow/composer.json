@@ -2,9 +2,10 @@
     "autoload": {
         "psr-4": {
             "Xworkflow\\Core\\": "class/Core/",
-            "Xworkflow\\Object\\": "class/Object/",
+            "Xworkflow\\Enum\\": "class/Enum/",
             "Xworkflow\\Handler\\": "class/Handler/",
-            "Xworkflow\\Installer\\": "class/Installer/"
+            "Xworkflow\\Installer\\": "class/Installer/",
+            "Xworkflow\\Object\\": "class/Object/"
         }
     }
 }

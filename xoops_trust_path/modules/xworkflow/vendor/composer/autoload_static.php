@@ -12,6 +12,7 @@ class ComposerStaticInite6d23cfe9d8081b8bb10e73c30323454
             'Xworkflow\\Object\\' => 17,
             'Xworkflow\\Installer\\' => 20,
             'Xworkflow\\Handler\\' => 18,
+            'Xworkflow\\Enum\\' => 15,
             'Xworkflow\\Core\\' => 15,
         ),
     );
@@ -28,6 +29,10 @@ class ComposerStaticInite6d23cfe9d8081b8bb10e73c30323454
         'Xworkflow\\Handler\\' => 
         array (
             0 => __DIR__ . '/../..' . '/class/Handler',
+        ),
+        'Xworkflow\\Enum\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/class/Enum',
         ),
         'Xworkflow\\Core\\' => 
         array (

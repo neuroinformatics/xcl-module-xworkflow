@@ -16,9 +16,9 @@ class Functions
     const GROUP_ACT_DELETE_REQUIRED = 5;
 
     // flags for `groups_users_link`.`activate`.
-    const LINK_ACT_CERTIFIED = 0;
-    const LINK_ACT_JOIN_REQUIRED = 1;
-    const LINK_ACT_LEAVE_REQUIRED = 2;
+    const GULINK_ACT_CERTIFIED = 0;
+    const GULINK_ACT_JOIN_REQUIRED = 1;
+    const GULINK_ACT_LEAVE_REQUIRED = 2;
 
     /**
      * get workflow clients.
@@ -90,7 +90,7 @@ class Functions
         $db = &\XoopsDatabaseFactory::getDatabaseConnection();
         $table = $db->prefix('groups');
         $table2 = $db->prefix('groups_users_link');
-        $sql = 'SELECT `g`.`groupid` FROM `'.$table.'` AS `g` INNER JOIN `'.$table2.'` AS `l` ON `g`.`groupid`=`l`.`groupid` WHERE `g`.`activate`!='.self::GROUP_ACT_NOT_CERTIFIED.' AND `l`.`activate`!='.self::LINK_ACT_JOIN_REQUIRED.' AND `l`.`uid`='.$uid.' AND `l`.`is_admin`=1';
+        $sql = 'SELECT `g`.`groupid` FROM `'.$table.'` AS `g` INNER JOIN `'.$table2.'` AS `l` ON `g`.`groupid`=`l`.`groupid` WHERE `g`.`activate`!='.self::GROUP_ACT_NOT_CERTIFIED.' AND `l`.`activate`!='.self::GULINK_ACT_JOIN_REQUIRED.' AND `l`.`uid`='.$uid.' AND `l`.`is_admin`=1';
         if (!($result = $db->query($sql))) {
             return $gids;
         }
@@ -118,7 +118,7 @@ class Functions
         $db = &\XoopsDatabaseFactory::getDatabaseConnection();
         $table = $db->prefix('groups_users_link');
         $table2 = $db->prefix('groups');
-        $sql = 'SELECT `l`.`uid` FROM `'.$table.'` AS `l` INNER JOIN `'.$table2.'` AS `g` ON `l`.`groupid`=`g`.`groupid` WHERE `g`.`activate`!='.self::GROUP_ACT_NOT_CERTIFIED.' AND `l`.`activate`!='.self::LINK_ACT_JOIN_REQUIRED.' AND `g`.`groupid`='.$gid.' AND `l`.`is_admin`=1';
+        $sql = 'SELECT `l`.`uid` FROM `'.$table.'` AS `l` INNER JOIN `'.$table2.'` AS `g` ON `l`.`groupid`=`g`.`groupid` WHERE `g`.`activate`!='.self::GROUP_ACT_NOT_CERTIFIED.' AND `l`.`activate`!='.self::GULINK_ACT_JOIN_REQUIRED.' AND `g`.`groupid`='.$gid.' AND `l`.`is_admin`=1';
         if (!($result = $db->query($sql))) {
             return $gids;
         }

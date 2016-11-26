@@ -2,6 +2,7 @@
 
 use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XoopsUtils;
+use Xworkflow\Enum;
 
 $langman = new LanguageManager($mydirname, 'modinfo');
 
@@ -92,7 +93,6 @@ if (XoopsUtils::isAdmin(XoopsUtils::getUid(), $mydirname)) {
 
 // Config setting
 
-$cname = $mytrustdirname.'_RevertTo';
 $modversion['config'] = array(
     array(
         'name' => 'revert_to',
@@ -102,8 +102,8 @@ $modversion['config'] = array(
         'valuetype' => 'string',
         'default' => '0',
         'options' => array(
-            $langman->getName('REVERTTO_ZERO') => $cname::ZERO,
-            $langman->getName('REVERTTO_FORMER') => $cname::FORMER,
+            $langman->getName('REVERTTO_ZERO') => Enum\RevertTo::ZERO,
+            $langman->getName('REVERTTO_FORMER') => Enum\RevertTo::FORMER,
         ),
     ),
 );

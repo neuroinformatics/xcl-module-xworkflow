@@ -2,6 +2,7 @@
 
 use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XoopsUtils;
+use Xworkflow\Enum;
 
 require_once dirname(dirname(__FILE__)).'/class/AbstractEditAction.class.php';
 
@@ -75,8 +76,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
     {
         $iHandler = &XoopsUtils::getModuleHandler('ItemObject', $this->mAsset->mDirname);
         if ($this->mObjectHandler->insert($this->mObject)) {
-            $cname = ucfirst($this->mAsset->mTrustDirname).'_Result';
-            if ($this->mObject->get('result') == $cname::APPROVE) {
+            if ($this->mObject->get('result') == Enum\Result::APPROVE) {
                 $iHandler->proceedStep($this->mObject->mItem);
             } else {
                 $iHandler->revertStep($this->mObject->mItem);

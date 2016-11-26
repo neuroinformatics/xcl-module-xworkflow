@@ -29,6 +29,7 @@ CREATE TABLE `{prefix}_{dirname}_item` (
   `dirname` varchar(45) NOT NULL,
   `dataname` varchar(45) NOT NULL,
   `target_id` int(10) unsigned NOT NULL,
+  `target_gid` int(10) unsigned NOT NULL,
   `uid` mediumint(8) unsigned NOT NULL,
   `step` tinyint(3) unsigned NOT NULL,
   `status` tinyint(3) unsigned NOT NULL,

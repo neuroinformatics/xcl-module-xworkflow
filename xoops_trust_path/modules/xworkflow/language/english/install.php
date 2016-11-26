@@ -51,6 +51,8 @@ $langman->set('INSTALL_MSG_MODULE_INFORMATION_DELETED', 'Module information is d
 $langman->set('INSTALL_ERROR_MODULE_INFORMATION_DELETED', 'Module information could not deleted.');
 $langman->set('INSTALL_MSG_TABLE_DOROPPED', 'Table "{0}" is doropped.');
 $langman->set('INSTALL_ERROR_TABLE_DOROPPED', 'Table "{0}" could not doropped.');
+$langman->set('INSTALL_MSG_TABLE_UPDATED', 'Table "{0}" is updated.');
+$langman->set('INSTALL_ERROR_TABLE_UPDATED', 'Table "{0}" could not updated.');
 $langman->set('INSTALL_ERROR_BLOCK_TPL_DELETED', 'Block template could not deleted.<br />{0}');
 $langman->set('INSTALL_MSG_MODULE_UNINSTALLED', 'Module "{0}" is uninstalled.');
 $langman->set('INSTALL_ERROR_MODULE_UNINSTALLED', 'Module "{0}" could not uninstalled.');

@@ -22,7 +22,7 @@ abstract class AbstractUpdater
      *
      * @var array
      */
-    protected $mMileStone = array();
+    protected $mMilestone = array();
 
     /**
      * current xoops module.
@@ -58,6 +58,13 @@ abstract class AbstractUpdater
      * @var bool
      */
     protected $mForceMode = false;
+
+    /**
+     * phase upgrade mode.
+     *
+     * @var bool
+     */
+    protected $mPhaseUpgradeMode = true;
 
     /**
      * language manager.
@@ -138,10 +145,12 @@ abstract class AbstractUpdater
      */
     public function getTargetPhase()
     {
-        ksort($this->mMileStone);
-        foreach ($this->mMileStone as $tVer => $tMethod) {
-            if ($tVer >= $this->getCurrentVersion()) {
-                return intval($tVer);
+        if ($this->mPhaseUpgradeMode) {
+            ksort($this->mMilestone);
+            foreach ($this->mMilestone as $tVer => $tMethod) {
+                if ($tVer > $this->getCurrentVersion()) {
+                    return intval($tVer);
+                }
             }
         }
 
@@ -155,10 +164,12 @@ abstract class AbstractUpdater
      */
     public function hasUpgradeMethod()
     {
-        ksort($this->mMileStone);
-        foreach ($this->mMileStone as $tVer => $tMethod) {
-            if ($tVer >= $this->getCurrentVersion() && is_callable(array($this, $tMethod))) {
-                return true;
+        if ($this->mPhaseUpgradeMode) {
+            ksort($this->mMilestone);
+            foreach ($this->mMilestone as $tVer => $tMethod) {
+                if ($tVer > $this->getCurrentVersion() && is_callable(array($this, $tMethod))) {
+                    return true;
+                }
             }
         }
 
@@ -172,7 +183,29 @@ abstract class AbstractUpdater
      */
     public function isLatestUpgrade()
     {
-        return $this->mTargetXoopsModule->get('version') == $this->getTargetPhase();
+        if ($this->mPhaseUpgradeMode) {
+            return $this->mTargetXoopsModule->get('version') == $this->getTargetPhase();
+        }
+
+        return true;
+    }
+
+    /**
+     * execute upgrade.
+     *
+     * @return bool
+     */
+    public function executeUpgrade()
+    {
+        $dirname = $this->mCurrentXoopsModule->get('dirname');
+        $this->mLangMan = new LanguageManager($dirname, 'install');
+        $this->mLangMan->load();
+
+        if ($this->mPhaseUpgradeMode && $this->hasUpgradeMethod()) {
+            return $this->_callUpgradeMethod();
+        }
+
+        return $this->_executeAutomaticUpgrade();
     }
 
     /**
@@ -201,29 +234,15 @@ abstract class AbstractUpdater
     }
 
     /**
-     * execute upgrade.
-     *
-     * @return bool
-     */
-    public function executeUpgrade()
-    {
-        $dirname = $this->mCurrentXoopsModule->get('dirname');
-        $this->mLangMan = new LanguageManager($dirname, 'install');
-        $this->mLangMan->load();
-
-        return $this->hasUpgradeMethod() ? $this->_callUpgradeMethod() : $this->executeAutomaticUpgrade();
-    }
-
-    /**
      * call upgrade method.
      *
      * @return bool
      */
     protected function _callUpgradeMethod()
     {
-        ksort($this->mMileStone);
-        foreach ($this->mMileStone as $tVer => $tMethod) {
-            if ($tVer >= $this->getCurrentVersion() && is_callable(array($this, $tMethod))) {
+        ksort($this->mMilestone);
+        foreach ($this->mMilestone as $tVer => $tMethod) {
+            if ($tVer > $this->getCurrentVersion() && is_callable(array($this, $tMethod))) {
                 return $this->$tMethod();
             }
         }
@@ -236,9 +255,25 @@ abstract class AbstractUpdater
      *
      * @return bool
      */
-    public function executeAutomaticUpgrade()
+    protected function _executeAutomaticUpgrade()
     {
         $this->mLog->addReport($this->mLangMan->get('INSTALL_MSG_UPDATE_STARTED'));
+        if (!$this->mPhaseUpgradeMode) {
+            $currentVersion = $this->getCurrentVersion();
+            ksort($this->mMilestone);
+            foreach ($this->mMilestone as $tVer => $tMethod) {
+                if ($tVer > $currentVersion && is_callable(array($this, $tMethod))) {
+                    if (!$this->$tMethod()) {
+                        if (!$this->mForceMode && $this->mLog->hasError()) {
+                            $this->_processReport();
+
+                            return false;
+                        }
+                    }
+                    $currentVersion = $tVer;
+                }
+            }
+        }
         $this->_updateModuleTemplates();
         if (!$this->mForceMode && $this->mLog->hasError()) {
             $this->_processReport();
@@ -257,7 +292,7 @@ abstract class AbstractUpdater
 
             return false;
         }
-        $this->saveXoopsModule($this->mTargetXoopsModule);
+        $this->_saveXoopsModule($this->mTargetXoopsModule);
         if (!$this->mForceMode && $this->mLog->hasError()) {
             $this->_processReport();
 
@@ -273,7 +308,7 @@ abstract class AbstractUpdater
      *
      * @param XoopsModule &$module
      */
-    public function saveXoopsModule(&$module)
+    protected function _saveXoopsModule(&$module)
     {
         $moduleHandler = &xoops_gethandler('module');
         if ($moduleHandler->insert($module)) {

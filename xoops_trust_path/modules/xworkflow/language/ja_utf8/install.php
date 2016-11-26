@@ -51,6 +51,8 @@ $langman->set('INSTALL_MSG_MODULE_INFORMATION_DELETED', 'モジュール情報�
 $langman->set('INSTALL_ERROR_MODULE_INFORMATION_DELETED', 'モジュール情報が削除できませんでした。');
 $langman->set('INSTALL_MSG_TABLE_DOROPPED', 'テーブル"{0}"を削除しました。');
 $langman->set('INSTALL_ERROR_TABLE_DOROPPED', 'テーブル"{0}"が削除できませんでした。');
+$langman->set('INSTALL_MSG_TABLE_UPDATED', 'テーブル"{0}"をアップデートしました。');
+$langman->set('INSTALL_ERROR_TABLE_UPDATED', 'テーブル"{0}"がアップデートできませんでした。');
 $langman->set('INSTALL_ERROR_BLOCK_TPL_DELETED', 'ブロックテンプレートが削除できませんでした。<br />{0}');
 $langman->set('INSTALL_MSG_MODULE_UNINSTALLED', 'モジュール"{0}"をアンインストールしました。');
 $langman->set('INSTALL_ERROR_MODULE_UNINSTALLED', 'モジュール"{0}"がアンインストールできませんでした。');

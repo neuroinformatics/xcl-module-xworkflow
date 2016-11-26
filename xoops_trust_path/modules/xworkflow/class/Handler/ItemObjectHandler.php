@@ -154,6 +154,13 @@ class ItemObjectHandler extends AbstractObjectHandler
         if (is_object($aObj)) {
             $obj->set('step', $aObj->get('step'));
             $obj->set('status', \Lenum_WorkflowStatus::PROGRESS);
+            if ($aObj->get('uid') == 0 && $aObj->get('gid') == 0) {
+                $target_gid = Functions::getTargetGroupId($obj->get('dirname'), $obj->get('dataname'), $obj->get('target_id'));
+                if ($target_gid === false) {
+                    return false;
+                }
+                $obj->set('target_gid', $target_gid);
+            }
         } else {
             $obj->set('status', \Lenum_WorkflowStatus::FINISHED);
         }
@@ -185,6 +192,13 @@ class ItemObjectHandler extends AbstractObjectHandler
             $obj->set('status', \Lenum_WorkflowStatus::REJECTED);
         } else {
             $obj->set('step', $aObj->get('step'));
+            if ($aObj->get('uid') == 0 && $aObj->get('gid') == 0) {
+                $target_gid = Functions::getTargetGroupId($obj->get('dirname'), $obj->get('dataname'), $obj->get('target_id'));
+                if ($target_gid === false) {
+                    return false;
+                }
+                $obj->set('target_gid', $target_gid);
+            }
         }
         if ($this->insert($obj)) {
             $result = null;

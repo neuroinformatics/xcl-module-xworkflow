@@ -85,7 +85,7 @@ class InstallUtils
             if ($db->query($sql)) {
                 $log->addReport(XCubeUtils::formatString($langman->get('INSTALL_MSG_SQL_SUCCESS'), $sql));
             } else {
-                $log->addReport(XCubeUtils::formatString($langman->get('INSTALL_MSG_SQL_ERROR'), $sql));
+                $log->addError(XCubeUtils::formatString($langman->get('INSTALL_MSG_SQL_ERROR'), $sql));
                 $successFlag = false;
             }
         }

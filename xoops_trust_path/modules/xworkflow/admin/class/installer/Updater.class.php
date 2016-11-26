@@ -48,9 +48,12 @@ class Xworkflow_Updater extends AbstractUpdater
             $criteria->add(new \Criteria('dataname', $dataname));
             $criteria->add(new \Criteria('step', $aObj->get('step')));
             $criteria->add(new \Criteria('status', \Lenum_WorkflowStatus::PROGRESS));
-            $iObjs = $iHandler->getObjects($criteria);
-            if (!empty($iObjs)) {
-                $iObj = array_shift($iObjs);
+            if (!$res = $iHandler->open($criteria)) {
+                $this->mLog->addError(XCubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_TABLE_UPDATED'), $aHandler->getTable()));
+
+                return false;
+            }
+            while ($iObj = $iHandler->getNext($res)) {
                 $target_gid = Functions::getTargetGroupId($dirname, $dataname, $iObj->get('target_id'));
                 if ($target_gid === false) {
                     $this->mLog->addError(XCubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_TABLE_UPDATED'), $aHandler->getTable()));
@@ -64,6 +67,7 @@ class Xworkflow_Updater extends AbstractUpdater
                     return false;
                 }
             }
+            $iHandler->close($res);
         }
 
         return true;

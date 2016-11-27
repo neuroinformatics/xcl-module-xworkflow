@@ -33,7 +33,7 @@ class ItemObjectHandler extends AbstractObjectHandler
      * @param string $dataname
      * @param int    $id
      *
-     * @return ItemObject
+     * @return Object\ItemObject
      */
     public function getItem($dirname, $dataname, $target_id)
     {
@@ -126,10 +126,10 @@ class ItemObjectHandler extends AbstractObjectHandler
     }
 
     /**
-     * delete.
+     * delete object.
      *
-     * @param ItemObject &$obj
-     * @param bool       $force
+     * @param Object\ItemObject &$obj
+     * @param bool              $force
      *
      * @return bool
      */
@@ -144,8 +144,8 @@ class ItemObjectHandler extends AbstractObjectHandler
     /**
      * proceed step.
      *
-     * @param ItemObject &$obj
-     * @param string     $comment
+     * @param Object\ItemObject &$obj
+     * @param string            $comment
      *
      * @return bool
      */
@@ -178,8 +178,8 @@ class ItemObjectHandler extends AbstractObjectHandler
     /**
      * revert step.
      *
-     * @param ItemObject &$obj
-     * @param string     $comment
+     * @param Object\ItemObject &$obj
+     * @param string            $comment
      *
      * @return bool
      */
@@ -213,10 +213,10 @@ class ItemObjectHandler extends AbstractObjectHandler
     /**
      * force finish step.
      *
-     * @param ItemObject  &$obj
-     * @param Enum\Result $result
-     * @param int         $uid
-     * @param int         $comment
+     * @param Object\ItemObject &$obj
+     * @param Enum\Result       $result
+     * @param int               $uid
+     * @param int               $comment
      */
     public function finishStep(&$obj, $result, $uid, $comment)
     {
@@ -248,8 +248,8 @@ class ItemObjectHandler extends AbstractObjectHandler
     /**
      * check whether item id is in progess.
      *
-     * @param ItemObject $obj
-     * @param int        $uid
+     * @param Object\ItemObject $obj
+     * @param int               $uid
      *
      * @return bool
      */

@@ -10,8 +10,8 @@ class ApprovalObjectHandler extends AbstractObjectHandler
     /**
      * constructor.
      *
-     * @param object &$db
-     * @param string $dirname
+     * @param \XoopsDatabase &$db
+     * @param string         $dirname
      */
     public function __construct(&$db, $dirname)
     {
@@ -27,7 +27,7 @@ class ApprovalObjectHandler extends AbstractObjectHandler
      * @param string $dataname
      * @param int    $step
      *
-     * @return object
+     * @return Object\ApprovalObject
      */
     public function getNextApproval($dirname, $dataname, $step)
     {
@@ -48,7 +48,7 @@ class ApprovalObjectHandler extends AbstractObjectHandler
      * @param string $dataname
      * @param int    $step
      *
-     * @return object
+     * @return Object\ApprovalObject
      */
     public function getPreviousApproval($dirname, $dataname, $step)
     {

@@ -32,8 +32,8 @@ abstract class AbstractObjectHandler extends AbstractHandler
      * constractor
      * override this function then set mTable and mPrimaryKey variables.
      *
-     * @param object &$db
-     * @param string $dirname
+     * @param \XoopsDatabase &$db
+     * @param string         $dirname
      */
     public function __construct(&$db, $dirname)
     {
@@ -70,7 +70,7 @@ abstract class AbstractObjectHandler extends AbstractHandler
      *
      * @param bool $isNew
      *
-     * @return &object
+     * @return Object\AbstractObject
      */
     public function create($isNew = true)
     {
@@ -87,7 +87,7 @@ abstract class AbstractObjectHandler extends AbstractHandler
      *
      * @param mixed $id
      *
-     * @return object
+     * @return Object\AbstractObject
      */
     public function get($id)
     {
@@ -105,12 +105,11 @@ abstract class AbstractObjectHandler extends AbstractHandler
     /**
      * get objects.
      *
-     * @param object $criteria
-     * @param string $fieldlist
-     * @param bool   $distinct
-     * @param object $join
-     * @param bool   $idAsKey
-     * @param object $join
+     * @param \CriteriaElement  $criteria
+     * @param string            $fieldlist
+     * @param bool              $distinct
+     * @param bool              $idAsKey
+     * @param Core\JoinCriteria $join
      *
      * @return array
      */
@@ -136,8 +135,8 @@ abstract class AbstractObjectHandler extends AbstractHandler
     /**
      * get count.
      *
-     * @param object $criteria
-     * @param object $join
+     * @param \CriteriaElement  $criteria
+     * @param Core\JoinCriteria $join
      *
      * @return int
      */
@@ -156,8 +155,8 @@ abstract class AbstractObjectHandler extends AbstractHandler
     /**
      * insert/update object.
      *
-     * @param object &$obj
-     * @param bool   $force
+     * @param Object\AbstractObject &$obj
+     * @param bool                  $force
      *
      * @return bool
      */
@@ -169,8 +168,8 @@ abstract class AbstractObjectHandler extends AbstractHandler
     /**
      * replace object.
      *
-     * @param object &$obj
-     * @param bool   $force
+     * @param Object\AbstractObject &$obj
+     * @param bool                  $force
      *
      * @return bool
      */
@@ -179,6 +178,14 @@ abstract class AbstractObjectHandler extends AbstractHandler
         return $this->_update($obj, $force, true);
     }
 
+    /**
+     * delete object.
+     *
+     * @param Object\AbstractObject &$obj
+     * @param bool                  $force
+     *
+     * @return bool
+     */
     public function delete(&$obj, $force = false)
     {
         $keyId = $obj->get($this->mPrimaryKey);
@@ -190,8 +197,8 @@ abstract class AbstractObjectHandler extends AbstractHandler
     /**
      * delete objects using criteria.
      *
-     * @param object $criteria
-     * @param bool   $force    force operation
+     * @param \CriteriaElement $criteria
+     * @param bool             $force    force operation
      *
      * @return bool false if failed
      */
@@ -211,10 +218,10 @@ abstract class AbstractObjectHandler extends AbstractHandler
     /**
      * open select query.
      *
-     * @param object $criteria
-     * @param string $fieldlist
-     * @param bool   $distinct
-     * @param object $join
+     * @param \CriteriaElement  $criteria
+     * @param string            $fieldlist
+     * @param bool              $distinct
+     * @param Core\JoinCriteria $join
      *
      * @return resource
      */
@@ -235,7 +242,7 @@ abstract class AbstractObjectHandler extends AbstractHandler
      *
      * @param resource $res
      *
-     * @return object
+     * @return Object\AbstractObject
      */
     public function getNext(&$res)
     {
@@ -269,9 +276,9 @@ abstract class AbstractObjectHandler extends AbstractHandler
     /**
      * insert/update/replace object.
      *
-     * @param object &$obj
-     * @param bool   $force
-     * @param bool   $isReplace
+     * @param Object/AbstractObject &$obj
+     * @param bool                  $force
+     * @param bool                  $isReplace
      *
      * @return bool
      */
@@ -335,7 +342,7 @@ abstract class AbstractObjectHandler extends AbstractHandler
     /**
      * make variables array for sql.
      *
-     * @param object &$obj
+     * @param Object/AbstractObject &$obj
      *
      * @return array
      */
@@ -377,10 +384,10 @@ abstract class AbstractObjectHandler extends AbstractHandler
     /**
      * make select sql statement.
      *
-     * @param object $criteria
-     * @param string $fieldlist
-     * @param bool   $distinct
-     * @param object $join
+     * @param \CriteriaElement  $criteria
+     * @param string            $fieldlist
+     * @param bool              $distinct
+     * @param Core\JoinCriteria $join
      *
      * @return string
      */

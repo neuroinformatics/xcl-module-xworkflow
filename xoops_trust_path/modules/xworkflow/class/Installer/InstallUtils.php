@@ -13,8 +13,8 @@ class InstallUtils
     /**
      * install sql automatically.
      *
-     * @param XoopsModule &$module
-     * @param InstallLog  &$log
+     * @param \XoopsModule         &$module
+     * @param Installer\InstallLog &$log
      *
      * @return bool
      */
@@ -62,9 +62,9 @@ class InstallUtils
     /**
      * DB query.
      *
-     * @param string      $query
-     * @param XoopsModule &$module
-     * @param InstallLog  &$log
+     * @param string               $query
+     * @param \XoopsModule         &$module
+     * @param Installer\InstallLog &$log
      *
      * @return bool
      */
@@ -150,8 +150,8 @@ class InstallUtils
     /**
      * install all of module templates.
      *
-     * @param XoopsModule &$module
-     * @param InstallLog  &$log
+     * @param \XoopsModule         &$module
+     * @param Installer\InstallLog &$log
      */
     public static function installAllOfModuleTemplates(&$module, &$log)
     {
@@ -166,9 +166,9 @@ class InstallUtils
     /**
      * install module template.
      *
-     * @param XoopsModule &$module
-     * @param string[]    $template
-     * @param InstallLog  &$log
+     * @param \XoopsModule         &$module
+     * @param string[]             $template
+     * @param Installer\InstallLog &$log
      *
      * @return bool
      */
@@ -207,9 +207,9 @@ class InstallUtils
     /**
      * uninstall all of module templates.
      *
-     * @param XoopsModule &$module
-     * @param InstallLog  &$log
-     * @param bool        $defaultOnly
+     * @param \XoopsModule         &$module
+     * @param Installer\InstallLog &$log
+     * @param bool                 $defaultOnly
      */
     public static function uninstallAllOfModuleTemplates(&$module, &$log, $defaultOnly = true)
     {
@@ -231,8 +231,8 @@ class InstallUtils
     /**
      * install all of blocks.
      *
-     * @param XoopsModule &$module
-     * @param InstallLog  &$log
+     * @param \XoopsModule         &$module
+     * @param Installer\InstallLog &$log
      *
      * @return bool
      */
@@ -252,10 +252,10 @@ class InstallUtils
     /**
      * create block by info.
      *
-     * @param XoopsModule &$module
-     * @param string[]    $block
+     * @param \XoopsModule &$module
+     * @param string[]     $block
      *
-     * @return XoopsBlock
+     * @return \XoopsBlock
      */
     public static function &createBlockByInfo(&$module, $block)
     {
@@ -285,10 +285,10 @@ class InstallUtils
     /**
      * install block.
      *
-     * @param XoopsModule &$module
-     * @param XoopsBlock  &$blockObj
-     * @param string[]    &$block
-     * @param InstallLog  &$log
+     * @param \XoopsModule        &$module
+     * @param \XoopsBlock         &$blockObj
+     * @param string[]            &$block
+     * @param Instller\InstallLog &$log
      *
      * @return bool
      */
@@ -346,9 +346,9 @@ class InstallUtils
     /**
      * install block template.
      *
-     * @param XoopsBlock  &$block
-     * @param XoopsModule &$module
-     * @param InstallLog  &$log
+     * @param \XoopsBlock          &$block
+     * @param \XoopsModule         &$module
+     * @param Installer\InstallLog &$log
      *
      * @return bool
      */
@@ -397,8 +397,8 @@ class InstallUtils
     /**
      * uninstall all of blocks.
      *
-     * @param XoopsModule &$module
-     * @param InstallLog  &$log
+     * @param \XoopsModule         &$module
+     * @param Installer\InstallLog &$log
      *
      * @return bool
      */
@@ -434,8 +434,8 @@ class InstallUtils
     /**
      * smart update all of blocks.
      *
-     * @param XoopsModule &$module
-     * @param InstallLog  &$log
+     * @param \XoopsModule         &$module
+     * @param Installer\InstallLog &$log
      */
     public static function smartUpdateAllOfBlocks(&$module, &$log)
     {
@@ -467,9 +467,9 @@ class InstallUtils
     /**
      * update block template by info.
      *
-     * @param Legacy_BlockInformation &$info
-     * @param XoopsModule             &$module
-     * @param InstallLog              &$log
+     * @param \Legacy_BlockInformation &$info
+     * @param \XoopsModule             &$module
+     * @param Installer\InstallLog     &$log
      */
     public static function updateBlockTemplateByInfo(&$info, &$module, &$log)
     {
@@ -488,9 +488,9 @@ class InstallUtils
     /**
      * update block by info.
      *
-     * @param Legacy_BlockInformation &$info
-     * @param XoopsModule             &$module
-     * @param InstallLog              &$log
+     * @param \Legacy_BlockInformation &$info
+     * @param \XoopsModule             &$module
+     * @param Installer\InstallLog     &$log
      */
     public static function updateBlockByInfo(&$info, &$module, &$log)
     {
@@ -523,9 +523,9 @@ class InstallUtils
     /**
      * install block by info.
      *
-     * @param Legacy_BlockInformation &$info
-     * @param XoopsModule             &$module
-     * @param InstallLog              &$log
+     * @param \Legacy_BlockInformation &$info
+     * @param \XoopsModule             &$module
+     * @param Installer\InstallLog     &$log
      *
      * @return bool
      */
@@ -563,9 +563,9 @@ class InstallUtils
     /**
      * uninstall block by func number.
      *
-     * @param int         $func_num
-     * @param XoopsModule &$module
-     * @param InstallLog  &$log
+     * @param int                  $func_num
+     * @param \XoopsModule         &$module
+     * @param Installer\InstallLog &$log
      *
      * @return bool
      */
@@ -594,10 +594,10 @@ class InstallUtils
     /**
      * uninstall block template.
      *
-     * @param XoopsBlock  &$block
-     * @param XoopsModule &$module
-     * @param InstallLog  &$log
-     * @param bool        $defaultOnly
+     * @param \XoopsBlock          &$block
+     * @param \XoopsModule         &$module
+     * @param Installer\InstallLog &$log
+     * @param bool                 $defaultOnly
      *
      * @return bool
      */
@@ -622,8 +622,8 @@ class InstallUtils
     /**
      * install all of configs.
      *
-     * @param XoopsModule &$module
-     * @param InstallLog  &$log
+     * @param \XoopsModule         &$module
+     * @param Installer\InstallLog &$log
      *
      * @return bool
      */
@@ -669,9 +669,9 @@ class InstallUtils
     /**
      * install config by info.
      *
-     * @param Legacy_PreferenceInformation &$info
-     * @param XoopsModule                  &$module
-     * @param InstallLog                   &$log
+     * @param \Legacy_PreferenceInformation &$info
+     * @param \XoopsModule                  &$module
+     * @param Installer\InstallLog          &$log
      */
     public static function installConfigByInfo(&$info, &$module, &$log)
     {
@@ -707,8 +707,8 @@ class InstallUtils
     /**
      * uninstall all of configs.
      *
-     * @param XoopsModule &$module
-     * @param InstallLog  &$log
+     * @param \XoopsModule         &$module
+     * @param Installer\InstallLog &$log
      *
      * @return bool
      */
@@ -740,9 +740,9 @@ class InstallUtils
     /**
      * uninstall config by order.
      *
-     * @param int         $order
-     * @param XoopsModule &$module
-     * @param InstallLog  &$log
+     * @param int                  $order
+     * @param \XoopsModule         &$module
+     * @param Installer\InstallLog &$log
      */
     public static function uninstallConfigByOrder($order, &$module, &$log)
     {
@@ -766,8 +766,8 @@ class InstallUtils
     /**
      * smart update all of configs.
      *
-     * @param XoopsModule &$module
-     * @param InstallLog  &$log
+     * @param \XoopsModule         &$module
+     * @param Installer\InstallLog &$log
      */
     public static function smartUpdateAllOfConfigs(&$module, &$log)
     {
@@ -800,9 +800,9 @@ class InstallUtils
     /**
      * update config by info.
      *
-     * @param Legacy_PreferenceInformation &$info
-     * @param XoopsModule                  &$module
-     * @param InstallLog                   &$log
+     * @param \Legacy_PreferenceInformation &$info
+     * @param \XoopsModule                  &$module
+     * @param Installer\InstallLog          &$log
      *
      * @return bool
      */
@@ -862,9 +862,9 @@ class InstallUtils
     /**
      * update config order by info.
      *
-     * @param Legacy_PreferenceInformation &$info
-     * @param XoopsModule                  &$module
-     * @param InstallLog                   &$log
+     * @param \Legacy_PreferenceInformation &$info
+     * @param \XoopsModule                  &$module
+     * @param Installer\InstallLog          &$log
      *
      * @return bool
      */

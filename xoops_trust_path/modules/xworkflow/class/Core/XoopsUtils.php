@@ -92,7 +92,7 @@ class XoopsUtils
      * @param string $name
      * @param string $dirname
      *
-     * @return &object
+     * @return Handler\AbstractHandler&
      */
     public static function &getModuleHandler($name, $dirname)
     {

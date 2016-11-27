@@ -14,7 +14,7 @@ class HistoryObject extends AbstractObject
     /**
      * item cache.
      *
-     * @var object
+     * @var Object\ItemObject
      */
     public $mItem = null;
 

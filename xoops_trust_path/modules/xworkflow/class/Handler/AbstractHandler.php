@@ -10,7 +10,7 @@ abstract class AbstractHandler
     /**
      * database object.
      *
-     * @var object
+     * @var \XoopsDatabase
      */
     protected $mDB;
 
@@ -24,8 +24,8 @@ abstract class AbstractHandler
     /**
      * constractor.
      *
-     * @param object &$db
-     * @param string $dirname
+     * @param \XoopsDatabase &$db
+     * @param string         $dirname
      */
     public function __construct(&$db, $dirname)
     {

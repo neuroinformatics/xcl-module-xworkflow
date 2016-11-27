@@ -10,8 +10,8 @@ class HistoryObjectHandler extends AbstractObjectHandler
     /**
      * constructor.
      *
-     * @param object &$db
-     * @param string $dirname
+     * @param \XoopsDatabase &$db
+     * @param string         $dirname
      */
     public function __construct(&$db, $dirname)
     {

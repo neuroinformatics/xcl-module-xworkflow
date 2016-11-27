@@ -83,7 +83,7 @@ class JoinCriteria
     /**
      * cascade join criteria.
      *
-     * @param object $join adding object
+     * @param Core\JoinCriteria $join adding object
      */
     public function cascade($join)
     {

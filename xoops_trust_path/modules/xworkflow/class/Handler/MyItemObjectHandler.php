@@ -12,8 +12,8 @@ class MyItemObjectHandler extends ItemObjectHandler
     /**
      * constructor.
      *
-     * @param object &$db
-     * @param string $dirname
+     * @param \XoopsDatabase &$db
+     * @param string         $dirname
      */
     public function __construct(&$db, $dirname)
     {
@@ -24,8 +24,8 @@ class MyItemObjectHandler extends ItemObjectHandler
     /**
      * count objects.
      *
-     * @param object $criteria
-     * @param object $join
+     * @param \CriteriaElement  $criteria
+     * @param Core\JoinCriteria $join
      *
      * @return int
      */
@@ -40,12 +40,11 @@ class MyItemObjectHandler extends ItemObjectHandler
     /**
      * get objects.
      *
-     * @param object $criteria
-     * @param string $fieldlist
-     * @param bool   $distinct
-     * @param object $join
-     * @param bool   $idAsKey
-     * @param object $join
+     * @param \CriteriaElement  $criteria
+     * @param string            $fieldlist
+     * @param bool              $distinct
+     * @param bool              $idAsKey
+     * @param Core\JoinCriteria $join
      *
      * @return array
      */

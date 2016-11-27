@@ -13,7 +13,7 @@ abstract class AbstractInstaller
     /**
      * module log.
      *
-     * @var object
+     * @var Installer\InstallLog
      */
     public $mLog = null;
 
@@ -27,14 +27,14 @@ abstract class AbstractInstaller
     /**
      * xoops module.
      *
-     * @var object
+     * @var \XoopsModule
      */
     protected $mXoopsModule = null;
 
     /**
      * language manager.
      *
-     * @var object
+     * @var Core\LanguageManager
      */
     protected $mLangMan = null;
 
@@ -49,7 +49,7 @@ abstract class AbstractInstaller
     /**
      * set current xoops module.
      *
-     * @param object &$xoopsModule
+     * @param \XoopsModule &$xoopsModule
      */
     public function setCurrentXoopsModule(&$xoopsModule)
     {
@@ -128,7 +128,7 @@ abstract class AbstractInstaller
      *
      * @param int $gid
      *
-     * @return object&
+     * @return \XoopsGroupPerm&
      */
     protected function _createPermission($gid)
     {

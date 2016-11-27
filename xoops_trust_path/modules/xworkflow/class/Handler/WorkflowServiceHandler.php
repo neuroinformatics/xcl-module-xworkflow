@@ -139,8 +139,8 @@ class WorkflowServiceHandler extends AbstractHandler
     /**
      * get approver user ids for target_id.
      *
-     * @param object $aObj
-     * @param int    $target_id
+     * @param Object\ApprovalObject $aObj
+     * @param int                   $target_id
      *
      * @return array
      */

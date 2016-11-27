@@ -128,7 +128,7 @@ class ItemObject extends AbstractObject
     /**
      * get approval object.
      *
-     * @return object
+     * @return Object\ApprovalObject
      */
     public function getApprovalObject()
     {

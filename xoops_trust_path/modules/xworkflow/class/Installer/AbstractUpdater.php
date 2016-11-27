@@ -13,7 +13,7 @@ abstract class AbstractUpdater
     /**
      * module install log.
      *
-     * @var object
+     * @var Installer\InstallLog
      */
     public $mLog = null;
 
@@ -69,7 +69,7 @@ abstract class AbstractUpdater
     /**
      * language manager.
      *
-     * @var object
+     * @var Core\LanguageManager
      */
     protected $mLangMan = null;
 

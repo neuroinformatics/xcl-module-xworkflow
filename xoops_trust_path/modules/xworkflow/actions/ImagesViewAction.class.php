@@ -1,5 +1,7 @@
 <?php
 
+use Xworkflow\Core\CacheUtils;
+
 /**
  * images view action.
  */
@@ -10,14 +12,14 @@ class Xworkflow_ImagesViewAction extends Xworkflow_AbstractAction
      *
      * @var string
      */
-    protected $_mImagePath = '';
+    protected $mImagePath = '';
 
     /**
      * image mime-type.
      *
      * @var string
      */
-    protected $_mImageMime = '';
+    protected $mImageMime = '';
 
     /**
      * get action name.
@@ -69,8 +71,8 @@ class Xworkflow_ImagesViewAction extends Xworkflow_AbstractAction
         if ($info === false) {
             return $this->_getFrameViewStatus('ERROR');
         }
-        $this->_mImagePath = $fpath;
-        $this->_mImageMime = $info['mime'];
+        $this->mImagePath = $fpath;
+        $this->mImageMime = $info['mime'];
 
         return $this->_getFrameViewStatus('SUCCESS');
     }
@@ -92,12 +94,10 @@ class Xworkflow_ImagesViewAction extends Xworkflow_AbstractAction
      */
     public function executeViewSuccess(&$render)
     {
-        self::_clearObFilters();
-        header('Content-Type: '.$this->_mImageMime);
-        readfile($this->_mImagePath);
-        register_shutdown_function(array($this, 'onShutdown'));
-        ob_start();
-        exit();
+        $mtime = filemtime($this->mImagePath);
+        $etag = md5($this->mImagePath.filesize($this->mImagePath).$this->mAsset->mDirname.$mtime);
+        CacheUtils::check304($mtime, $etag);
+        CacheUtils::outputFile($mtime, $etag, $this->mImageMime, $this->mImagePath);
     }
 
     /**
@@ -107,32 +107,6 @@ class Xworkflow_ImagesViewAction extends Xworkflow_AbstractAction
      */
     public function executeViewError(&$render)
     {
-        self::_clearObFilters();
-        $error = 'HTTP/1.0 404 Not Found';
-        header($error);
-        echo $error;
-        register_shutdown_function(array($this, 'onShutdown'));
-        ob_start();
-        exit();
-    }
-
-    /**
-     * on shutdown callback handler.
-     */
-    public function onShutdown()
-    {
-        self::_clearObFilters();
-    }
-
-    /**
-     * clear ob filters.
-     */
-    protected static function _clearObFilters()
-    {
-        $handlers = ob_list_handlers();
-        while (!empty($handlers)) {
-            ob_end_clean();
-            $handlers = ob_list_handlers();
-        }
+        CacheUtils::errorExit(404);
     }
 }

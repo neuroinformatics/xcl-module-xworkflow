@@ -326,7 +326,7 @@ abstract class AbstractObjectHandler extends AbstractHandler
             $res = &$this->mDB->query($sql, $limit, $start);
         }
         if (!$res) {
-            trigger_error($this->mDB->error());
+            trigger_error($this->mDB->error(), E_USER_ERROR);
         }
 
         return $res;
@@ -350,6 +350,8 @@ abstract class AbstractObjectHandler extends AbstractHandler
             if (is_null($value)) {
                 if (!$isNew || $key != $this->mPrimaryKey) {
                     if ($info[$key]['required']) {
+                        trigger_error('`'.$this->mTable.'`.`'.$key.'` column is required.', E_USER_ERROR);
+
                         return array();
                     }
                     $ret[$field] = 'NULL';

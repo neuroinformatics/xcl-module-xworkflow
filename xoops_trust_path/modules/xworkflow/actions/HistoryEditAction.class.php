@@ -77,9 +77,9 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
         $iHandler = &XoopsUtils::getModuleHandler('ItemObject', $this->mAsset->mDirname);
         if ($this->mObjectHandler->insert($this->mObject)) {
             if ($this->mObject->get('result') == Enum\Result::APPROVE) {
-                $iHandler->proceedStep($this->mObject->mItem);
+                $iHandler->proceedStep($this->mObject->mItem, $this->mObject->get('comment'));
             } else {
-                $iHandler->revertStep($this->mObject->mItem);
+                $iHandler->revertStep($this->mObject->mItem, $this->mObject->get('comment'));
             }
 
             return $this->_getFrameViewStatus('SUCCESS');

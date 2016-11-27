@@ -39,7 +39,7 @@ class ItemObject extends AbstractObject
         $this->initVar('dirname', XOBJ_DTYPE_STRING, null, true, 45);
         $this->initVar('dataname', XOBJ_DTYPE_STRING, null, true, 45);
         $this->initVar('target_id', XOBJ_DTYPE_INT, null, true);
-        $this->initVar('target_gid', XOBJ_DTYPE_INT, null, true);
+        $this->initVar('target_gid', XOBJ_DTYPE_INT, 0, true);
         $this->initVar('uid', XOBJ_DTYPE_INT, null, true);
         $this->initVar('step', XOBJ_DTYPE_INT, 0, true);
         $this->initVar('status', XOBJ_DTYPE_INT, Enum\WorkflowStatus::PROGRESS, true);

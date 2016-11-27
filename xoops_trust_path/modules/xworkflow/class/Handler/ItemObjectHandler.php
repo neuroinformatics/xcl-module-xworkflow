@@ -16,8 +16,8 @@ class ItemObjectHandler extends AbstractObjectHandler
     /**
      * constructor.
      *
-     * @param object &$db
-     * @param string $dirname
+     * @param \XoopsDatabase &$db
+     * @param string         $dirname
      */
     public function __construct(&$db, $dirname)
     {
@@ -33,7 +33,7 @@ class ItemObjectHandler extends AbstractObjectHandler
      * @param string $dataname
      * @param int    $id
      *
-     * @return object
+     * @return ItemObject
      */
     public function getItem($dirname, $dataname, $target_id)
     {
@@ -128,8 +128,8 @@ class ItemObjectHandler extends AbstractObjectHandler
     /**
      * delete.
      *
-     * @param {Trustdirname}_ItemObject &$obj
-     * @param bool                      $force
+     * @param ItemObject &$obj
+     * @param bool       $force
      *
      * @return bool
      */
@@ -144,11 +144,12 @@ class ItemObjectHandler extends AbstractObjectHandler
     /**
      * proceed step.
      *
-     * @param {Trustdirname}_ItemObject $obj
+     * @param ItemObject &$obj
+     * @param string     $comment
      *
      * @return bool
      */
-    public function proceedStep($obj)
+    public function proceedStep(&$obj, $comment)
     {
         $aHandler = &XoopsUtils::getModuleHandler('ApprovalObject', $this->mDirname);
         $aObj = $aHandler->getNextApproval($obj->get('dirname'), $obj->get('dataname'), $obj->get('step'));
@@ -166,8 +167,7 @@ class ItemObjectHandler extends AbstractObjectHandler
             $obj->set('status', Enum\WorkflowStatus::FINISHED);
         }
         if ($this->insert($obj)) {
-            $result = null;
-            \XCube_DelegateUtils::call('Legacy_WorkflowClient.UpdateStatus', new \XCube_Ref($result), $obj->get('dirname'), $obj->get('dataname'), $obj->get('target_id'), $obj->get('status'));
+            \XCube_DelegateUtils::call('Legacy_WorkflowClient.UpdateStatus', new \XCube_Ref($comment), $obj->get('dirname'), $obj->get('dataname'), $obj->get('target_id'), $obj->get('status'));
 
             return true;
         }
@@ -178,11 +178,12 @@ class ItemObjectHandler extends AbstractObjectHandler
     /**
      * revert step.
      *
-     * @param {Trustdirname}_ItemObject $obj
+     * @param ItemObject &$obj
+     * @param string     $comment
      *
      * @return bool
      */
-    public function revertStep($obj)
+    public function revertStep(&$obj, $comment)
     {
         $revertTo = XoopsUtils::getModuleConfig($this->mDirname, 'revert_to');
         $aHandler = &XoopsUtils::getModuleHandler('ApprovalObject', $this->mDirname);
@@ -201,8 +202,7 @@ class ItemObjectHandler extends AbstractObjectHandler
             }
         }
         if ($this->insert($obj)) {
-            $result = null;
-            \XCube_DelegateUtils::call('Legacy_WorkflowClient.UpdateStatus', new \XCube_Ref($result), $obj->get('dirname'), $obj->get('dataname'), $obj->get('target_id'), $obj->get('status'));
+            \XCube_DelegateUtils::call('Legacy_WorkflowClient.UpdateStatus', new \XCube_Ref($comment), $obj->get('dirname'), $obj->get('dataname'), $obj->get('target_id'), $obj->get('status'));
 
             return true;
         }
@@ -211,10 +211,45 @@ class ItemObjectHandler extends AbstractObjectHandler
     }
 
     /**
+     * force finish step.
+     *
+     * @param ItemObject  &$obj
+     * @param Enum\Result $result
+     * @param int         $uid
+     * @param int         $comment
+     */
+    public function finishStep(&$obj, $result, $uid, $comment)
+    {
+        $hHandler = &XoopsUtils::getModuleHandler('HistoryObject', $this->mDirname);
+        $item_id = $obj->get('item_id');
+        while ($obj->get('status') == Enum\WorkflowStatus::PROGRESS) {
+            $hObj = $hHandler->create();
+            $hObj->set('item_id', $item_id);
+            $hObj->set('uid', $uid);
+            $hObj->set('result', $result);
+            $hObj->set('comment', $comment);
+            if (!$hHandler->insert($hObj)) {
+                return false;
+            }
+            if ($result == Enum\Result::APPROVE) {
+                if (!$this->proceedStep($obj, $comment)) {
+                    return false;
+                }
+            } else {
+                if (!$this->revertStep($obj, $comment)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * check whether item id is in progess.
      *
-     * @param object $obj
-     * @param int    $uid
+     * @param ItemObject $obj
+     * @param int        $uid
      *
      * @return bool
      */
@@ -243,8 +278,8 @@ class ItemObjectHandler extends AbstractObjectHandler
     /**
      * get progress item criteria.
      *
-     * @param int    $uid
-     * @param object $cri
+     * @param int              $uid
+     * @param \CriteriaElement $cri
      *
      * @return array
      */

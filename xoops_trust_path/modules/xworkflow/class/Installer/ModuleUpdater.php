@@ -6,9 +6,9 @@ use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XCubeUtils;
 
 /**
- * updater class.
+ * generic module updater class.
  */
-abstract class AbstractUpdater
+class ModuleUpdater
 {
     /**
      * module install log.
@@ -60,18 +60,18 @@ abstract class AbstractUpdater
     protected $mForceMode = false;
 
     /**
-     * phase upgrade mode.
-     *
-     * @var bool
-     */
-    protected $mPhaseUpgradeMode = true;
-
-    /**
      * language manager.
      *
      * @var Core\LanguageManager
      */
     protected $mLangMan = null;
+
+    /**
+     * custom hooks.
+     *
+     * @var array
+     */
+    protected $mHooks = array();
 
     /**
      * constructor.
@@ -145,12 +145,10 @@ abstract class AbstractUpdater
      */
     public function getTargetPhase()
     {
-        if ($this->mPhaseUpgradeMode) {
-            ksort($this->mMilestone);
-            foreach ($this->mMilestone as $tVer => $tMethod) {
-                if ($tVer > $this->getCurrentVersion()) {
-                    return intval($tVer);
-                }
+        ksort($this->mMilestone);
+        foreach ($this->mMilestone as $tVer => $tMethod) {
+            if ($tVer > $this->getCurrentVersion()) {
+                return intval($tVer);
             }
         }
 
@@ -164,12 +162,10 @@ abstract class AbstractUpdater
      */
     public function hasUpgradeMethod()
     {
-        if ($this->mPhaseUpgradeMode) {
-            ksort($this->mMilestone);
-            foreach ($this->mMilestone as $tVer => $tMethod) {
-                if ($tVer > $this->getCurrentVersion() && is_callable(array($this, $tMethod))) {
-                    return true;
-                }
+        ksort($this->mMilestone);
+        foreach ($this->mMilestone as $tVer => $tMethod) {
+            if ($tVer > $this->getCurrentVersion() && is_callable(array($this, $tMethod))) {
+                return true;
             }
         }
 
@@ -183,11 +179,7 @@ abstract class AbstractUpdater
      */
     public function isLatestUpgrade()
     {
-        if ($this->mPhaseUpgradeMode) {
-            return $this->mTargetXoopsModule->get('version') == $this->getTargetPhase();
-        }
-
-        return true;
+        return $this->mTargetXoopsModule->get('version') == $this->getTargetPhase();
     }
 
     /**
@@ -201,36 +193,7 @@ abstract class AbstractUpdater
         $this->mLangMan = new LanguageManager($dirname, 'install');
         $this->mLangMan->load();
 
-        if ($this->mPhaseUpgradeMode && $this->hasUpgradeMethod()) {
-            return $this->_callUpgradeMethod();
-        }
-
-        return $this->_executeAutomaticUpgrade();
-    }
-
-    /**
-     * update module templates.
-     */
-    protected function _updateModuleTemplates()
-    {
-        InstallUtils::uninstallAllOfModuleTemplates($this->mTargetXoopsModule, $this->mLog);
-        InstallUtils::installAllOfModuleTemplates($this->mTargetXoopsModule, $this->mLog);
-    }
-
-    /**
-     * update blocks.
-     */
-    protected function _updateBlocks()
-    {
-        InstallUtils::smartUpdateAllOfBlocks($this->mTargetXoopsModule, $this->mLog);
-    }
-
-    /**
-     * update preferences.
-     */
-    protected function _updatePreferences()
-    {
-        InstallUtils::smartUpdateAllOfConfigs($this->mTargetXoopsModule, $this->mLog);
+        return $this->hasUpgradeMethod() ? $this->_callUpgradeMethod() : $this->_executeAutomaticUpgrade();
     }
 
     /**
@@ -258,21 +221,11 @@ abstract class AbstractUpdater
     protected function _executeAutomaticUpgrade()
     {
         $this->mLog->addReport($this->mLangMan->get('INSTALL_MSG_UPDATE_STARTED'));
-        if (!$this->mPhaseUpgradeMode) {
-            $currentVersion = $this->getCurrentVersion();
-            ksort($this->mMilestone);
-            foreach ($this->mMilestone as $tVer => $tMethod) {
-                if ($tVer > $currentVersion && is_callable(array($this, $tMethod))) {
-                    if (!$this->$tMethod()) {
-                        if (!$this->mForceMode && $this->mLog->hasError()) {
-                            $this->_processReport();
+        $this->_executeHooks();
+        if (!$this->mForceMode && $this->mLog->hasError()) {
+            $this->_processReport();
 
-                            return false;
-                        }
-                    }
-                    $currentVersion = $tVer;
-                }
-            }
+            return false;
         }
         $this->_updateModuleTemplates();
         if (!$this->mForceMode && $this->mLog->hasError()) {
@@ -304,6 +257,51 @@ abstract class AbstractUpdater
     }
 
     /**
+     * execute hooks.
+     */
+    protected function _executeHooks()
+    {
+        if (!empty($this->mHooks)) {
+            $currentVersion = $this->getCurrentVersion();
+            ksort($this->mHooks);
+            foreach ($this->mHooks as $version => $func) {
+                if ($version > $currentVersion && is_callable(array($this, $func))) {
+                    $this->$func();
+                    if (!$this->mForceMode && $this->mLog->hasError()) {
+                        break;
+                    }
+                    $currentVersion = $version;
+                }
+            }
+        }
+    }
+
+    /**
+     * update module templates.
+     */
+    protected function _updateModuleTemplates()
+    {
+        InstallUtils::uninstallAllOfModuleTemplates($this->mTargetXoopsModule, $this->mLog);
+        InstallUtils::installAllOfModuleTemplates($this->mTargetXoopsModule, $this->mLog);
+    }
+
+    /**
+     * update blocks.
+     */
+    protected function _updateBlocks()
+    {
+        InstallUtils::smartUpdateAllOfBlocks($this->mTargetXoopsModule, $this->mLog);
+    }
+
+    /**
+     * update preferences.
+     */
+    protected function _updatePreferences()
+    {
+        InstallUtils::smartUpdateAllOfConfigs($this->mTargetXoopsModule, $this->mLog);
+    }
+
+    /**
      * save xoops module.
      *
      * @param XoopsModule &$module
@@ -326,7 +324,7 @@ abstract class AbstractUpdater
         if (!$this->mLog->hasError()) {
             $this->mLog->addReport(XCubeUtils::formatString($this->mLangMan->get('INSTALL_MSG_MODULE_UPDATED'), $this->mCurrentXoopsModule->get('name')));
         } else {
-            $this->mLog->addReport(XCubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_MODULE_UPDATED'), $this->mCurrentXoopsModule->get('name')));
+            $this->mLog->addError(XCubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_MODULE_UPDATED'), $this->mCurrentXoopsModule->get('name')));
         }
     }
 }

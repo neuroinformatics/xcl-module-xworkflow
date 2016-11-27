@@ -4,13 +4,13 @@ use Xworkflow\Core\Functions;
 use Xworkflow\Core\XCubeUtils;
 use Xworkflow\Core\XoopsUtils;
 use Xworkflow\Enum;
-use Xworkflow\Installer\AbstractUpdater;
+use Xworkflow\Installer\ModuleUpdater;
 use Xworkflow\Installer\InstallUtils;
 
 /**
  * updater class.
  */
-class Xworkflow_Updater extends AbstractUpdater
+class Xworkflow_Updater extends ModuleUpdater
 {
     /**
      * constructor.
@@ -18,20 +18,17 @@ class Xworkflow_Updater extends AbstractUpdater
     public function __construct()
     {
         parent::__construct();
-        $this->mPhaseUpgradeMode = false;
-        $this->mMilestone = array(
-            '200' => 'updateTo200',
-        );
+        $this->mHooks[200] = 'onUpdateToVersion200';
     }
 
     /**
-     * update to 200.
+     * update version to 2.00.
      *
      * @return bool
      */
-    public function updateTo200()
+    public function onUpdateToVersion200()
     {
-        $this->mLog->addReport('Start to apply changes in verion 2.00.');
+        $this->mLog->addReport('Start to apply changes since verion 2.00.');
         $dirname = $this->mCurrentXoopsModule->get('dirname');
         $sql = 'ALTER TABLE `{prefix}_{dirname}_item` ADD `target_gid` int(10) unsigned NOT NULL AFTER `target_id`';
         if (!InstallUtils::DBquery($sql, $this->mCurrentXoopsModule, $this->mLog)) {

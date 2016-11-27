@@ -1,26 +1,34 @@
 <?php
 
-use Xworkflow\Installer\AbstractInstaller;
+use Xworkflow\Installer\ModuleInstaller;
 
 /**
  * module installer class.
  */
-class Xworkflow_Installer extends AbstractInstaller
+class Xworkflow_Installer extends ModuleInstaller
 {
     /**
-     * execute install.
+     * constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->mHooks[] = 'onInstallModuleCheck';
+    }
+
+    /**
+     * check module install.
      *
      * @return bool
      */
-    public function executeInstall()
+    public function onInstallModuleCheck()
     {
-        if (!$this->mForceMode && defined('LEGACY_WORKFLOW_DIRNAME') && LEGACY_WORKFLOW_DIRNAME != $this->mXoopsModule->get('dirname')) {
+        if (defined('LEGACY_WORKFLOW_DIRNAME') && LEGACY_WORKFLOW_DIRNAME != $this->mXoopsModule->get('dirname')) {
             $this->mLog->addError('LEGACY_WORKFLOW module already available');
-            $this->_processReport();
 
             return false;
         }
 
-        return parent::executeInstall();
+        return true;
     }
 }

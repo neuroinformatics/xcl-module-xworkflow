@@ -6,9 +6,9 @@ use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XCubeUtils;
 
 /**
- * abstract module installer class.
+ * generic module installer class.
  */
-abstract class AbstractInstaller
+class ModuleInstaller
 {
     /**
      * module log.
@@ -39,6 +39,13 @@ abstract class AbstractInstaller
     protected $mLangMan = null;
 
     /**
+     * custom hooks.
+     *
+     * @var array
+     */
+    protected $mHooks = array();
+
+    /**
      * constructor.
      */
     public function __construct()
@@ -64,6 +71,57 @@ abstract class AbstractInstaller
     public function setForceMode($isForceMode)
     {
         $this->mForceMode = $isForceMode;
+    }
+
+    /**
+     * execute install.
+     *
+     * @return bool
+     */
+    public function executeInstall()
+    {
+        $dirname = $this->mXoopsModule->get('dirname');
+        $this->mLangMan = new LanguageManager($dirname, 'install');
+        $this->mLangMan->load();
+        $this->_installTables();
+        if (!$this->mForceMode && $this->mLog->hasError()) {
+            $this->_processReport();
+
+            return false;
+        }
+        $this->_installModule();
+        if (!$this->mForceMode && $this->mLog->hasError()) {
+            $this->_processReport();
+
+            return false;
+        }
+        $this->_installTemplates();
+        if (!$this->mForceMode && $this->mLog->hasError()) {
+            $this->_processReport();
+
+            return false;
+        }
+        $this->_installBlocks();
+        if (!$this->mForceMode && $this->mLog->hasError()) {
+            $this->_processReport();
+
+            return false;
+        }
+        $this->_installPreferences();
+        if (!$this->mForceMode && $this->mLog->hasError()) {
+            $this->_processReport();
+
+            return false;
+        }
+        $this->_executeHooks();
+        if (!$this->mForceMode && $this->mLog->hasError()) {
+            $this->_processReport();
+
+            return false;
+        }
+        $this->_processReport();
+
+        return true;
     }
 
     /**
@@ -166,6 +224,21 @@ abstract class AbstractInstaller
     }
 
     /**
+     * execute hooks.
+     */
+    protected function _executeHooks()
+    {
+        foreach ($this->mHooks as $func) {
+            if (is_callable(array($this, $func))) {
+                $this->$func();
+                if (!$this->mForceMode && $this->mLog->hasError()) {
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
      * process report.
      */
     protected function _processReport()
@@ -177,50 +250,5 @@ abstract class AbstractInstaller
         } else {
             $this->mLog->addError(XCubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_MODULE_INSTALLED'), 'something'));
         }
-    }
-
-    /**
-     * execute install.
-     *
-     * @return bool
-     */
-    public function executeInstall()
-    {
-        $dirname = $this->mXoopsModule->get('dirname');
-        $this->mLangMan = new LanguageManager($dirname, 'install');
-        $this->mLangMan->load();
-        $this->_installTables();
-        if (!$this->mForceMode && $this->mLog->hasError()) {
-            $this->_processReport();
-
-            return false;
-        }
-        $this->_installModule();
-        if (!$this->mForceMode && $this->mLog->hasError()) {
-            $this->_processReport();
-
-            return false;
-        }
-        $this->_installTemplates();
-        if (!$this->mForceMode && $this->mLog->hasError()) {
-            $this->_processReport();
-
-            return false;
-        }
-        $this->_installBlocks();
-        if (!$this->mForceMode && $this->mLog->hasError()) {
-            $this->_processReport();
-
-            return false;
-        }
-        $this->_installPreferences();
-        if (!$this->mForceMode && $this->mLog->hasError()) {
-            $this->_processReport();
-
-            return false;
-        }
-        $this->_processReport();
-
-        return true;
     }
 }

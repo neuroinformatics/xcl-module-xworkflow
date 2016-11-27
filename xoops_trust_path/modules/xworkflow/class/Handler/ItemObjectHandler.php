@@ -226,6 +226,7 @@ class ItemObjectHandler extends AbstractObjectHandler
             $hObj = $hHandler->create();
             $hObj->set('item_id', $item_id);
             $hObj->set('uid', $uid);
+            $hObj->set('step', $obj->get('step'));
             $hObj->set('result', $result);
             $hObj->set('comment', $comment);
             if (!$hHandler->insert($hObj)) {

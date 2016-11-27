@@ -6,9 +6,9 @@ use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XCubeUtils;
 
 /**
- * abstract uninstaller class.
+ * generic module uninstaller class.
  */
-abstract class AbstractUninstaller
+class ModuleUninstaller
 {
     /**
      * module install log.
@@ -39,6 +39,13 @@ abstract class AbstractUninstaller
     protected $mLangMan = null;
 
     /**
+     * custom hooks.
+     *
+     * @var array
+     */
+    protected $mHooks = array();
+
+    /**
      * constructor.
      */
     public function __construct()
@@ -67,15 +74,70 @@ abstract class AbstractUninstaller
     }
 
     /**
-     * uninstall module.
+     * execute uninstall.
+     *
+     * @return bool
      */
-    protected function _uninstallModule()
+    public function executeUninstall()
     {
-        $moduleHandler = &xoops_gethandler('module');
-        if ($moduleHandler->delete($this->mXoopsModule)) {
-            $this->mLog->addReport($this->mLangMan->get('INSTALL_MSG_MODULE_INFORMATION_DELETED'));
-        } else {
-            $this->mLog->addError($this->mLangMan->get('INSTALL_ERROR_MODULE_INFORMATION_DELETED'));
+        $dirname = $this->mXoopsModule->get('dirname');
+        $this->mLangMan = new LanguageManager($dirname, 'install');
+        $this->mLangMan->load();
+        $this->_executeHooks();
+        if (!$this->mForceMode && $this->mLog->hasError()) {
+            $this->_processReport();
+
+            return false;
+        }
+        $this->_uninstallTables();
+        if (!$this->mForceMode && $this->mLog->hasError()) {
+            $this->_processReport();
+
+            return false;
+        }
+        if ($this->mXoopsModule->get('mid') != null) {
+            $this->_uninstallModule();
+            if (!$this->mForceMode && $this->mLog->hasError()) {
+                $this->_processReport();
+
+                return false;
+            }
+            $this->_uninstallTemplates();
+            if (!$this->mForceMode && $this->mLog->hasError()) {
+                $this->_processReport();
+
+                return false;
+            }
+            $this->_uninstallBlocks();
+            if (!$this->mForceMode && $this->mLog->hasError()) {
+                $this->_processReport();
+
+                return false;
+            }
+            $this->_uninstallPreferences();
+            if (!$this->mForceMode && $this->mLog->hasError()) {
+                $this->_processReport();
+
+                return false;
+            }
+        }
+        $this->_processReport();
+
+        return true;
+    }
+
+    /**
+     * execute hooks.
+     */
+    protected function _executeHooks()
+    {
+        foreach ($this->mHooks as $func) {
+            if (is_callable(array($this, $func))) {
+                $this->$func();
+                if (!$this->mForceMode && $this->mLog->hasError()) {
+                    break;
+                }
+            }
         }
     }
 
@@ -97,6 +159,19 @@ abstract class AbstractUninstaller
                     $this->mLog->addError(XCubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_TABLE_DOROPPED'), $tableName));
                 }
             }
+        }
+    }
+
+    /**
+     * uninstall module.
+     */
+    protected function _uninstallModule()
+    {
+        $moduleHandler = &xoops_gethandler('module');
+        if ($moduleHandler->delete($this->mXoopsModule)) {
+            $this->mLog->addReport($this->mLangMan->get('INSTALL_MSG_MODULE_INFORMATION_DELETED'));
+        } else {
+            $this->mLog->addError($this->mLangMan->get('INSTALL_ERROR_MODULE_INFORMATION_DELETED'));
         }
     }
 
@@ -142,52 +217,5 @@ abstract class AbstractUninstaller
         } else {
             $this->mLog->addError(XCubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_MODULE_UNINSTALLED'), 'something'));
         }
-    }
-
-    /**
-     * execute uninstall.
-     *
-     * @return bool
-     */
-    public function executeUninstall()
-    {
-        $dirname = $this->mXoopsModule->get('dirname');
-        $this->mLangMan = new LanguageManager($dirname, 'install');
-        $this->mLangMan->load();
-        $this->_uninstallTables();
-        if (!$this->mForceMode && $this->mLog->hasError()) {
-            $this->_processReport();
-
-            return false;
-        }
-        if ($this->mXoopsModule->get('mid') != null) {
-            $this->_uninstallModule();
-            if (!$this->mForceMode && $this->mLog->hasError()) {
-                $this->_processReport();
-
-                return false;
-            }
-            $this->_uninstallTemplates();
-            if (!$this->mForceMode && $this->mLog->hasError()) {
-                $this->_processReport();
-
-                return false;
-            }
-            $this->_uninstallBlocks();
-            if (!$this->mForceMode && $this->mLog->hasError()) {
-                $this->_processReport();
-
-                return false;
-            }
-            $this->_uninstallPreferences();
-            if (!$this->mForceMode && $this->mLog->hasError()) {
-                $this->_processReport();
-
-                return false;
-            }
-        }
-        $this->_processReport();
-
-        return true;
     }
 }

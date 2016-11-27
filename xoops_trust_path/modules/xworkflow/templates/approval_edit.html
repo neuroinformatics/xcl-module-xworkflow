@@ -15,6 +15,18 @@
 <{/if}>
 <form class="form-horizontal" id="<{$xoops_dirname}>_approval_edit_form" action="<{xoops_cooluri dirname=$xoops_dirname dataname=approval data_id=$object->getShow('approval_id') action=edit}>" method="post">
   <div class="control-group">
+    <label><{$langman->get("LANG_TARGET_MODULE")}></label>
+    <div class="controls">
+      <select name="target">
+<{foreach item=modules key=dirname from=$clients}>
+<{foreach item=info key=dataname from=$modules}>
+        <option value="<{$dirname|cat:"|"|cat:$dataname}>"<{if $dirname|cat:"|"|cat:$dataname==$actionForm->get('dirname')|cat:"|"|cat:$actionForm->get('dataname')}> selected="selected"<{/if}>><{$dirname}> - <{$info.label|xoops_escape}></option>
+<{/foreach}>
+<{/foreach}>
+    </select>
+    </div>
+  </div>
+  <div class="control-group">
     <label><{$langman->get("LANG_APPROVED_BY")}></label>
     <div class="controls">
       <select id="<{$xoops_dirname}>_approval_edit_id_type">
@@ -37,18 +49,6 @@
 <{/foreach}>
       </select>
       </span>
-    </div>
-  </div>
-  <div class="control-group">
-    <label><{$langman->get("LANG_TARGET_MODULE")}></label>
-    <div class="controls">
-      <select name="target">
-<{foreach item=modules key=dirname from=$clients}>
-<{foreach item=info key=dataname from=$modules}>
-        <option value="<{$dirname|cat:"|"|cat:$dataname}>"<{if $dirname|cat:"|"|cat:$dataname==$actionForm->get('dirname')|cat:"|"|cat:$actionForm->get('dataname')}> selected="selected"<{/if}>><{$dirname}> - <{$info.label|xoops_escape}></option>
-<{/foreach}>
-<{/foreach}>
-    </select>
     </div>
   </div>
   <div class="control-group">
@@ -86,13 +86,11 @@
     this.el_uid = document.getElementById(prefix + '_id_type_uid');
     this.el_gid = document.getElementById(prefix + '_id_type_gid');
     this.el_gid0 = document.getElementById(prefix + '_gid0');
-    if (this.el_form.elements['approval_id'].value == 0 || this.el_form.elements['uid'].value > 0) {
+    if (this.el_form.elements['uid'].value > 0) {
       this.el_sel.value = 'uid';
       this.el_gid.style.display = 'none';
       this.el_uid.style.display = '';
       this.el_form.elements['gid'].value = '';
-      if (this.el_form.elements['approval_id'].value == 0)
-        this.el_form.elements['uid'].value = '0';
     } else {
       this.el_sel.value = 'gid';
       this.el_uid.style.display = 'none';

@@ -3,6 +3,7 @@
 use Xworkflow\Core\Functions;
 use Xworkflow\Core\XCubeUtils;
 use Xworkflow\Core\XoopsUtils;
+use Xworkflow\Enum;
 use Xworkflow\Installer\AbstractUpdater;
 use Xworkflow\Installer\InstallUtils;
 
@@ -47,7 +48,7 @@ class Xworkflow_Updater extends AbstractUpdater
             $criteria = new \CriteriaCompo(new \Criteria('dirname', $dirname));
             $criteria->add(new \Criteria('dataname', $dataname));
             $criteria->add(new \Criteria('step', $aObj->get('step')));
-            $criteria->add(new \Criteria('status', \Lenum_WorkflowStatus::PROGRESS));
+            $criteria->add(new \Criteria('status', Enum\WorkflowStatus::PROGRESS));
             if (!$res = $iHandler->open($criteria)) {
                 $this->mLog->addError(XCubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_TABLE_UPDATED'), $aHandler->getTable()));
 

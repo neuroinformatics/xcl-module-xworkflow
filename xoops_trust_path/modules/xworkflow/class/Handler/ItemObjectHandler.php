@@ -75,7 +75,7 @@ class ItemObjectHandler extends AbstractObjectHandler
             $obj->setFirstStep();
         } else {
             $obj->set('title', $title);
-            $obj->set('status', \Lenum_WorkflowStatus::PROGRESS);
+            $obj->set('status', Enum\WorkflowStatus::PROGRESS);
             $obj->set('url', $url);
             $obj->set('updatetime', time());
             $obj->setFirstStep();
@@ -154,7 +154,7 @@ class ItemObjectHandler extends AbstractObjectHandler
         $aObj = $aHandler->getNextApproval($obj->get('dirname'), $obj->get('dataname'), $obj->get('step'));
         if (is_object($aObj)) {
             $obj->set('step', $aObj->get('step'));
-            $obj->set('status', \Lenum_WorkflowStatus::PROGRESS);
+            $obj->set('status', Enum\WorkflowStatus::PROGRESS);
             if ($aObj->get('uid') == 0 && $aObj->get('gid') == 0) {
                 $target_gid = Functions::getTargetGroupId($obj->get('dirname'), $obj->get('dataname'), $obj->get('target_id'));
                 if ($target_gid === false) {
@@ -163,7 +163,7 @@ class ItemObjectHandler extends AbstractObjectHandler
                 $obj->set('target_gid', $target_gid);
             }
         } else {
-            $obj->set('status', \Lenum_WorkflowStatus::FINISHED);
+            $obj->set('status', Enum\WorkflowStatus::FINISHED);
         }
         if ($this->insert($obj)) {
             $result = null;
@@ -189,7 +189,7 @@ class ItemObjectHandler extends AbstractObjectHandler
         $aObj = $aHandler->getPreviousApproval($obj->get('dirname'), $obj->get('dataname'), $obj->get('step'));
         if (!is_object($aObj) || $revertTo == Enum\RevertTo::ZERO) {
             $obj->set('step', 0);
-            $obj->set('status', \Lenum_WorkflowStatus::REJECTED);
+            $obj->set('status', Enum\WorkflowStatus::REJECTED);
         } else {
             $obj->set('step', $aObj->get('step'));
             if ($aObj->get('uid') == 0 && $aObj->get('gid') == 0) {
@@ -257,7 +257,7 @@ class ItemObjectHandler extends AbstractObjectHandler
         $gids = array_diff($gids, array(XOOPS_GROUP_USERS, XOOPS_GROUP_ANONYMOUS));
         $aGids = Functions::getAdminGroupIds($uid);
         $join = new JoinCriteria('INNER', $aTable, 'dirname', $this->mTable, 'dirname');
-        $criteria = new \CriteriaCompo(new \Criteria('status', \Lenum_WorkflowStatus::PROGRESS, '=', $this->mTable));
+        $criteria = new \CriteriaCompo(new \Criteria('status', Enum\WorkflowStatus::PROGRESS, '=', $this->mTable));
         $criteria->add(new TableFieldCriteria($this->mTable, 'dataname', $aTable, 'dataname'));
         $criteria->add(new TableFieldCriteria($this->mTable, 'step', $aTable, 'step'));
         $criteria2 = new \CriteriaCompo(new \Criteria('uid', $uid, '=', $aTable));

@@ -5,6 +5,7 @@ namespace Xworkflow\Object;
 use Xworkflow\Core\Functions;
 use Xworkflow\Core\LanguageManager;
 use Xworkflow\Core\XoopsUtils;
+use Xworkflow\Enum;
 
 /**
  * item object.
@@ -41,7 +42,7 @@ class ItemObject extends AbstractObject
         $this->initVar('target_gid', XOBJ_DTYPE_INT, null, true);
         $this->initVar('uid', XOBJ_DTYPE_INT, null, true);
         $this->initVar('step', XOBJ_DTYPE_INT, 0, true);
-        $this->initVar('status', XOBJ_DTYPE_INT, \Lenum_WorkflowStatus::PROGRESS, true);
+        $this->initVar('status', XOBJ_DTYPE_INT, Enum\WorkflowStatus::PROGRESS, true);
         $this->initVar('revision', XOBJ_DTYPE_INT, 0, true);
         $this->initVar('url', XOBJ_DTYPE_TEXT, '', true);
         $this->initVar('posttime', XOBJ_DTYPE_INT, time(), true);
@@ -60,7 +61,7 @@ class ItemObject extends AbstractObject
             $this->set('step', $aObj->get('step'));
         } else {
             $this->set('step', 0);
-            $this->set('status', \Lenum_WorkflowStatus::FINISHED);
+            $this->set('status', Enum\WorkflowStatus::FINISHED);
         }
     }
 
@@ -97,13 +98,13 @@ class ItemObject extends AbstractObject
     {
         $langman = new LanguageManager($this->mDirname, 'main');
         switch ($this->get('status')) {
-        case \Lenum_WorkflowStatus::DELETED:
+        case Enum\WorkflowStatus::DELETED:
             return $langman->get('LANG_STATUS_DELETED');
-        case \Lenum_WorkflowStatus::REJECTED:
+        case Enum\WorkflowStatus::REJECTED:
             return $langman->get('LANG_STATUS_REJECTED');
-        case \Lenum_WorkflowStatus::PROGRESS:
+        case Enum\WorkflowStatus::PROGRESS:
             return $langman->get('LANG_STATUS_PROGRESS');
-        case \Lenum_WorkflowStatus::FINISHED:
+        case Enum\WorkflowStatus::FINISHED:
             return $langman->get('LANG_STATUS_FINISHED');
         }
 

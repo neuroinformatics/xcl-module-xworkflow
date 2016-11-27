@@ -3,7 +3,7 @@
 namespace Xworkflow\Enum;
 
 /**
- * workflow result.
+ * workflow result class.
  */
 class Result
 {

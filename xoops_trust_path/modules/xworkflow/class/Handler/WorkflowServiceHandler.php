@@ -4,6 +4,7 @@ namespace Xworkflow\Handler;
 
 use Xworkflow\Core\Functions;
 use Xworkflow\Core\XoopsUtils;
+use Xworkflow\Enum;
 
 /**
  * workflow service handler.
@@ -132,7 +133,7 @@ class WorkflowServiceHandler extends AbstractHandler
             return false;
         }
 
-        return $iObj->get('status') == \Lenum_WorkflowStatus::PROGRESS;
+        return $iObj->get('status') == Enum\WorkflowStatus::PROGRESS;
     }
 
     /**

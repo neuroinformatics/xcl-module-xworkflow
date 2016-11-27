@@ -3,6 +3,7 @@
 namespace Xworkflow\Object;
 
 use Xworkflow\Core\XoopsUtils;
+use Xworkflow\Enum;
 
 /**
  * approval object.
@@ -36,7 +37,7 @@ class ApprovalObject extends AbstractObject
         $criteria->add(new \Criteria('dirname', $this->get('dirname')));
         $criteria->add(new \Criteria('dataname', $this->get('dataname')));
         $criteria->add(new \Criteria('step', $this->get('step')));
-        $criteria->add(new \Criteria('status', \Lenum_WorkflowStatus::PROGRESS));
+        $criteria->add(new \Criteria('status', Enum\WorkflowStatus::PROGRESS));
         $criteria->add(new \Criteria('deletetime', 0));
         $iHandler = &XoopsUtils::getModuleHandler('ItemObject', $this->mDirname);
 

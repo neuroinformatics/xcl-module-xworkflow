@@ -44,7 +44,7 @@ class Xworkflow_HistoryEditAction extends Xworkflow_AbstractEditAction
             // don't accept to edit if item is not found
             $this->mRoot->mController->executeForward(XoopsUtils::renderUri($this->mAsset->mDirname, 'item'));
         }
-        if ($this->mObject->mItem->get('status') != Lenum_WorkflowStatus::PROGRESS) {
+        if ($this->mObject->mItem->get('status') != Enum\WorkflowStatus::PROGRESS) {
             // don't accept to edit if not in progress
             $this->mRoot->mController->executeForward(XoopsUtils::renderUri($this->mAsset->mDirname, 'item', $this->mObject->getShow('item_id')));
         }

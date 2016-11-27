@@ -1,5 +1,7 @@
 <?php
 
+use Xworkflow\Core\CacheUtils;
+
 /**
  * css view action.
  */
@@ -68,12 +70,7 @@ class Xworkflow_CssViewAction extends Xworkflow_AbstractAction
         $renderSystem = &$this->mModule->getRenderSystem();
         $renderSystem->render($render);
         $css = $render->getResult();
-        self::_clearObFilters();
-        header('Content-Type: text/css');
-        echo $css;
-        register_shutdown_function(array($this, 'onShutdown'));
-        ob_start();
-        exit();
+        CacheUtils::outputData(false, false, 'text/css', $css);
     }
 
     /**
@@ -83,32 +80,6 @@ class Xworkflow_CssViewAction extends Xworkflow_AbstractAction
      */
     public function executeViewError(&$render)
     {
-        self::_clearObFilters();
-        $error = 'HTTP/1.0 404 Not Found';
-        header($error);
-        echo $error;
-        register_shutdown_function(array($this, 'onShutdown'));
-        ob_start();
-        exit();
-    }
-
-    /**
-     * on shutdown callback handler.
-     */
-    public function onShutdown()
-    {
-        self::_clearObFilters();
-    }
-
-    /**
-     * clear ob filters.
-     */
-    protected static function _clearObFilters()
-    {
-        $handlers = ob_list_handlers();
-        while (!empty($handlers)) {
-            ob_end_clean();
-            $handlers = ob_list_handlers();
-        }
+        CacheUtils::errorExit(404);
     }
 }

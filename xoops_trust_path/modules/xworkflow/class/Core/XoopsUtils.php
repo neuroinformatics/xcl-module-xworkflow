@@ -10,13 +10,6 @@ class XoopsUtils
     const UID_GUEST = 0;
 
     /**
-     * handlers cache.
-     *
-     * @var array
-     */
-    private static $mHandlers = array();
-
-    /**
      * configs cache.
      *
      * @var array
@@ -49,11 +42,17 @@ class XoopsUtils
      */
     public static function getTrustDirnameByDirname($dirname)
     {
+        static $cache = array();
+        if (array_key_exists($dirname, $cache)) {
+            return $cache[$dirname];
+        }
         $handler = &xoops_gethandler('module');
         $module = &$handler->getByDirname($dirname);
         if (is_object($module)) {
             $ret = $module->get('trust_dirname');
             if ($ret !== false) {
+                $cache[$dirname] = $ret;
+
                 return $ret;
             }
         }
@@ -96,8 +95,9 @@ class XoopsUtils
      */
     public static function &getModuleHandler($name, $dirname)
     {
+        static $cache = array();
         $key = $dirname.':'.$name;
-        if (!array_key_exists($key, self::$mHandlers)) {
+        if (!array_key_exists($key, $cache)) {
             $db = &\XoopsDatabaseFactory::getDatabaseConnection();
             $trustDirname = self::getTrustDirnameByDirname($dirname);
             if (isset($trustDirname)) {
@@ -107,13 +107,13 @@ class XoopsUtils
                     require_once $fpath;
                     $className = ucfirst($trustDirname).'_'.ucfirst($name).'Handler';
                 }
-                self::$mHandlers[$key] = new $className($db, $dirname);
+                $cache[$key] = new $className($db, $dirname);
             } else {
-                self::$mHandlers[$key] = xoops_getmodulehandler($name, $dirname);
+                $cache[$key] = &xoops_getmodulehandler($name, $dirname);
             }
         }
 
-        return self::$mHandlers[$key];
+        return $cache[$key];
     }
 
     /**
@@ -227,7 +227,8 @@ class XoopsUtils
             }
             $uri = (isset($query)) ? XOOPS_URL.$uri.'?'.$query : XOOPS_URL.$uri;
         } else {
-            \XCube_DelegateUtils::call('Module.'.$dirname.'.Global.Event.GetNormalUri', new \XCube_Ref($uri), $dirname, $dataname, $dataId, $action, $query);
+            $trustDirname = self::getTrustDirnameByDirname($dirname);
+            \XCube_DelegateUtils::call('Module.'.$trustDirname.'.Global.Event.GetNormalUri', new \XCube_Ref($uri), $dirname, $dataname, $dataId, $action, $query);
             $uri = XOOPS_MODULE_URL.$uri;
         }
 

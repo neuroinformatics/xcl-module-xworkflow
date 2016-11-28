@@ -1,5 +1,6 @@
 <?php
 
+use Xworkflow\Core\XoopsUtils;
 
 require_once dirname(__FILE__).'/ItemListAction.class.php';
 
@@ -15,6 +16,16 @@ class Xworkflow_IndexAction extends Xworkflow_ItemListAction
     {
         parent::__construct();
         $this->_mIsMyTask = true;
+    }
+
+    /**
+     * get base url.
+     *
+     * @return string
+     */
+    protected function _getBaseUrl()
+    {
+        return XoopsUtils::renderUri($this->mAsset->mDirname);
     }
 
     /**

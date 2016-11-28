@@ -61,8 +61,8 @@ class Xworkflow_CoolUriDelegate
                 if (isset($action)) {
                     die();
                 } else {
-                    $uri = sprintf('/%s/', $dirname);
-                    $uri = isset($query) ? $uri.'index.php?'.$query : $uri;
+                    $uri = sprintf('/%s/index.php', $dirname);
+                    $uri = isset($query) ? $uri.'?'.$query : $uri;
                 }
             }
         }

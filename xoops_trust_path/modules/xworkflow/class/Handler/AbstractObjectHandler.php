@@ -143,6 +143,12 @@ abstract class AbstractObjectHandler extends AbstractHandler
     public function getCount($criteria = null, $join = null)
     {
         $ret = 0;
+        if (is_object($criteria)) {
+            // clear 'ORDER BY' and 'LIMIT' clause
+            $criteria->setSort('');
+            $criteria->setLimit(0);
+            $criteria->setStart(0);
+        }
         if (!$res = $this->open($criteria, 'COUNT(*)', false, $join)) {
             return $ret;
         }
@@ -409,7 +415,9 @@ abstract class AbstractObjectHandler extends AbstractHandler
                 // XOOPS Cube Legacy
                 $sorts = $criteria->getSorts();
                 foreach ($sorts as $sort) {
-                    $orderby[] = $sort['sort'].' '.$sort['order'];
+                    if ($sort['sort'] != '') {
+                        $orderby[] = $sort['sort'].' '.$sort['order'];
+                    }
                 }
             } else {
                 $sort = $criteria->getSort();

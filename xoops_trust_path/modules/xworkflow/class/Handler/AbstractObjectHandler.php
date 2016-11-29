@@ -400,7 +400,9 @@ abstract class AbstractObjectHandler extends AbstractHandler
     protected function _makeSelectSQL($criteria = null, $fieldlist = '', $distinct = false, $join = null)
     {
         $distinct = ($distinct) ? 'DISTINCT ' : '';
-        $fieldlist = empty($fieldlist) ? '*' : $fieldlist;
+        if ($fieldlist == '') {
+            $fieldlist = is_null($join) ? '*' : '`'.$this->mTable.'`.*';
+        }
         $sql = 'SELECT '.$distinct.$fieldlist.' FROM `'.$this->mTable.'`';
         if (is_object($join)) {
             $sql .= ' '.$join->render();

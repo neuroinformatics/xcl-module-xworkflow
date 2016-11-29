@@ -18,6 +18,9 @@ class Xworkflow_ItemFilterForm extends Xworkflow_AbstractFilterForm
     const SORT_KEY_POSTTIME = 9;
     const SORT_KEY_DELETETIME = 10;
 
+    const PAGENAVI_DEFAULT_PERPAGE = 20;
+    const PAGENAVI_ACCEPTABLE_PERPAGE = array(20, 50, 100, 500);
+
     /**
      * sort keys.
      *
@@ -52,6 +55,10 @@ class Xworkflow_ItemFilterForm extends Xworkflow_AbstractFilterForm
     public function fetch()
     {
         parent::fetch();
+        $perpage = $this->mNavi->getPerpage();
+        if (!in_array($perpage, self::PAGENAVI_ACCEPTABLE_PERPAGE)) {
+            $this->mNavi->setPerpage(self::PAGENAVI_DEFAULT_PERPAGE);
+        }
         $table = $this->_mHandler->getTable();
         $root = &XCube_Root::getSingleton();
         if (($value = $root->mContext->mRequest->getRequest('item_id')) !== null) {
@@ -95,7 +102,7 @@ class Xworkflow_ItemFilterForm extends Xworkflow_AbstractFilterForm
             $this->_mCriteria->add(new Criteria('deletetime', $value, '=', $table));
         }
         foreach (array_keys($this->mSort) as $k) {
-            $this->_mCriteria->addSort($this->getSort($k), $this->getOrder($k));
+            $this->_mCriteria->addSort('`'.$table.'`.`'.$this->getSort($k).'`', $this->getOrder($k));
         }
     }
 }

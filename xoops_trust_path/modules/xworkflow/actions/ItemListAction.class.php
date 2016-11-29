@@ -10,7 +10,19 @@ require_once dirname(dirname(__FILE__)).'/class/AbstractListAction.class.php';
  */
 class Xworkflow_ItemListAction extends Xworkflow_AbstractListAction
 {
-    protected $_mIsMyTask = false;
+    /**
+     * flag for my task.
+     *
+     * @var bool
+     */
+    protected $mIsMyTask = false;
+
+    /**
+     * data name.
+     *
+     * @var string
+     */
+    protected $mDataname = 'item';
 
     /**
      * get handler.
@@ -56,10 +68,9 @@ class Xworkflow_ItemListAction extends Xworkflow_AbstractListAction
     {
         $render->setTemplateName($this->mAsset->mDirname.'_item_list.html');
         $render->setAttribute('objects', $this->mObjects);
-        $render->setAttribute('dataname', 'item');
-        $render->setAttribute('actionName', $this->mRoot->mContext->mRequest->getRequest('action'));
+        $render->setAttribute('dataname', $this->mDataname);
         $render->setAttribute('pageNavi', $this->mFilter->mNavi);
-        $render->setAttribute('isMyTask', $this->_mIsMyTask);
+        $render->setAttribute('isMyTask', $this->mIsMyTask);
         $render->setAttribute('clients', Functions::getClients());
     }
 }

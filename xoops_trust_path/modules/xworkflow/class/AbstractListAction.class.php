@@ -65,7 +65,7 @@ abstract class Xworkflow_AbstractListAction extends Xworkflow_AbstractAction
      */
     protected function &_getPageNavi()
     {
-        $navi = new XCube_PageNavigator($this->_getBaseUrl(), XCUBE_PAGENAVI_START);
+        $navi = new XCube_PageNavigator($this->_getBaseUrl(), XCUBE_PAGENAVI_START | XCUBE_PAGENAVI_PERPAGE);
 
         return $navi;
     }

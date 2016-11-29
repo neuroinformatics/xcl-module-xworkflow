@@ -15,7 +15,18 @@ class Xworkflow_IndexAction extends Xworkflow_ItemListAction
     public function __construct()
     {
         parent::__construct();
-        $this->_mIsMyTask = true;
+        $this->mIsMyTask = true;
+        $this->mDataname = null;
+    }
+
+    /**
+     * get action name.
+     *
+     * @return string
+     */
+    protected function _getActionName()
+    {
+        return '';
     }
 
     /**

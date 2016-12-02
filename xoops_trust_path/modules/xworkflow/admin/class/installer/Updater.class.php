@@ -54,15 +54,19 @@ class Xworkflow_Updater extends ModuleUpdater
             while ($iObj = $iHandler->getNext($res)) {
                 $target_gid = Functions::getTargetGroupId($dirname, $dataname, $iObj->get('target_id'));
                 if ($target_gid === false) {
-                    $this->mLog->addError(XCubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_TABLE_UPDATED'), $aHandler->getTable()));
+                    // this means that item is already gone from client module, let force remove item.
+                    if (!$iHandler->delete($iObj)) {
+                        $this->mLog->addError(XCubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_TABLE_UPDATED'), $aHandler->getTable()));
 
-                    return false;
-                }
-                $iObj->set('target_gid', $target_gid);
-                if (!$iHandler->insert($iObj)) {
-                    $this->mLog->addError(CubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_TABLE_UPDATED'), $aHandler->getTable()));
+                        return false;
+                    }
+                } else {
+                    $iObj->set('target_gid', $target_gid);
+                    if (!$iHandler->insert($iObj)) {
+                        $this->mLog->addError(CubeUtils::formatString($this->mLangMan->get('INSTALL_ERROR_TABLE_UPDATED'), $aHandler->getTable()));
 
-                    return false;
+                        return false;
+                    }
                 }
             }
             $iHandler->close($res);

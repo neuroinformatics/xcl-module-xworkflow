@@ -32,6 +32,7 @@ $langman->set('TPL_ITEM_VIEW', 'タスク詳細');
 $langman->set('TPL_HISTORY_EDIT', '履歴編集');
 $langman->set('TPL_STYLE_CSS', 'スタイルシート');
 $langman->set('TPL_INC_MENU', 'ヘッダメニュー');
+$langman->set('TPL_INC_PAGENAVI', 'ページナビゲーション');
 
 // submenu
 $langman->set('SUB_MYTASK_LIST', 'マイタスク');

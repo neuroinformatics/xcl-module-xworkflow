@@ -1,0 +1,58 @@
+<{if $pagenavi}>
+<{php}>
+$offset = 3;
+$pagenavi = $this->get_template_vars('pagenavi');
+$navi['perPage'] = $pagenavi->getPerpage();
+$navi['totalItems'] = $pagenavi->getTotalItems();
+$navi['totalPages'] = $pagenavi->getTotalPages();
+$navi['currentPage'] = $pagenavi->getCurrentPage();
+$navi['startPage'] = $navi['currentPage'] - $offset > 0 ? $navi['currentPage'] - $offset : 1;
+$navi['endPage'] = $navi['currentPage'] + $offset > $navi['totalPages'] ? $navi['totalPages'] : $navi['currentPage'] + $offset;
+$this->assign('_navi', $navi);
+<{/php}>
+<{if $_navi.totalPages > 1 }>
+<nav aria-label="Page navigation">
+  <ul class="pagenation pagenation-sm">
+<{if $pagenavi->hasPrivPage()}>
+    <li class="page-item">
+      <a class="page-link" href="<{$pagenavi->renderURLForPage($pagenavi->getPrivStart())}>" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+<{else}>
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+<{/if}>
+<{if $_navi.startPage > 1 && $_navi.currentPage != $_navi.startPage}>
+    <li class="page-item"><a class="page-link" href="<{$pagenavi->renderURLForPage(0)}>">1</a></li>
+<{if $_navi.startPage != 2}>
+    <li class="page-item disabled"><span class="page-link">...</span></li>
+<{/if}>
+<{/if}>
+<{section name=page start=$_navi.startPage loop=$_navi.endPage+1}>
+<{if $smarty.section.page.index == $_navi.currentPage}>
+    <li class="page-item active"><a class="page-link" href="#"><{$smarty.section.page.index}></a></li>
+<{else}>
+    <li class="page-item"><a class="page-link" href="<{$pagenavi->renderURLForPage($smarty.section.page.index*$_navi.perPage-$_navi.perPage)}>"><{$smarty.section.page.index}></a></li>
+<{/if}>
+<{/section}>
+<{if $_navi.totalPages > $_navi.endPage && $_navi.currentPage != $_navi.endPage}>
+<{if $_navi.endPage != $_navi.totalPages - 1}>
+    <li class="page-item disabled"><span class="page-link">...</span></li>
+<{/if}>
+    <li class="page-item"><a class="page-link" href="<{$pagenavi->renderURLForPage($_navi.totalPages*$_navi.perPage-$_navi.perPage)}>"><{$_navi.totalPages}></a></li>
+<{/if}>
+<{if $pagenavi->hasNextPage()}>
+    <li class="page-item">
+      <a class="page-link" href="<{$pagenavi->renderURLForPage($pagenavi->getNextStart())}>" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+<{/if}>
+  </ul>
+</nav>
+<{/if}>
+<{/if}>

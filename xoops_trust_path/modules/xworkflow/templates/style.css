@@ -96,3 +96,72 @@
 	background-color: #f2dede;
 	border-color: #eed3d7;
 }
+.<{$xoops_dirname}> .pagenation {
+	display: inline-block;
+	padding-left: 0;
+	margin: 10px 0;
+	border-radius: 4px;
+}
+.<{$xoops_dirname}> .pagenation>li {
+	display: inline;
+}
+.<{$xoops_dirname}> .pagenation>li:first-child>a,
+.<{$xoops_dirname}> .pagenation>li:first-child>span {
+	margin-left: 0;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+.<{$xoops_dirname}> .pagenation>li:last-child>a,
+.<{$xoops_dirname}> .pagenation>li:last-child>span {
+	margin-right: 0;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+.<{$xoops_dirname}> .pagenation>.active>a,
+.<{$xoops_dirname}> .pagenation>.active>a:focus,
+.<{$xoops_dirname}> .pagenation>.active>a:hover,
+.<{$xoops_dirname}> .pagenation>.active>span,
+.<{$xoops_dirname}> .pagenation>.active>span:focus,
+.<{$xoops_dirname}> .pagenation>.active>span:hover {
+	z-index: 3;
+	color: #fff;
+	cursor: default;
+	background-color: #337ab7;
+	border-color: #337ab7;
+}
+.<{$xoops_dirname}> .pagenation>.disabled>a,
+.<{$xoops_dirname}> .pagenation>.disabled>a:focus,
+.<{$xoops_dirname}> .pagenation>.disabled>a:hover,
+.<{$xoops_dirname}> .pagenation>.disabled>span,
+.<{$xoops_dirname}> .pagenation>.disabled>span:focus,
+.<{$xoops_dirname}> .pagenation>.disabled>span:hover {
+	color: #777;
+	cursor: not-allowed;
+	background-color: #fff;
+	border-color: #ddd;
+}
+.<{$xoops_dirname}> .pagenation>li>a,
+.<{$xoops_dirname}> .pagenation>li>span {
+	position: relative;
+	float: left;
+	padding: 6px 12px;
+	margin-left: -1px;
+	color: #337ab7;
+	text-decoration: none;
+	background-color: #fff;
+	border: 1px solid #ddd;
+}
+.<{$xoops_dirname}> .pagenation>li>a:focus,
+.<{$xoops_dirname}> .pagenation>li>a:hover,
+.<{$xoops_dirname}> .pagenation>li>span:focus,
+.<{$xoops_dirname}> .pagenation>li>span:hover {
+	z-index: 2;
+	color: #23527c;
+	background-color: #eee;
+	border-color: #ddd;
+}
+.<{$xoops_dirname}> .pagenation-sm>li>a,
+.<{$xoops_dirname}> .pagenation-sm>li>span {
+	padding: 5px 10px;
+	font-size: 12px;
+}

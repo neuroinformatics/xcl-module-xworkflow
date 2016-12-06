@@ -31,6 +31,7 @@ $langman->set('TPL_ITEM_VIEW', 'TASK_VIEW');
 $langman->set('TPL_HISTORY_EDIT', 'HISTORY_EDIT');
 $langman->set('TPL_STYLE_CSS', 'Cascading Style Sheets');
 $langman->set('TPL_INC_MENU', 'Header Menu');
+$langman->set('TPL_INC_PAGENAVI', 'Page Navigation');
 
 // submenu
 $langman->set('SUB_MYTASK_LIST', 'My Task List');

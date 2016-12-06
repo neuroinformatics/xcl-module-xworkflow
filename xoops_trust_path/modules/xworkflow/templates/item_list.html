@@ -8,9 +8,7 @@
 <{/if}>
 
 <{if count($objects) > 0}>
-<{if $pageNavi->getTotalPages() > 1}>
-  <div class="pagenavi"><{xoops_pagenavi pagenavi=$pageNavi}></div>
-<{/if}>
+<{include file="db:`$xoops_dirname`_inc_pagenavi.html" pagenavi=$pageNavi}>
   <table class="table table-striped" summary="">
     <thead class="head">
       <tr>
@@ -83,9 +81,7 @@
       <{/foreach}>
     </tbody>
   </table>
-<{if $pageNavi->getTotalPages() > 1}>
-  <div class="pagenavi"><{xoops_pagenavi pagenavi=$pageNavi}></div>
-<{/if}>
+<{include file="db:`$xoops_dirname`_inc_pagenavi.html" pagenavi=$pageNavi}>
 <{else}>
   <div class="alert alert-info"><{$langman->get("MESSAGE_NO_TASK")}></div>
 <{/if}>

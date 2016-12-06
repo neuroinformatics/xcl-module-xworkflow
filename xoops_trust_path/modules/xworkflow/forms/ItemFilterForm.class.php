@@ -19,7 +19,7 @@ class Xworkflow_ItemFilterForm extends Xworkflow_AbstractFilterForm
     const SORT_KEY_DELETETIME = 10;
 
     const PAGENAVI_DEFAULT_PERPAGE = 20;
-    const PAGENAVI_ACCEPTABLE_PERPAGE = array(20, 50, 100, 500);
+    const PAGENAVI_ACCEPTABLE_PERPAGE = array(10, 20, 50, 100, 500);
 
     /**
      * sort keys.

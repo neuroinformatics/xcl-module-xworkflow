@@ -59,6 +59,7 @@ $modversion['templates'] = array(
     array('file' => 'history_edit.html', 'description' => $langman->get('TPL_HISTORY_EDIT')),
     array('file' => 'style.css', 'description' => $langman->get('TPL_STYLE_CSS')),
     array('file' => 'inc_menu.html', 'description' => $langman->get('TPL_INC_MENU')),
+    array('file' => 'inc_pagenavi.html', 'description' => $langman->get('TPL_INC_PAGENAVI')),
 );
 
 // Admin panel setting

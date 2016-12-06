@@ -1,8 +1,10 @@
+<{strip}>
 <ul class="nav nav-pills">
-    <li><a href="<{xoops_cooluri dirname=$xoops_dirname}>"><{$langman->get("LANG_MYTASK_LIST")}></a></li>
-    <li><a href="<{xoops_cooluri dirname=$xoops_dirname dataname=item}>"><{$langman->get("LANG_ITEM_LIST")}></a></li>
-    <{if $xoops_isadmin}>
-    <li><a href="<{xoops_cooluri dirname=$xoops_dirname dataname=approval}>"><{$langman->get("LANG_APPROVAL_LIST")}></a></li>
-    <li><a href="<{xoops_cooluri dirname=$xoops_dirname dataname=approval action=edit}>"><{$langman->get("LANG_ADD_A_NEW_APPROVAL")}></a></li>
-    <{/if}>
+  <li><a href="<{xoops_cooluri dirname=$xoops_dirname}>"><{$langman->get("LANG_MYTASK_LIST")}></a></li>
+  <li><a href="<{xoops_cooluri dirname=$xoops_dirname dataname=item}>"><{$langman->get("LANG_ITEM_LIST")}></a></li>
+  <{if $xoops_isadmin}>
+  <li><a href="<{xoops_cooluri dirname=$xoops_dirname dataname=approval}>"><{$langman->get("LANG_APPROVAL_LIST")}></a></li>
+  <li><a href="<{xoops_cooluri dirname=$xoops_dirname dataname=approval action=edit}>"><{$langman->get("LANG_ADD_A_NEW_APPROVAL")}></a></li>
+  <{/if}>
 </ul>
+<{/strip}>

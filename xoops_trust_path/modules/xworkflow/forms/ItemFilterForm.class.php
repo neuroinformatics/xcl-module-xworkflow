@@ -18,8 +18,19 @@ class Xworkflow_ItemFilterForm extends Xworkflow_AbstractFilterForm
     const SORT_KEY_POSTTIME = 9;
     const SORT_KEY_DELETETIME = 10;
 
-    const PAGENAVI_DEFAULT_PERPAGE = 20;
-    const PAGENAVI_ACCEPTABLE_PERPAGE = array(10, 20, 50, 100, 500);
+    /**
+     * default per page.
+     *
+     * @var int
+     */
+    protected $mDefaultPerPage = 20;
+
+    /**
+     * acceptable per page.
+     *
+     * @var int[]
+     */
+    protected $mAcceptablePerPage = array(10, 20, 50, 100, 500);
 
     /**
      * sort keys.
@@ -56,8 +67,8 @@ class Xworkflow_ItemFilterForm extends Xworkflow_AbstractFilterForm
     {
         parent::fetch();
         $perpage = $this->mNavi->getPerpage();
-        if (!in_array($perpage, self::PAGENAVI_ACCEPTABLE_PERPAGE)) {
-            $this->mNavi->setPerpage(self::PAGENAVI_DEFAULT_PERPAGE);
+        if (!in_array($perpage, $this->mAcceptablePerPage)) {
+            $this->mNavi->setPerpage($this->mDefaultPerPage);
         }
         $table = $this->_mHandler->getTable();
         $root = &XCube_Root::getSingleton();

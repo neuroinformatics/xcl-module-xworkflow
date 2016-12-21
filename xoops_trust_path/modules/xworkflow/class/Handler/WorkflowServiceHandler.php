@@ -83,7 +83,7 @@ class WorkflowServiceHandler extends AbstractHandler
         $aHandler = &XoopsUtils::getModuleHandler('ApprovalObject', $this->mDirname);
         $iHandler = &XoopsUtils::getModuleHandler('ItemObject', $this->mDirname);
         $iObj = $iHandler->getItem($dirname, $dataname, $target_id);
-        if (is_object($iObj)) {
+        if (!is_object($iObj)) {
             return $uids;
         }
         $criteria = new \CriteriaCompo(new \Criteria('dirname', $dirname));

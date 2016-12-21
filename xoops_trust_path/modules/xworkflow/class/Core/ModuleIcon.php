@@ -107,9 +107,6 @@ class ModuleIcon
             self::_writeString($im, $x, $y, $trustDirname, $color_t);
         }
         CacheUtils::outputImagePng($mtime, $etag, $im);
-        imagecolordeallocate($im, $color_d);
-        imagecolordeallocate($im, $color_t);
-        imagedestroy($im);
     }
 
     /**

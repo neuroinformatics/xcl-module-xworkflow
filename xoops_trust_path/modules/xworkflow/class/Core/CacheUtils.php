@@ -98,6 +98,7 @@ class CacheUtils
         self::_outputCacheHeader($mtime, $etag);
         header('Content-Type: image/png');
         imagepng($im);
+        imagedestroy($im);
         self::_cleanupOutput();
     }
 

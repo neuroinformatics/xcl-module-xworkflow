@@ -59,6 +59,12 @@ class ItemObject extends AbstractObject
         $aObj = $aHandler->getNextApproval($this->get('dirname'), $this->get('dataname'), 0);
         if ($aObj) {
             $this->set('step', $aObj->get('step'));
+            if ($aObj->get('uid') == 0 && $aObj->get('gid') == 0) {
+                $target_gid = Functions::getTargetGroupId($this->get('dirname'), $this->get('dataname'), $this->get('target_id'));
+                if ($target_gid !== false) {
+                    $this->set('target_gid', $target_gid);
+                }
+            }
         } else {
             $this->set('step', 0);
             $this->set('status', Enum\WorkflowStatus::FINISHED);
